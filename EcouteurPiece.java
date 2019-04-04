@@ -3,7 +3,7 @@ import java.awt.event.*;
 
 public class EcouteurPiece implements ActionListener{
 	
-	private FenetrePrincipale fen;
+	private FenetrePrincipale fen;//test
 	private Piece p;
 	
 	public EcouteurPiece(FenetrePrincipale fen, Piece p){
