@@ -6,10 +6,17 @@ public class FenetrePrincipale extends JFrame{
 	//Déclaration Jeu
 	private Jeu siam;
 	
-	//Déclaration boutons
-	private JButton bMenu; 				//Bouton de menu
+	//Déclaration bouton
 	private JButton bEntrerPiece; 		//Bouton pour inserer une pièce sur le plateau 
-	private JButton bPivoter; 			//Bouton pour faire pivoter une pièce sélectoinnée
+	private JButton bPivoter; 		//Bouton pour faire pivoter une pièce sélectoinnée
+	
+	//Déclaration de la barre de menu
+	private JMenuBar menuBar;
+	private JMenu menu
+	private JMenuItem item1;
+	private JMenuItem item2;
+	private JMenuItem item3;
+	private JMenuItem item4;
 	
 	//Déclaration Etiquette joueur
 	private JLabel eJoueur; 			//Etiquette avec l'inscription joueur
@@ -32,9 +39,17 @@ public class FenetrePrincipale extends JFrame{
 		this.siam = siam;
 		
 		//Initialisation boutons
-		bMenu = new JButton("Menu");
 		bEntrerPiece = new JButton("Entrer piece");
-		bPivoter = new JButton("Pivoter");
+		
+		//Initialisation barre de menu
+		item1 = new JMenuItem("Nouvelle partie");
+        	item2 = new JMenuItem("Paramètre");
+        	item3 = new JMenuItem("Aide");
+                item4 = new JMenuItem("Quitter");
+    	        item1.addActionListener(new EcouteurMenu(this,1));
+       	        item2.addActionListener(new EcouteurMenu(this,2));
+        	item3.addActionListener(new EcouteurMenu(this,3));
+        	item4.addActionListener(new EcouteurMenu(this,4));
 		
 		//Initialisation etiquette joueur
 		eJoueur = new JLabel("joueur : ");
@@ -67,9 +82,7 @@ public class FenetrePrincipale extends JFrame{
 		
 		//Declaration Panneaux et remplissage
 			//Declaration et initialisation du panneau superieur (Menu et joueur) + attribution boutons
-				//Déclaration et initialisation du panneau superieur gauche (menu) + attribution bouton
-				JPanel pMenu = new JPanel();
-				pMenu.add(bMenu);
+				
 				
 				//Déclaration et initialisation du panneau superieur centré (joueur)
 				JPanel pJoueur = new JPanel();
@@ -139,6 +152,15 @@ public class FenetrePrincipale extends JFrame{
 				conteneurPrincipal.add(pSud, BorderLayout.SOUTH);
 				this.add(conteneurPrincipal);
 		
+			//Ajout de la barre de menu au panneau supérieure
+				menu.add(item1);
+        			menu.add(item2);
+        			menu.add(item3);
+        			menu.add(item4);
+        			menuBar.add(menu);
+        			conteneurPrincipal.add(menuBar, BorderLayout.NORTH);
+				
+		
 	}
 	
 	public void deplacementPiece(Coordonnees c){
@@ -153,6 +175,25 @@ public class FenetrePrincipale extends JFrame{
 			this.isPieceSelectionee = true;
 		}
 	}
+	
+	public void actionMenu(int i){
+		switch (i)
+		{
+		    case 1 : 
+				System.out.println("Nouvelle Partie");
+				break;
+		    case 2 : 
+				System.out.println("Paramètres");
+				break;
+		    case 3:
+				System.out.println("Aide");
+				break;
+		    case 4:
+				System.out.println("Quitter");
+				break;
+		    default:   
+		}
+	 }
 	
 		public class PlateauLayout implements LayoutManager {
 
