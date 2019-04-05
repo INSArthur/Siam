@@ -343,15 +343,13 @@ public class Jeu {
         
     }
     
-    public int getDirection(int h2, int v2, Piece p){
-        /*Transforme deux jeux de coordonées (la position de p et {h2,v2}
+    public int getDirection(Coordonnees cCible, Coordonnees cOrigine){
+        /*Transforme deux jeux de coordonées (la position de p et {h2,v2}, position d'arrivée
          * en une direction*/
          
         int direction=0;
-        int h1= getHorizontal(p);
-        int v1=getVertical(p);
-        int dh=h1-h2;
-        int dv=v1-v2;
+        int dh=cOrigine.h()- cCible.h();
+        int dv=cOrigine.v()-cCible.v();
         
         if(dh==0 && dv==1){//nord
             direction=1;}
