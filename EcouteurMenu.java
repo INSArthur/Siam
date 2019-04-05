@@ -25,9 +25,9 @@ import java.awt.event.*;
 import java.util.*;
 
 public class EcouteurMenu implements ActionListener {
-    private TestMenu fen;
+    private FenetrePrincipale fen;
     private int i;
-    public EcouteurMenu(TestMenu f, int n){ fen = f; i = n; }
+    public EcouteurMenu(FenetrePrincipale f, int n){ fen = f; i = n; }
     
     public void actionPerformed(ActionEvent e){
         fen.actionMenu(i);

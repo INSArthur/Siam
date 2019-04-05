@@ -8,11 +8,11 @@ public class FenetrePrincipale extends JFrame{
 	
 	//Déclaration bouton
 	private JButton bEntrerPiece; 		//Bouton pour inserer une pièce sur le plateau 
-	private JButton bPivoter; 		//Bouton pour faire pivoter une pièce sélectoinnée
+	private JButton bFinTour;			//Bouton pour indiquer la fin d'un tour
 	
 	//Déclaration de la barre de menu
 	private JMenuBar menuBar;
-	private JMenu menu
+	private JMenu menu;
 	private JMenuItem item1;
 	private JMenuItem item2;
 	private JMenuItem item3;
@@ -40,16 +40,20 @@ public class FenetrePrincipale extends JFrame{
 		
 		//Initialisation boutons
 		bEntrerPiece = new JButton("Entrer piece");
+		bFinTour = new JButton("Fin du tour");
+		bFinTour.setVisible(true);
 		
 		//Initialisation barre de menu
+		menu = new JMenu("Menu");
+		menuBar = new JMenuBar();
 		item1 = new JMenuItem("Nouvelle partie");
-        	item2 = new JMenuItem("Paramètre");
-        	item3 = new JMenuItem("Aide");
-                item4 = new JMenuItem("Quitter");
-    	        item1.addActionListener(new EcouteurMenu(this,1));
-       	        item2.addActionListener(new EcouteurMenu(this,2));
-        	item3.addActionListener(new EcouteurMenu(this,3));
-        	item4.addActionListener(new EcouteurMenu(this,4));
+        item2 = new JMenuItem("Paramètre");
+        item3 = new JMenuItem("Aide");
+        item4 = new JMenuItem("Quitter");
+    	item1.addActionListener(new EcouteurMenu(this,1));
+       	item2.addActionListener(new EcouteurMenu(this,2));
+        item3.addActionListener(new EcouteurMenu(this,3));
+        item4.addActionListener(new EcouteurMenu(this,4));
 		
 		//Initialisation etiquette joueur
 		eJoueur = new JLabel("joueur : ");
@@ -89,9 +93,16 @@ public class FenetrePrincipale extends JFrame{
 				pJoueur.add(eJoueur);
 				pJoueur.add(eNomJoueur);
 				
+				//Ajout de la barre de menu au panneau supérieur
+				menu.add(item1);
+				menu.add(item2);
+				menu.add(item3);
+				menu.add(item4);
+				menuBar.add(menu);
+				
 				JPanel pNord = new JPanel(new BorderLayout());
 				pNord.setBackground(new Color(100,50,50,100));
-				pNord.add(pMenu, BorderLayout.WEST);
+				pNord.add(menuBar, BorderLayout.WEST);
 				pNord.add(pJoueur, BorderLayout.CENTER);
 			
 			//Declaration et initialisation du panneau central
@@ -143,23 +154,14 @@ public class FenetrePrincipale extends JFrame{
 				JPanel pSud = new JPanel();
 				pSud.setBackground(new Color(25,43,57,100));
 				pSud.add(bEntrerPiece);
-				pSud.add(bPivoter);
+				pSud.add(bFinTour);
 				
 			//Declaration, initialisation du conteneur principale et attribution des panneaux
 				JPanel conteneurPrincipal = new JPanel(new BorderLayout());
 				conteneurPrincipal.add(pNord, BorderLayout.NORTH);
 				conteneurPrincipal.add(pCentral, BorderLayout.CENTER);
 				conteneurPrincipal.add(pSud, BorderLayout.SOUTH);
-				this.add(conteneurPrincipal);
-		
-			//Ajout de la barre de menu au panneau supérieure
-				menu.add(item1);
-        			menu.add(item2);
-        			menu.add(item3);
-        			menu.add(item4);
-        			menuBar.add(menu);
-        			conteneurPrincipal.add(menuBar, BorderLayout.NORTH);
-				
+				this.add(conteneurPrincipal);		
 		
 	}
 	
