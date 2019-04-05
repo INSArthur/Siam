@@ -20,7 +20,8 @@ public class FenetrePrincipale extends JFrame{
 	private JButton[][] bGrille;	//Grille de boutons permettant d'inter-agir avec le plateau de jeu plateau de jeu
 	
 	//Déclaration variable de sélection de pièce
-	private boolean pieceSelectionee;
+	private boolean isPieceSelectionee;
+	private Coordonnees pieceSelectionnee;
 	
 	public FenetrePrincipale(Jeu siam){
 		super("Jeu du Siam");
@@ -53,15 +54,16 @@ public class FenetrePrincipale extends JFrame{
 		
 		for(int i=0; i<5; i++){
 			for(int j=0; j<5; j++){
-				bGrille[i][j] = new JButton("test");
+				bGrille[i][j] = new JButton("test ; i : "+i+"; j : "+j);
+				bGrille[i][j].addActionListener(new EcouteurPiece(this,new Coordonnees(i,j)));
 				bGrille[i][j].setBackground(new Color(50,50,50,0));
-				//bGrille[i][j].setVisible(true);
 				bGrille[i][j].setPreferredSize(new Dimension(20,20));
 			}
 		}
 		
 		//Initialisation variable de selection de piece
-		pieceSelectionee = false;
+		isPieceSelectionee = false;
+		pieceSelectionnee = new Coordonnees(0,0);
 		
 		//Declaration Panneaux et remplissage
 			//Declaration et initialisation du panneau superieur (Menu et joueur) + attribution boutons
@@ -139,14 +141,17 @@ public class FenetrePrincipale extends JFrame{
 		
 	}
 	
-	public void deplacementPiece(/*Piece p*/){
-		/**if(pieceSelectionee){
-			this.siam.deplacerPiece(p);
-			pieceSelectionee = false;
+	public void deplacementPiece(Coordonnees c){
+		if(isPieceSelectionee){
+			this.siam.deplacerToutesPieces(c, siam.getDirection(c,pieceSelectionnee));
+			bGrille[c.h()][c.v()] = bGrille[pieceSelectionnee.h()][pieceSelectionnee.v()];
+			System.out.println(c.h()+""+c.v());
+			System.out.println(pieceSelectionnee.h()+""+pieceSelectionnee.v());
+			this.isPieceSelectionee = false;
 		}else{
-			this.siam.setPieceSelectionnee(p);
-			pieceSelectionee = true;
-		}**/
+			this.pieceSelectionnee = c;
+			this.isPieceSelectionee = true;
+		}
 	}
 	
 		public class PlateauLayout implements LayoutManager {

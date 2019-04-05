@@ -282,7 +282,7 @@ public class Jeu {
         int horizontal=0;
         for(int i=0; i<plateau.length; i++){
             for(int j=0; j<plateau.length;j++){
-                if(p.equals(plateau[i][j])){
+                if(p instanceof Piece && p.equals(plateau[i][j])){
                     horizontal=i;
                 }
             }
@@ -294,7 +294,7 @@ public class Jeu {
         int vertical=0;
         for(int i=0; i<plateau.length; i++){
             for(int j=0; j<plateau.length;j++){
-                if(p.equals(plateau[i][j])){
+                if(p instanceof Piece && p.equals(plateau[i][j])){
                     vertical=j;
                 }
             }
