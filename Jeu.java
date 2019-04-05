@@ -84,6 +84,7 @@ public class Jeu {
          * Victoire (à implenter) ou joueur suivant*/
          
         Piece piece = getPieceSelectionnee();
+        Coordonnees coord = new Coordonnees(getHorizontal(piece), getVertical(piece));
         if(!appartientAuJoueur(piece)){
         System.out.println("Vous ne pouvez pas déplacer cette pièce!");
         }
@@ -97,7 +98,7 @@ public class Jeu {
                     System.out.println("Vous ne pouvez pas faire ca !");
                 }
                 else {
-                    deplacerToutesPieces(getHorizontal(piece),getVertical(piece),direction);
+                    deplacerToutesPieces(coord,direction);
                 }
             }
         }
@@ -113,12 +114,14 @@ public class Jeu {
     }
     
     
-    public void deplacerToutesPieces(int h, int v, int d){
+    public void deplacerToutesPieces(Coordonnees c, int d){
+        int h = c.h();
+        int v =c.v();
         int aDeplacer =0; //Permet de compter combien de pièces devront être déplacées
         
         //On recupère les coord de la première case vide dans la direction donnée
         if(mouvementPossible(plateau[h][v],d)){
-            while (plateau[h][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'à la dernière case à déplacer
+            while (plateau[c.h()][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'à la dernière case à déplacer
                 switch (d)
                 {
                     case 1: //nord
@@ -264,17 +267,16 @@ public class Jeu {
             return a;
     }
     
-    public void pivoter(Piece p, int i){
-        // i = +- 1 pour pivoter à droite(+1) ou à gauche(-1)
+    public void pivoter(Piece p){
+        
         int orientation = p.getOrientation();
         if(orientation!=0){
-        orientation=(orientation+i)%5; //Pivote de 45°
+        orientation=(orientation+1)%5; //Pivote de 45°
         } else {
             orientation++; //Permet d'empecher une pièce d'avoir l'orientation 0 (montagne)
         }
         p.tourner(orientation);
     }
-    
     
     public int getHorizontal(Piece p){
         int horizontal=0;
@@ -342,7 +344,7 @@ public class Jeu {
     }
     
     public int getDirection(int h2, int v2, Piece p){
-        /*Transforme deux jeux de coordonées (la position de p et {h2,v2}, position d'arrivée
+        /*Transforme deux jeux de coordonées (la position de p et {h2,v2}
          * en une direction*/
          
         int direction=0;
