@@ -412,6 +412,15 @@ public class Jeu {
     
     }
     
+    public boolean pivoter(int d, Coordonnees cOrigine, Coordonnees cCible){
+		if(plateau[cCible.h()][cCible.v()]==null){
+			plateau[cOrigine.h()][cOrigine.v()].tourner(d);
+			return true;
+		}else{
+			return false;
+		}
+	}
+    
     
     public String toString(){
         String message ="|";
