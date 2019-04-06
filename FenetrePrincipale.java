@@ -26,8 +26,9 @@ public class FenetrePrincipale extends JFrame{
 	private JLabel[][] eGrille;	//Grille d'étiquette représentant les cases du plateau de jeu
 	private JButton[][] bGrille;	//Grille de boutons permettant d'inter-agir avec le plateau de jeu plateau de jeu
 	
-	//Déclaration variable de sélection de pièce
+	//Déclaration variables d'étapes et de sélection de pièce 
 	private boolean isPieceSelectionee;
+	private boolean isPieceDeplacee;
 	private Coordonnees pieceSelectionnee;
 	
 	public FenetrePrincipale(Jeu siam){
@@ -75,14 +76,17 @@ public class FenetrePrincipale extends JFrame{
 			for(int j=0; j<5; j++){
 				bGrille[i][j] = new JButton("test ; i : "+i+"; j : "+j);
 				bGrille[i][j].addActionListener(new EcouteurPiece(this,new Coordonnees(i,j)));
+				//bGrille[i][j].addMouseWheelListener(new MyMouseWheelListener(this));
 				bGrille[i][j].setBackground(new Color(50,50,50,0));
 				bGrille[i][j].setPreferredSize(new Dimension(20,20));
 			}
 		}
 		
-		//Initialisation variable de selection de piece
+		//Initialisation variables de selection de piece et d'étapes
 		isPieceSelectionee = false;
+		isPieceDeplacee = false;
 		pieceSelectionnee = new Coordonnees(0,0);
+
 		
 		//Declaration Panneaux et remplissage
 			//Declaration et initialisation du panneau superieur (Menu et joueur) + attribution boutons
@@ -161,6 +165,7 @@ public class FenetrePrincipale extends JFrame{
 				conteneurPrincipal.add(pNord, BorderLayout.NORTH);
 				conteneurPrincipal.add(pCentral, BorderLayout.CENTER);
 				conteneurPrincipal.add(pSud, BorderLayout.SOUTH);
+				conteneurPrincipal.addMouseWheelListener(new MyMouseWheelListener(this));
 				this.add(conteneurPrincipal);		
 		
 	}
@@ -172,9 +177,12 @@ public class FenetrePrincipale extends JFrame{
 			System.out.println(c.h()+""+c.v());
 			System.out.println(pieceSelectionnee.h()+""+pieceSelectionnee.v());
 			this.isPieceSelectionee = false;
+			this.isPieceDeplacee = true;
 		}else{
-			this.pieceSelectionnee = c;
-			this.isPieceSelectionee = true;
+			if(!isPieceDeplacee){
+				this.pieceSelectionnee = c;
+				this.isPieceSelectionee = true;
+			}
 		}
 	}
 	
@@ -195,6 +203,15 @@ public class FenetrePrincipale extends JFrame{
 				break;
 		    default:   
 		}
+	 }
+	 
+	 public void pivoterPiece(int i){
+		siam.pivoter(pieceSelectionnee, i);
+	 }
+	 
+	 public void FinTour(){
+		 isPieceDeplacee = false;
+		 isPieceSelectionee = false;
 	 }
 	
 		public class PlateauLayout implements LayoutManager {

@@ -29,6 +29,8 @@ public class Jeu {
     private Piece[][] plateau;
     private Piece pieceSelectionnee;
     private String[] directions = {"Nord" , "Est", "Sud", "Ouest"};
+    private boolean isPieceDeplacee;				//Indique si une piece a été déplacé par le joueur durant le tour (utilisé pour vérifier si on peut pivoter la sélection)
+    private boolean isPiecePoussee;					//Indique si une ou plusieurs pièces ont été déplacées pendant le tour (utilisé pour vérifier si on peut pivoter la sélection)
     public boolean estFini;
     
     public Jeu(Joueur j1, Joueur j2){
@@ -46,6 +48,8 @@ public class Jeu {
         pieceSelectionnee = null;   
         creerPieces();
         estFini = false;
+        isPieceDeplacee = false;
+        isPiecePoussee = false;
     }
     
     public void creerPieces(){
@@ -121,7 +125,7 @@ public class Jeu {
         
         //On recupère les coord de la première case vide dans la direction donnée
         if(mouvementPossible(plateau[h][v],d)){
-            while (plateau[c.h()][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'à la dernière case à déplacer
+            while (plateau[h][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'à la dernière case à déplacer
                 switch (d)
                 {
                     case 1: //nord
@@ -140,48 +144,55 @@ public class Jeu {
                 aDeplacer++;
             }
             
-            //redescendre d'une case
-            switch (directionOpposee(d))
-            {
-                case 1: //nord
-                    v--;
-                    break;
-                case 2: //est
-                    h++;
-                    break;
-                case 3: //sud
-                    v++;
-                    break;
-                case 4: //ouest
-                    h --;
-                    break;
-            }
+            isPieceDeplacee = true; 
             
-            Piece tmpPiece;
-            /*On se place sur la case x,y
-             * On place la pièce dans la case vide adjacente
-             * On supprime la pièce de la case x,y 
-             * On se décale d'une case dans la bonne direction
-             * On recommence*/
-            for(int i=0 ; i<aDeplacer ; i++){
-                tmpPiece = plateau[h][v];
-                deplacerPiece(tmpPiece,d);
-                switch (directionOpposee(d))
-                {
-                    case 1: //nord
-                        v--;
-                        break;
-                    case 2: //est
-                        h++;
-                        break;
-                    case 3: //sud
-                        v++;
-                        break;
-                    case 4: //ouest
-                        h --;
-                        break;
-                }
-            }
+            if(aDeplacer!=0){
+				
+				isPiecePoussee = true;
+				
+				//redescendre d'une case
+				switch (directionOpposee(d))
+				{
+					case 1: //nord
+						v--;
+						break;
+					case 2: //est
+						h++;
+						break;
+					case 3: //sud
+						v++;
+						break;
+					case 4: //ouest
+						h --;
+						break;
+				}
+				
+				Piece tmpPiece;
+				/*On se place sur la case x,y
+				 * On place la pièce dans la case vide adjacente
+				 * On supprime la pièce de la case x,y 
+				 * On se décale d'une case dans la bonne direction
+				 * On recommence*/
+				for(int i=0 ; i<aDeplacer ; i++){
+					tmpPiece = plateau[h][v];
+					deplacerPiece(tmpPiece,d);
+					switch (directionOpposee(d))
+					{
+						case 1: //nord
+							v--;
+							break;
+						case 2: //est
+							h++;
+							break;
+						case 3: //sud
+							v++;
+							break;
+						case 4: //ouest
+							h --;
+							break;
+					}
+				}
+			}
         }
     }
     
@@ -267,15 +278,33 @@ public class Jeu {
             return a;
     }
     
-    public void pivoter(Piece p){
-        
-        int orientation = p.getOrientation();
-        if(orientation!=0){
-        orientation=(orientation+1)%5; //Pivote de 45°
-        } else {
-            orientation++; //Permet d'empecher une pièce d'avoir l'orientation 0 (montagne)
-        }
-        p.tourner(orientation);
+    public void pivoter(Coordonnees c, int rotation){
+		if(plateau[c.h()][c.v()]!=null && isPiecePoussee==false && isPieceDeplacee==true){
+			Piece p = plateau[c.h()][c.v()];
+			int orientation = p.getOrientation();
+			
+			switch (orientation)
+			{
+				case 4:									//Permet d'empecher une pièce d'avoir l'orientation 0 (montagne) lorsque orientation = (4 + 1) % 5
+					if(rotation==1){
+						orientation = 1;
+					}else{
+						orientation = 3;
+					}
+					break;
+				case 1:									//Permet d'empecher une pièce d'avoir l'orientation 0 (montagne) lorsque orientation = 1 - 1
+					if(rotation==-1){
+						orientation = 4;
+					}else{
+						orientation = 2;
+					}
+					break;
+				default:
+					orientation=(orientation+rotation)%5; //Pivote de 45°
+			}
+			
+			p.tourner(orientation);
+		}
     }
     
     public int getHorizontal(Piece p){
