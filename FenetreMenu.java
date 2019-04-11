@@ -38,17 +38,13 @@ public class FenetreMenu extends JFrame {
         valider =new JButton ("Valider");
         
         j1=new JLabel ("Joueur 1 : ");
-        //j1.setVisible(false);
         j2=new JLabel ("Joueur 2 : ");
-        //j2.setVisible(false);
         
         joueur1= new JTextField (15);
-        //joueur1.setVisible(false);
         joueur2= new JTextField (15);
-        //joueur2.setVisible(false);
         
         //Dimensions de la fenetre graphique et fermeture
-        this.setSize(700,250);
+        this.setSize(300,100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // ====== Organisation structurelle ======
@@ -104,10 +100,6 @@ public class FenetreMenu extends JFrame {
 		switch (mode)
 		{
 			case 0:
-			/*j1.setVisible(true);
-			j2.setVisible(true);
-			joueur1.setVisible(true);
-			joueur2.setVisible(true);*/
 				monPanelJoueur.setVisible(true);
 				break;
 			case 1:
