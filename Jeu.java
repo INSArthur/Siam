@@ -511,6 +511,17 @@ public class Jeu {
             piecej2.add(p);
         }
     }
+    
+    public String getImage(int h, int v){
+		String s ="";
+		if ( plateau[h][v] != null){
+	s = plateau[h][v].setImage();
+	}
+	else {
+	s = "vide";
+}
+		return s;
+	}
 
 }
 

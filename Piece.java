@@ -27,6 +27,7 @@ public class Piece{
     private boolean estDedans;
     private int orientation;
     private int type;
+  
     
     /* Orientation prend 5 valeurs : 
      * 0 -> Montagne
@@ -63,7 +64,11 @@ public class Piece{
         return p instanceof Piece && p.getId ()== this.id;
     }
     
-        
+    public String setImage(){
+		String s= "f_"+getType()+"_"+getOrientation();
+		return s;
+	}
+		   
     
     public void tourner(int orientation){
         this.orientation = orientation;
