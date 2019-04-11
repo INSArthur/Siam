@@ -30,6 +30,10 @@ public class IA extends Joueur {
         super(n, 2);
         this.niveau = niveau;
     }
+    
+    public void joue() {
+    	
+    }
 	
 }
 
