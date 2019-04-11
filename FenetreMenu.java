@@ -18,6 +18,7 @@ public class FenetreMenu extends JFrame {
 	private JTextField joueur2;
     
 	private Jeu siam;
+	private FenetrePrincipale fen;
 	
 	/**
      * Constructeur de la classe FenetreMenu
@@ -27,8 +28,6 @@ public class FenetreMenu extends JFrame {
         //on definit le nom du jeu
         super("Jeu du Siam");
         
-        this.siam=siam ;
-        
         // ====== Instanciation des widgets de la fenetre ======
         easy = new JButton ("Easy");
         medium = new JButton ("Medium");
@@ -37,10 +36,14 @@ public class FenetreMenu extends JFrame {
         valider =new JButton ("Valider");
         
         j1=new JLabel ("Joueur 1 : ");
+        j1.setVisible(false);
         j2=new JLabel ("Joueur 2 : ");
+        j2.setVisible(false);
         
         joueur1= new JTextField (15);
+        joueur1.setVisible(false);
         joueur2= new JTextField (15);
+        joueur2.setVisible(false);
         
         //Dimensions de la fenetre graphique et fermeture
         this.setSize(700,250);
@@ -53,30 +56,30 @@ public class FenetreMenu extends JFrame {
         monPanelJoueur.add(j2);
         monPanelJoueur.add(joueur2);
         
-        JPanel monPanelChoixGauche= new JPanel();
-        monPanelChoixGauche.add(multi);
+       
         
-        JPanel monPanelChoixDroit= new JPanel();
-        monPanelChoixDroit.add(easy);
-        monPanelChoixDroit.add(medium);
-        monPanelChoixDroit.add(hard);
+        JPanel monPanelChoix= new JPanel();
+        monPanelChoix.add(multi);
+        monPanelChoix.add(easy);
+        monPanelChoix.add(medium);
+        monPanelChoix.add(hard);
         
         JPanel monPanelEntree = new JPanel ();
         monPanelEntree.add(valider);
         
         JPanel cadrePrincipal= new JPanel(new BorderLayout());
-        cadrePrincipal.add(monPanelJoueur,BorderLayout.NORTH);
-        cadrePrincipal.add(monPanelChoixGauche,BorderLayout.WEST);
-        cadrePrincipal.add(monPanelChoixDroit,BorderLayout.EAST);
+        
+        cadrePrincipal.add(monPanelChoix,BorderLayout.NORTH);
+        cadrePrincipal.add(monPanelJoueur,BorderLayout.CENTER);
         cadrePrincipal.add(monPanelEntree,BorderLayout.SOUTH);
         
         add(cadrePrincipal);
 
 		// ===== liaison bouttons <-> écouteurs =====
-		easy.addActionListener(new EcouteurJoueur(this,1));
-		medium.addActionListener(new EcouteurJoueur(this,2));
-        hard.addActionListener(new EcouteurJoueur(this,3));
-        multi.addActionListener(new EcouteurJoueur(this,0));
+		easy.addActionListener(new EcouteurMode(this,1));
+		medium.addActionListener(new EcouteurMode(this,2));
+        hard.addActionListener(new EcouteurMode(this,3));
+        multi.addActionListener(new EcouteurMode(this,0));
         valider.addActionListener(new EcouteurEntree(this));
 		 
         //===== Rendre la fenêtre visible ===== 
@@ -84,18 +87,39 @@ public class FenetreMenu extends JFrame {
     }
     
     
-    //Recuperer jeu
-    public Jeu getJeu(){
-        return this.siam ;
+    //Créer jeu
+    public void setJeu(){
+		if(!joueur1.getText().isEmpty() && !joueur2.getText().isEmpty()){
+			Joueur J1 = new Joueur(joueur1.getText(),1);
+			Joueur J2 = new Joueur(joueur2.getText(),2);
+			this.siam = new Jeu(J1,J2);
+			this.fen = new FenetrePrincipale(siam);
+		}
     }
-        
-    //Bouton valider récupère nom des joueurs
-    public String nomJoueur (){
-        String a= joueur1.getText();
-        String b=joueur2.getText() ;
-        return "Joueur 1 "+ a + "joueur 2 " +b ;
-    }
-        
+    
+    public void mode(int mode){
+		switch (mode)
+		{
+			case 0:
+			j1.setVisible(true);
+			j2.setVisible(true);
+			joueur1.setVisible(true);
+			joueur2.setVisible(true);
+				break;
+			case 1:
+				
+				break;
+			case 2:
+				
+				break;
+			case 3:
+				
+				break;
+			default:
+				break;
+		}
+		
+	}      
 }
 
 
