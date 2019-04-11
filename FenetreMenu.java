@@ -11,16 +11,22 @@ public class FenetreMenu extends JFrame {
     private JButton multi ;
     private JButton valider ;
     
-	private JLabel j1 ;
-	private JLabel j2 ;
+	private JLabel eJ1 ;
+	private JLabel eJ2 ;
+	private JLabel eIA ;
 	
-	private JTextField joueur1;
-	private JTextField joueur2;
+	private JTextField txtFieldJ1;
+	private JTextField txtFieldJ2;
+	private JTextField txtFieldIA;
 	
-	private JPanel monPanelJoueur;
+	private JPanel monPanelJoueur1;
+	private JPanel monPanelJoueur2;
+	private JPanel monPanelIA;
     
+	private int mode;
 	private Jeu siam;
 	private FenetrePrincipale fen;
+
 	
 	/**
      * Constructeur de la classe FenetreMenu
@@ -35,28 +41,46 @@ public class FenetreMenu extends JFrame {
         medium = new JButton ("Medium");
         hard = new JButton ("Hard");
         multi=new JButton("Multi");
-        valider =new JButton ("Valider");
+        valider =new JButton ("Demarrer");
         
-        j1=new JLabel ("Joueur 1 : ");
-        j2=new JLabel ("Joueur 2 : ");
+        eJ1=new JLabel ("Joueur 1 : ");
+        eJ2=new JLabel ("Joueur 2 : ");
+        eIA=new JLabel ("IA : ");
         
-        joueur1= new JTextField (15);
-        joueur2= new JTextField (15);
+        txtFieldJ1= new JTextField (15);
+        txtFieldJ2= new JTextField (15);
+        txtFieldIA= new JTextField (15);
+        txtFieldIA.setText("HAL");
         
         //Dimensions de la fenetre graphique et fermeture
-        this.setSize(300,100);
+        this.setSize(400,200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // ====== Organisation structurelle ======
-        monPanelJoueur= new JPanel();
-        monPanelJoueur.add(j1);
-        monPanelJoueur.add(joueur1);
-        monPanelJoueur.add(j2);
-        monPanelJoueur.add(joueur2);
-        monPanelJoueur.setVisible(false);
+        JPanel monPanelJoueur= new JPanel();
+        monPanelJoueur1= new JPanel();
+        monPanelJoueur2= new JPanel();
+        monPanelIA= new JPanel();
+
+        monPanelJoueur1.setVisible(false);
+        monPanelJoueur2.setVisible(false);
+        monPanelIA.setVisible(false);
+        
+        monPanelJoueur.add(monPanelJoueur1);
+        monPanelJoueur.add(monPanelJoueur2);
+        monPanelJoueur.add(monPanelIA);
+        
+        monPanelJoueur1.add(eJ1);
+        monPanelJoueur1.add(txtFieldJ1);
+        monPanelJoueur2.add(eJ2);
+        monPanelJoueur2.add(txtFieldJ2);
+        monPanelIA.add(eIA);
+        monPanelIA.add(txtFieldIA);
+
+        
         
        
-        
+       
         JPanel monPanelChoix= new JPanel();
         monPanelChoix.add(multi);
         monPanelChoix.add(easy);
@@ -88,34 +112,35 @@ public class FenetreMenu extends JFrame {
     
     //Créer jeu
     public void setJeu(){
-		if(!joueur1.getText().isEmpty() && !joueur2.getText().isEmpty()){
-			Joueur J1 = new Joueur(joueur1.getText(),1);
-			Joueur J2 = new Joueur(joueur2.getText(),2);
+		if(mode==1 && !txtFieldJ1.getText().isEmpty() && !txtFieldJ2.getText().isEmpty()){
+			Joueur J1 = new Joueur(txtFieldJ1.getText(),1);
+			Joueur J2 = new Joueur(txtFieldJ2.getText(),2);
 			this.siam = new Jeu(J1,J2);
-			this.fen = new FenetrePrincipale(siam);
+		}else if (mode!=1 && !txtFieldJ1.getText().isEmpty()){
+			Joueur J1 = new Joueur(txtFieldJ1.getText(),1);
+			IA J2 = new IA(txtFieldJ2.getText(),2);
+			this.siam = new Jeu(J1,J2);
 		}
+		
+		this.fen = new FenetrePrincipale(siam);
     }
     
     public void mode(int mode){
-		switch (mode)
-		{
-			case 0:
-				monPanelJoueur.setVisible(true);
-				break;
-			case 1:
-				
-				break;
-			case 2:
-				
-				break;
-			case 3:
-				
-				break;
-			default:
-				break;
-		}
+    	
+    	this.mode = mode;
+    	monPanelJoueur1.setVisible(true);
+    	
+    	if(mode==0) {
+    		
+			monPanelJoueur2.setVisible(true);
+			monPanelIA.setVisible(false);
+    	}else {
+    		monPanelIA.setVisible(true);
+    		monPanelJoueur2.setVisible(false);
+    	}
 		
-	}      
+	}
+		      
 }
 
 
