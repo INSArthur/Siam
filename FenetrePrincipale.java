@@ -63,18 +63,21 @@ public class FenetrePrincipale extends JFrame{
 		//Initialisation tableau d'étiquette + tableau de boutons
 		eGrille = new JLabel[5][5];
 		bGrille = new JButton[5][5];
+		Icon flecheVerte = new ImageIcon("fleche verte bas.png");
 		
 		for(int i=0; i<5; i++){
 			for(int j=0; j<5; j++){
-				eGrille[i][j] = new JLabel("test étiquette");
+				eGrille[i][j] = new JLabel(" ");
 				eGrille[i][j].setBackground(Color.BLUE);
 				eGrille[i][j].setPreferredSize(new Dimension(20,20));
-			}
+				eGrille[i][j].setIcon(flecheVerte);
+				
+			}	
 		}
 		
 		for(int i=0; i<5; i++){
 			for(int j=0; j<5; j++){
-				bGrille[i][j] = new JButton("test ; i : "+i+"; j : "+j);
+				bGrille[i][j] = new JButton(/*"test ; i : "+i+"; j : "+j*/);
 				bGrille[i][j].addActionListener(new EcouteurPiece(this,new Coordonnees(i,j)));
 				//bGrille[i][j].addMouseWheelListener(new MyMouseWheelListener(this));
 				bGrille[i][j].setBackground(new Color(50,50,50,0));
@@ -320,5 +323,14 @@ public class FenetrePrincipale extends JFrame{
 		public String toString() {
 			return getClass().getName();
 		}
+		
+		public void afficherNouvelleGrille(){
+			for(int i=1; i<=5; i++){
+				for(int j=1; j<=5; j++){
+				eGrille[i][j].setIcon(new ImageIcon(siam.getImage(i,j)));
+				}
+			}
+		}
+					
 	}
 }
