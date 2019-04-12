@@ -111,19 +111,20 @@ public class FenetreMenu extends JFrame {
     }
     
     
-    //Créer jeu
+    //Creer jeu
     public void setJeu(){
 		if(mode==1 && !txtFieldJ1.getText().isEmpty() && !txtFieldJ2.getText().isEmpty()){
-			Joueur J1 = new Joueur(txtFieldJ1.getText(),1);
-			Joueur J2 = new Joueur(txtFieldJ2.getText(),2);
-			this.siam = new Jeu(J1,J2);
-		}else if (mode!=1 && !txtFieldJ1.getText().isEmpty()){
-			Joueur J1 = new Joueur(txtFieldJ1.getText(),1);
-			IA J2 = new IA(txtFieldJ2.getText(),2);
-			this.siam = new Jeu(J1,J2);
+			Joueur J1 = new Joueur(txtFieldJ1.getText(),0);
+			Joueur J2 = new Joueur(txtFieldJ2.getText(),1);
+			this.siam = new Jeu(J1,J2,true);
+		}else if (mode!=1 && !txtFieldJ1.getText().isEmpty() && !txtFieldIA.getText().isEmpty()){
+			Joueur J1 = new Joueur(txtFieldJ1.getText(),0);
+			IA J2 = new IA(txtFieldIA.getText(),1);
+			this.siam = new Jeu(J1,J2,false);
 		}
 		
 		this.fen = new FenetrePrincipale(siam);
+		this.dispose();
     }
     
     public void mode(int mode){

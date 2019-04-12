@@ -42,8 +42,9 @@ public class FenetrePrincipale extends JFrame{
     public FenetrePrincipale(Jeu siam){
         super("Jeu du Siam");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900,800);
+        setSize(600,400);
         setVisible(true);
+        this.setLocationRelativeTo(null);
         
         this.siam = siam;
         
@@ -56,7 +57,7 @@ public class FenetrePrincipale extends JFrame{
         menu = new JMenu("Menu");
         menuBar = new JMenuBar();
         item1 = new JMenuItem("Nouvelle partie");
-        item2 = new JMenuItem("Paramètre");
+        item2 = new JMenuItem("Paramatre");
         item3 = new JMenuItem("Aide");
         item4 = new JMenuItem("Quitter");
         item1.addActionListener(new EcouteurMenu(this,1));
@@ -66,62 +67,61 @@ public class FenetrePrincipale extends JFrame{
         
         //Initialisation etiquette joueur
         eJoueur = new JLabel("joueur : ");
-        eNomJoueur = new JLabel("");
+        eNomJoueur = new JLabel();
+        eNomJoueur.setText(siam.getNomJoueurCourant());
         
         //Initialisation tableau d'étiquette + tableau de boutons
         eGrille = new JLabel[5][5];
         bGrille = new JButton[5][5];
-        Icon flecheVerte = new ImageIcon("fleche verte bas.png");
+        Icon vide = new ImageIcon("vide.png");
         
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
-                eGrille[i][j] = new JLabel("test étiquette");
-                eGrille[i][j].setBackground(Color.BLUE);
-                eGrille[i][j].setPreferredSize(new Dimension(20,20));
-                eGrille[i][j].setIcon(flecheVerte);
+                eGrille[i][j] = new JLabel();
+                eGrille[i][j].setSize(new Dimension(50,50));
+                eGrille[i][j].setIcon(vide);
             }
         }
         
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
-                bGrille[i][j] = new JButton("test ; i : "+i+"; j : "+j);
+                bGrille[i][j] = new JButton();
                 bGrille[i][j].addActionListener(new EcouteurPiece(this,new Coordonnees(i,j)));
-                //bGrille[i][j].addMouseWheelListener(new MyMouseWheelListener(this));
-                bGrille[i][j].setBackground(new Color(50,50,50,0));
-                bGrille[i][j].setPreferredSize(new Dimension(20,20));
+                bGrille[i][j].setSize(new Dimension(50,50));
+                bGrille[i][j].setVisible(false);
             }
         }
         
         //Initialisation bouton et étiquette de la réserve 1
+        Icon flecheVerte = new ImageIcon("f_1_1.png");
+        
         eArrayJ1 = new JLabel[5];
         bArrayJ1 = new JButton[5];
         for(int i=0; i<5; i++){
-            eArrayJ1[i] = new JLabel("test étiquette");
-            eArrayJ1[i].setBackground(Color.BLUE);
-            eArrayJ1[i].setPreferredSize(new Dimension(20,20));
+            eArrayJ1[i] = new JLabel();
+            eArrayJ1[i].setSize(new Dimension(50,50));
+            eArrayJ1[i].setIcon(flecheVerte);
         }
         
         for(int i=0; i<5; i++){
-            bArrayJ1[i] = new JButton("test ; i : "+i);
-            //bGrille[i][j].addMouseWheelListener(new MyMouseWheelListener(this));
-            bArrayJ1[i].setBackground(new Color(50,50,50,0));
-            bArrayJ1[i].setPreferredSize(new Dimension(20,20));
+            bArrayJ1[i] = new JButton();
+            bArrayJ1[i].setSize(new Dimension(50,50));
+            bArrayJ1[i].setVisible(false);
         }
         
         //Initialisation bouton et étiquette de la réserve 2
         eArrayJ2 = new JLabel[5];
         bArrayJ2 = new JButton[5];
         for(int i=0; i<5; i++){
-            eArrayJ2[i] = new JLabel("test étiquette");
-            eArrayJ2[i].setBackground(Color.BLUE);
-            eArrayJ2[i].setPreferredSize(new Dimension(20,20));
+            eArrayJ2[i] = new JLabel();
+            eArrayJ2[i].setSize(new Dimension(50,50));
+            eArrayJ2[i].setIcon(vide);
         }
         
         for(int i=0; i<5; i++){
-            bArrayJ2[i] = new JButton("test ; i : "+i);
-            //bGrille[i][j].addMouseWheelListener(new MyMouseWheelListener(this));
-            bArrayJ2[i].setBackground(new Color(50,50,50,0));
-            bArrayJ2[i].setPreferredSize(new Dimension(20,20));
+            bArrayJ2[i] = new JButton();
+            bArrayJ2[i].setSize(new Dimension(50,50));
+            bArrayJ2[i].setVisible(false);
         }
         
         //Initialisation variables de selection de piece et d'étapes
@@ -155,11 +155,11 @@ public class FenetrePrincipale extends JFrame{
                 //Declaration et initialisation du panneau central Gauche (pièces joueur 1)
                 JPanel pPieceJ1 = new JPanel();
                 pPieceJ1.setBackground(new Color(100,50,100,100));
-                pPieceJ1.setPreferredSize(new Dimension(200,300));
+                pPieceJ1.setSize(new Dimension(50,300));
                 JPanel pArrayEtiquetteJ1 = new JPanel (new GridLayout(5,1));
-                pArrayEtiquetteJ1.setPreferredSize(new Dimension(200,300));
+                pArrayEtiquetteJ1.setSize(new Dimension(50,300));
                 JPanel pArrayBoutonJ1 = new JPanel(new GridLayout(5,1));
-                pArrayBoutonJ1.setPreferredSize(new Dimension(200,300));
+                pArrayBoutonJ1.setSize(new Dimension(50,300));
                 
                 for (int i = 0; i < 5; i++)
                 {
@@ -171,7 +171,7 @@ public class FenetrePrincipale extends JFrame{
                 
                 JLayeredPane layeredPaneJ1 = new JLayeredPane();
                 layeredPaneJ1.setLayout(new PlateauLayout());
-                layeredPaneJ1.setPreferredSize(new Dimension(200, 200));
+                layeredPaneJ1.setSize(new Dimension(50, 300));
                 layeredPaneJ1.add(pArrayEtiquetteJ1, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette à la couche principale
                 layeredPaneJ1.add(pArrayBoutonJ1, 1);
                 pPieceJ1.add(layeredPaneJ1);
@@ -181,11 +181,11 @@ public class FenetrePrincipale extends JFrame{
                 //Declaration et initialisation du panneau central droit (pièces joueur 2)
                 JPanel pPieceJ2 = new JPanel();
                 pPieceJ2.setBackground(new Color(100,200,100,100));
-                pPieceJ2.setPreferredSize(new Dimension(200,300));
+                pPieceJ2.setSize(new Dimension(50,300));
                 JPanel pArrayEtiquetteJ2 = new JPanel (new GridLayout(5,1));
-                pArrayEtiquetteJ2.setPreferredSize(new Dimension(200,300));
+                pArrayEtiquetteJ2.setSize(new Dimension(50,300));
                 JPanel pArrayBoutonJ2 = new JPanel(new GridLayout(5,1));
-                pArrayBoutonJ2.setPreferredSize(new Dimension(200,300));
+                pArrayBoutonJ2.setPreferredSize(new Dimension(50,300));
                 
                 for (int i = 0; i < 5; i++)
                 {
@@ -197,7 +197,7 @@ public class FenetrePrincipale extends JFrame{
                 
                 JLayeredPane layeredPaneJ2 = new JLayeredPane();
                 layeredPaneJ2.setLayout(new PlateauLayout());
-                layeredPaneJ2.setPreferredSize(new Dimension(200, 200));
+                layeredPaneJ2.setSize(new Dimension(50, 300));
                 layeredPaneJ2.add(pArrayEtiquetteJ2, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette à la couche principale
                 layeredPaneJ2.add(pArrayBoutonJ2, 1);
                 pPieceJ2.add(layeredPaneJ2);
@@ -205,9 +205,9 @@ public class FenetrePrincipale extends JFrame{
                 //Declaration et initialisation du panneau central avec plusieurs couches (plateau) + ajout grille d'etiquettes et de boutons
                 
                 JPanel pGrilleEtiquette = new JPanel(new GridLayout(5,5));      //Panneau contenant les etiquettes
-                pGrilleEtiquette.setPreferredSize(new Dimension(100,100));
+                pGrilleEtiquette.setSize(new Dimension(400,400));
                 JPanel pGrilleBouton = new JPanel(new GridLayout(5,5));         //Panneau contenant les boutons
-                pGrilleBouton.setPreferredSize(new Dimension(100,100));
+                pGrilleBouton.setSize(new Dimension(400,400));
                 
                 for(int i=0; i<5; i++){
                         for(int j=0; j<5; j++){
@@ -222,14 +222,14 @@ public class FenetrePrincipale extends JFrame{
                 
                 JLayeredPane layeredPane = new JLayeredPane();
                 layeredPane.setLayout(new PlateauLayout());
-                layeredPane.setPreferredSize(new Dimension(200, 200));
+                layeredPane.setSize(new Dimension(400, 400));
                 layeredPane.add(pGrilleEtiquette, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette à la couche principale
                 layeredPane.add(pGrilleBouton, 1);
                 //Ajoute le panneau de boutons à la couche superieure
                 
                 //Declaration et initialisation du panneau central (Pièces + plateau) + attribution panneau inferieur
                 JPanel pCentral = new JPanel(new BorderLayout());
-                pCentral.setPreferredSize(new Dimension(200, 200));
+                pCentral.setSize(new Dimension(400, 400));
                 pCentral.add(layeredPane, BorderLayout.CENTER);
                 pCentral.add(pPieceJ1, BorderLayout.WEST);
                 pCentral.add(pPieceJ2, BorderLayout.EAST);
@@ -255,8 +255,6 @@ public class FenetrePrincipale extends JFrame{
         if(isPieceSelectionee){
             this.siam.deplacerToutesPieces(c, siam.getDirection(c,pieceSelectionnee));
             bGrille[c.h()][c.v()] = bGrille[pieceSelectionnee.h()][pieceSelectionnee.v()];
-            System.out.println(c.h()+""+c.v());
-            System.out.println(pieceSelectionnee.h()+""+pieceSelectionnee.v());
             this.isPieceSelectionee = false;
             this.isPieceDeplacee = true;
         }else{
@@ -290,11 +288,24 @@ public class FenetrePrincipale extends JFrame{
         siam.pivoter(pieceSelectionnee, i);
     }
      
-    public void FinTour(){
+    public void finTour(){
          isPieceDeplacee = false;
          isPieceSelectionee = false;
     }
     
+    public void miseAJour() {
+    	
+    	for(int i=0; i<5; i++ ) {
+    		for(int j=0; j<5; j++ ) {
+        		eGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i,j)));
+        	}
+    		eArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1)));
+    		eArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
+    	}
+    	
+    	eNomJoueur.setText(siam.getNomJoueurCourant());
+    	this.repaint();
+    }
     
     
         public class PlateauLayout implements LayoutManager {

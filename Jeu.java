@@ -25,17 +25,21 @@ import java.util.*;
 public class Jeu {
     
     private Joueur[] lesJoueurs;
-    private int joueurCourant;
     private Piece[][] plateau;
+    
+    private boolean modeMulti; 								//true = mode multijoueurs ; false = mode solo contre IA
+    private int joueurCourant;
     private Piece pieceSelectionnee;
-    private String[] directions = {"Nord" , "Est", "Sud", "Ouest"};
+    private String[] directions = {"Nord" , "Est", "Sud", "Ouest"}; /**inutilis�**/
+    
     public boolean estFini;
     private boolean isPieceDeplacee;				//Indique si une piece a été déplacé par le joueur durant le tour (utilisé pour vérifier si on peut pivoter la sélection)
     private boolean isPiecePoussee;					//Indique si une ou plusieurs pièces ont été déplacées pendant le tour (utilisé pour vérifier si on peut pivoter la sélection)
+    
     public ArrayList <Piece> piecej1 ;
     public ArrayList <Piece> piecej2 ;
     
-    public Jeu(Joueur j1, Joueur j2){
+    public Jeu(Joueur j1, Joueur j2, boolean modeMulti){
         
         /* Création du plateau de jeu
          * Initialisation des joueurs
@@ -54,6 +58,7 @@ public class Jeu {
         isPiecePoussee = false;
         piecej1= new ArrayList <Piece>(5);
         piecej2 = new ArrayList <Piece> (5); 
+        this.modeMulti = modeMulti;
     }
     
     public void creerPieces(){
@@ -233,6 +238,9 @@ public class Jeu {
     public int getJoueurCourant(){
         return joueurCourant;
     }
+    public String getNomJoueurCourant() {
+    	return this.lesJoueurs[joueurCourant].getNom();
+    }
     
     public void changerJoueurCourant(){
         joueurCourant = (1+joueurCourant)%2;
@@ -248,7 +256,7 @@ public class Jeu {
         int horizontal = getPosition(p)[0];
         int vertical = getPosition(p)[1];
         double pieceADeplacer = 0;
-        int a=0;
+        //int a=0; Inutilis�
         //regarder la direction indiquée
         while (plateau[horizontal][vertical] instanceof Piece && estDansLePlateau(plateau[horizontal][vertical])){ 
             
@@ -512,16 +520,36 @@ public class Jeu {
         }
     }
     
-    public String getImage(int h, int v){
+    public String getImagePlateau(int h, int v){
 		String s ="";
 		if ( plateau[h][v] != null){
-	s = plateau[h][v].setImage();
-	}
-	else {
-	s = "vide";
-}
+			s = plateau[h][v].getImage();
+			}
+			else {
+			s = "vide";
+		}
 		return s;
 	}
-
+    
+    public String getImageReserve(int i, int joueur){
+		String s ="";
+		if(joueur ==1) {
+			if ( piecej1.get(i) != null){
+				s = piecej1.get(i).getImage();
+				}
+				else {
+				s = "vide";
+			}
+		}else if (joueur ==2) {
+			if ( piecej2.get(i) != null){
+				s = piecej2.get(i).getImage();
+				}
+				else {
+				s = "vide";
+			}
+		}
+		return s;
+	}
+   
 }
 
