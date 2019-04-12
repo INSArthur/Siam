@@ -107,6 +107,7 @@ public class FenetreMenu extends JFrame {
 		 
         //===== Rendre la fenêtre visible ===== 
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
     }
     
     
