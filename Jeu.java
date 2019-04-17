@@ -100,12 +100,12 @@ public class Jeu {
         Coordonnees coord = new Coordonnees(getHorizontal(piece), getVertical(piece));
         
         if(!appartientAuJoueur(piece)){
-        System.out.println("Vous ne pouvez pas d√©placer cette pi√®ce!");
+        System.out.println("Vous ne pouvez pas d√©placer cette pie®ce!");
         }
         else {
             if(caseVide(piece, direction)){
                 deplacerPiece(piece, direction);
-                System.out.println("techniquement, tu peux pivoter ta pi√®ce, mais c'est pas encore impl√©menter");
+                System.out.println("techniquement, tu peux pivoter ta pie®ce, mais c'est pas encore imple©menter");
             }
             else{
                 if(!mouvementPossible(piece, direction)){
@@ -117,7 +117,7 @@ public class Jeu {
             }
         }
         
-        //V√©rification qu'une montagne hors dans le plateau. La fa√ßon de manipuler les pi√®ces doit √™tre discut√©e
+        //Ve©rification qu'une montagne hors dans le plateau. La faeßon de manipuler les pie®ces doit e™tre discute©e
         if (!estDansLePlateau(new Piece(1)) || !estDansLePlateau(new Piece(0)) || !estDansLePlateau(new Piece(2)))
         {
             estFini = true;
@@ -131,11 +131,11 @@ public class Jeu {
        public void deplacerToutesPieces(Coordonnees c, int d){
         int h = c.h();
         int v =c.v();
-        int aDeplacer =0; //Permet de compter combien de pi√®ces devront √™tre d√©plac√©es
+        int aDeplacer =0; //Permet de compter combien de pie®ces devront e™tre de©place©es
         
-        //On recup√®re les coord de la premi√®re case vide dans la direction donn√©e
+        //On recupe®re les coord de la premie®re case vide dans la direction donne©e
         if(mouvementPossible(plateau[h][v],d)){
-            while (plateau[h][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'√† la derni√®re case √† d√©placer
+            while (plateau[h][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'a† la derni√®re case √† d√©placer
                 switch (d)
                 {
                     case 1: //nord
