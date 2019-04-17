@@ -10,6 +10,9 @@ public class FenetreMenu extends JFrame {
     private JButton multi ;
     private JButton valider ;
     
+	private JButton boutonSelec;
+	private JButton precBoutonSelec;
+	
 	private JLabel eJ1 ;
 	private JLabel eJ2 ;
 	private JLabel eIA ;
@@ -21,6 +24,9 @@ public class FenetreMenu extends JFrame {
 	private JPanel monPanelJoueur1;
 	private JPanel monPanelJoueur2;
 	private JPanel monPanelIA;
+	private JPanel monPanelModeSolo;
+	private JPanel monPanelModeMulti;
+	private JPanel monPanelEntree;
     
 	private int mode;
 	private Jeu siam;
@@ -39,8 +45,11 @@ public class FenetreMenu extends JFrame {
         easy = new JButton ("Easy");
         medium = new JButton ("Medium");
         hard = new JButton ("Hard");
-        multi=new JButton("Multi");
+        multi=new JButton("Classique");
         valider =new JButton ("Demarrer");
+        
+        boutonSelec = new JButton();
+        precBoutonSelec = new JButton();
         
         eJ1=new JLabel ("Joueur 1 : ");
         eJ2=new JLabel ("Joueur 2 : ");
@@ -52,7 +61,7 @@ public class FenetreMenu extends JFrame {
         txtFieldIA.setText("HAL");
         
         //Dimensions de la fenetre graphique et fermeture
-        this.setSize(400,200);
+        this.setSize(400,105);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // ====== Organisation structurelle ======
@@ -77,13 +86,20 @@ public class FenetreMenu extends JFrame {
         monPanelIA.add(txtFieldIA);
        
         JPanel monPanelChoix= new JPanel();
-        monPanelChoix.add(multi);
-        monPanelChoix.add(easy);
-        monPanelChoix.add(medium);
-        monPanelChoix.add(hard);
+        JPanel monPanelModeSolo = new JPanel();
+        JPanel monPanelModeMulti = new JPanel();
+        monPanelModeSolo.setBorder(BorderFactory.createTitledBorder("Solo contre IA"));
+        monPanelModeMulti.setBorder(BorderFactory.createTitledBorder("Multi joueur"));
+        monPanelChoix.add(monPanelModeMulti);
+        monPanelChoix.add(monPanelModeSolo);
+        monPanelModeMulti.add(multi);
+        monPanelModeSolo.add(easy);
+        monPanelModeSolo.add(medium);
+        monPanelModeSolo.add(hard);
         
-        JPanel monPanelEntree = new JPanel ();
+        monPanelEntree = new JPanel ();
         monPanelEntree.add(valider);
+        monPanelEntree.setVisible(false);
         
         JPanel cadrePrincipal= new JPanel(new BorderLayout());
         
@@ -127,18 +143,39 @@ public class FenetreMenu extends JFrame {
     	
     	this.mode = mode;
     	monPanelJoueur1.setVisible(true);
-    	monPanelJoueur1.setFocusable(true);
+    	monPanelEntree.setVisible(true);
+    	this.setSize(400,220);
+    	txtFieldJ1.requestFocusInWindow();
+    	precBoutonSelec = boutonSelec;
     	
     	if(mode==0) {
     		
 			monPanelJoueur2.setVisible(true);
 			monPanelIA.setVisible(false);
+			boutonSelec = multi;
+			
     	}else {
     		monPanelIA.setVisible(true);
     		monPanelJoueur2.setVisible(false);
-    	}
-		
-	}
+    		
+    		switch(mode) {
+    		case 1:
+    			boutonSelec = easy;
+    			break;
+    		case 2:
+    			boutonSelec = medium;
+    			break;
+    		case 3:
+    			boutonSelec = hard;
+    			break;
+			default:
+				break;
+    		}
+    		
+    		}
+    	boutonSelec.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+    	precBoutonSelec.setBorder(valider.getBorder());
+    }
 		      
 }
 

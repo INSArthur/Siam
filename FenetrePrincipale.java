@@ -34,7 +34,7 @@ public class FenetrePrincipale extends JFrame{
     private JLabel[][] eGrille; //Grille d'étiquette représentant les cases du plateau de jeu
     private JButton[][] bGrille;    //Grille de boutons permettant d'inter-agir avec le plateau de jeu plateau de jeu
     
-    //Déclaration variables d'étapes et de sélection de pièce 
+    //Déclaration variables d'etapes et de selection de pieces 
     private boolean isPieceSelectionee;
     private boolean isPieceDeplacee;
     private Coordonnees pieceSelectionnee;
