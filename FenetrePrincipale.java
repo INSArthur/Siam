@@ -203,7 +203,6 @@ public class FenetrePrincipale extends JFrame{
                 pPieceJ2.add(layeredPaneJ2);
                 
                 //Declaration et initialisation du panneau central avec plusieurs couches (plateau) + ajout grille d'etiquettes et de boutons
-                
                 JPanel pGrilleEtiquette = new JPanel(new GridLayout(5,5));      //Panneau contenant les etiquettes
                 pGrilleEtiquette.setSize(new Dimension(400,400));
                 JPanel pGrilleBouton = new JPanel(new GridLayout(5,5));         //Panneau contenant les boutons

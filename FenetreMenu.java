@@ -7,7 +7,7 @@ public class FenetreMenu extends JFrame {
 	private JButton easy ;
 	private JButton medium ;
     private JButton hard ;
-    private JButton multi ;
+    private JButton classique ;
     private JButton valider ;
     
 	private JButton boutonSelec;
@@ -21,21 +21,19 @@ public class FenetreMenu extends JFrame {
 	private JTextField txtFieldJ2;
 	private JTextField txtFieldIA;
 	
-	private JPanel monPanelJoueur1;
-	private JPanel monPanelJoueur2;
-	private JPanel monPanelIA;
-	private JPanel monPanelModeSolo;
-	private JPanel monPanelModeMulti;
-	private JPanel monPanelEntree;
+	private JPanel panelJoueur1;
+	private JPanel panelJoueur2;
+	private JPanel panelIA;
+	private JPanel panelModeSolo;
+	private JPanel panelModeMulti;
+	private JPanel panelEntree;
     
 	private int mode;
 	private Jeu siam;
 	private FenetrePrincipale fen;
 
 	
-	/**
-     * Constructeur de la classe FenetreMenu
-     */
+	/**Constructeur de la classe FenetreMenu**/
     public FenetreMenu() {
 
         //on definit le nom du jeu
@@ -45,7 +43,7 @@ public class FenetreMenu extends JFrame {
         easy = new JButton ("Easy");
         medium = new JButton ("Medium");
         hard = new JButton ("Hard");
-        multi=new JButton("Classique");
+        classique=new JButton("Classique");
         valider =new JButton ("Demarrer");
         
         boutonSelec = new JButton();
@@ -64,59 +62,64 @@ public class FenetreMenu extends JFrame {
         this.setSize(400,105);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        // ====== Organisation structurelle ======
-        JPanel monPanelJoueur= new JPanel();
-        monPanelJoueur1= new JPanel();
-        monPanelJoueur2= new JPanel();
-        monPanelIA= new JPanel();
+        // ====== Organisation structurelle et apparence======
+        	//Panneau d'acquisition des noms
+	        JPanel panelJoueur= new JPanel();
+	        panelJoueur1= new JPanel();
+	        panelJoueur2= new JPanel();
+	        panelIA= new JPanel();
+	
+	        panelJoueur1.setVisible(false);
+	        panelJoueur2.setVisible(false);
+	        panelIA.setVisible(false);
+	        
+	        panelJoueur.add(panelJoueur1);
+	        panelJoueur.add(panelJoueur2);
+	        panelJoueur.add(panelIA);
+	        
+	        panelJoueur1.add(eJ1);
+	        panelJoueur1.add(txtFieldJ1);
+	        panelJoueur2.add(eJ2);
+	        panelJoueur2.add(txtFieldJ2);
+	        panelIA.add(eIA);
+	        panelIA.add(txtFieldIA);
+	        
+	        //Panneau Superieur de choix du mode
+	        JPanel panelChoix= new JPanel();
+	        JPanel panelModeSolo = new JPanel();
+	        JPanel panelModeMulti = new JPanel();
+	        panelModeSolo.setBorder(BorderFactory.createTitledBorder("Solo contre IA"));
+	        panelModeMulti.setBorder(BorderFactory.createTitledBorder("Multi joueur"));
+	        
+	        panelChoix.add(panelModeMulti);
+	        panelChoix.add(panelModeSolo);
+	        panelModeMulti.add(classique);
+	        panelModeSolo.add(easy);
+	        panelModeSolo.add(medium);
+	        panelModeSolo.add(hard);
+	        
+	        //Panneau de validation
+	        panelEntree = new JPanel ();
+	        panelEntree.add(valider);
+	        panelEntree.setVisible(false);
+	        
+	        //Panneau Principal
+	        JPanel cadrePrincipal= new JPanel(new BorderLayout());
+	        
+	        cadrePrincipal.add(panelChoix,BorderLayout.NORTH);
+	        cadrePrincipal.add(panelJoueur,BorderLayout.CENTER);
+	        cadrePrincipal.add(panelEntree,BorderLayout.SOUTH);
+	        
+	        add(cadrePrincipal);
 
-        monPanelJoueur1.setVisible(false);
-        monPanelJoueur2.setVisible(false);
-        monPanelIA.setVisible(false);
-        
-        monPanelJoueur.add(monPanelJoueur1);
-        monPanelJoueur.add(monPanelJoueur2);
-        monPanelJoueur.add(monPanelIA);
-        
-        monPanelJoueur1.add(eJ1);
-        monPanelJoueur1.add(txtFieldJ1);
-        monPanelJoueur2.add(eJ2);
-        monPanelJoueur2.add(txtFieldJ2);
-        monPanelIA.add(eIA);
-        monPanelIA.add(txtFieldIA);
-       
-        JPanel monPanelChoix= new JPanel();
-        JPanel monPanelModeSolo = new JPanel();
-        JPanel monPanelModeMulti = new JPanel();
-        monPanelModeSolo.setBorder(BorderFactory.createTitledBorder("Solo contre IA"));
-        monPanelModeMulti.setBorder(BorderFactory.createTitledBorder("Multi joueur"));
-        monPanelChoix.add(monPanelModeMulti);
-        monPanelChoix.add(monPanelModeSolo);
-        monPanelModeMulti.add(multi);
-        monPanelModeSolo.add(easy);
-        monPanelModeSolo.add(medium);
-        monPanelModeSolo.add(hard);
-        
-        monPanelEntree = new JPanel ();
-        monPanelEntree.add(valider);
-        monPanelEntree.setVisible(false);
-        
-        JPanel cadrePrincipal= new JPanel(new BorderLayout());
-        
-        cadrePrincipal.add(monPanelChoix,BorderLayout.NORTH);
-        cadrePrincipal.add(monPanelJoueur,BorderLayout.CENTER);
-        cadrePrincipal.add(monPanelEntree,BorderLayout.SOUTH);
-        
-        add(cadrePrincipal);
-
-		// ===== liaison bouttons <-> écouteurs =====
+		// ===== liaison bouttons <-> ecouteurs =====
 		easy.addActionListener(new EcouteurMode(this,1));
 		medium.addActionListener(new EcouteurMode(this,2));
         hard.addActionListener(new EcouteurMode(this,3));
-        multi.addActionListener(new EcouteurMode(this,0));
+        classique.addActionListener(new EcouteurMode(this,0));
         valider.addActionListener(new EcouteurEntree(this));
 		 
-        //===== Rendre la fenêtre visible ===== 
+        //===== Rendre la fenetre visible ===== 
         this.setVisible(true);
         this.setLocationRelativeTo(null);
     }
@@ -142,21 +145,21 @@ public class FenetreMenu extends JFrame {
     public void mode(int mode){
     	
     	this.mode = mode;
-    	monPanelJoueur1.setVisible(true);
-    	monPanelEntree.setVisible(true);
+    	panelJoueur1.setVisible(true);
+    	panelEntree.setVisible(true);
     	this.setSize(400,220);
     	txtFieldJ1.requestFocusInWindow();
     	precBoutonSelec = boutonSelec;
     	
     	if(mode==0) {
     		
-			monPanelJoueur2.setVisible(true);
-			monPanelIA.setVisible(false);
-			boutonSelec = multi;
+			panelJoueur2.setVisible(true);
+			panelIA.setVisible(false);
+			boutonSelec = classique;
 			
     	}else {
-    		monPanelIA.setVisible(true);
-    		monPanelJoueur2.setVisible(false);
+    		panelIA.setVisible(true);
+    		panelJoueur2.setVisible(false);
     		
     		switch(mode) {
     		case 1:
@@ -173,8 +176,10 @@ public class FenetreMenu extends JFrame {
     		}
     		
     		}
-    	boutonSelec.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-    	precBoutonSelec.setBorder(valider.getBorder());
+    	if(boutonSelec!=precBoutonSelec) {
+	    	boutonSelec.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+	    	precBoutonSelec.setBorder(valider.getBorder());
+    	}
     }
 		      
 }
