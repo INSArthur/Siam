@@ -42,7 +42,7 @@ public class FenetrePrincipale extends JFrame{
     public FenetrePrincipale(Jeu siam){
         super("Jeu du Siam");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600,400);
+        setSize(800,600);
         setVisible(true);
         this.setLocationRelativeTo(null);
         
@@ -152,14 +152,14 @@ public class FenetrePrincipale extends JFrame{
                 pNord.add(pJoueur, BorderLayout.CENTER);
             
             //Declaration et initialisation du panneau central
-                //Declaration et initialisation du panneau central Gauche (pièces joueur 1)
+                //Declaration et initialisation du panneau central Gauche (pieces joueur 1)
                 JPanel pPieceJ1 = new JPanel();
                 pPieceJ1.setBackground(new Color(100,50,100,100));
-                pPieceJ1.setSize(new Dimension(50,300));
+                pPieceJ1.setSize(new Dimension(20,100));
                 JPanel pArrayEtiquetteJ1 = new JPanel (new GridLayout(5,1));
-                pArrayEtiquetteJ1.setSize(new Dimension(50,300));
+                pArrayEtiquetteJ1.setSize(new Dimension(20,100));
                 JPanel pArrayBoutonJ1 = new JPanel(new GridLayout(5,1));
-                pArrayBoutonJ1.setSize(new Dimension(50,300));
+                pArrayBoutonJ1.setSize(new Dimension(20,100));
                 
                 for (int i = 0; i < 5; i++)
                 {
@@ -171,17 +171,17 @@ public class FenetrePrincipale extends JFrame{
                 
                 JLayeredPane layeredPaneJ1 = new JLayeredPane();
                 layeredPaneJ1.setLayout(new PlateauLayout());
-                layeredPaneJ1.setSize(new Dimension(50, 300));
+                layeredPaneJ1.setSize(new Dimension(20, 100));
                 layeredPaneJ1.add(pArrayEtiquetteJ1, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette à la couche principale
                 layeredPaneJ1.add(pArrayBoutonJ1, 1);
                 pPieceJ1.add(layeredPaneJ1);
                 
                 
                 
-                //Declaration et initialisation du panneau central droit (pièces joueur 2)
+                //Declaration et initialisation du panneau central droit (pieces joueur 2)
                 JPanel pPieceJ2 = new JPanel();
                 pPieceJ2.setBackground(new Color(100,200,100,100));
-                pPieceJ2.setSize(new Dimension(50,300));
+                pPieceJ2.setSize(new Dimension(20,100));
                 JPanel pArrayEtiquetteJ2 = new JPanel (new GridLayout(5,1));
                 pArrayEtiquetteJ2.setSize(new Dimension(50,300));
                 JPanel pArrayBoutonJ2 = new JPanel(new GridLayout(5,1));
@@ -198,7 +198,7 @@ public class FenetrePrincipale extends JFrame{
                 JLayeredPane layeredPaneJ2 = new JLayeredPane();
                 layeredPaneJ2.setLayout(new PlateauLayout());
                 layeredPaneJ2.setSize(new Dimension(50, 300));
-                layeredPaneJ2.add(pArrayEtiquetteJ2, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette à la couche principale
+                layeredPaneJ2.add(pArrayEtiquetteJ2, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette a la couche principale
                 layeredPaneJ2.add(pArrayBoutonJ2, 1);
                 pPieceJ2.add(layeredPaneJ2);
                 
@@ -222,11 +222,11 @@ public class FenetrePrincipale extends JFrame{
                 JLayeredPane layeredPane = new JLayeredPane();
                 layeredPane.setLayout(new PlateauLayout());
                 layeredPane.setSize(new Dimension(400, 400));
-                layeredPane.add(pGrilleEtiquette, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette à la couche principale
+                layeredPane.add(pGrilleEtiquette, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette a� la couche principale
                 layeredPane.add(pGrilleBouton, 1);
                 //Ajoute le panneau de boutons à la couche superieure
                 
-                //Declaration et initialisation du panneau central (Pièces + plateau) + attribution panneau inferieur
+                //Declaration et initialisation du panneau central (Pieces + plateau) + attribution panneau inferieur
                 JPanel pCentral = new JPanel(new BorderLayout());
                 pCentral.setSize(new Dimension(400, 400));
                 pCentral.add(layeredPane, BorderLayout.CENTER);

@@ -142,6 +142,7 @@ public class FenetreMenu extends JFrame {
 		this.dispose();
     }
     
+    //Acquisition du mode et affichage des parametres (noms des joueurs)
     public void mode(int mode){
     	
     	this.mode = mode;
