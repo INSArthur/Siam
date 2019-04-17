@@ -239,6 +239,7 @@ public class Jeu {
         return joueurCourant;
     }
     public String getNomJoueurCourant() {
+    	System.out.println("test");
     	return this.lesJoueurs[joueurCourant].getNom();
     }
     

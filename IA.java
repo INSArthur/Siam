@@ -26,8 +26,8 @@ public class IA extends Joueur {
 	
     private int niveau;
     
-    public IA(String n, int niveau){
-        super(n, 2);
+    public IA(String nom, int niveau){
+        super(nom, 1);
         this.niveau = niveau;
     }
     

@@ -1,6 +1,5 @@
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 
 public class FenetreMenu extends JFrame {
 	
@@ -76,10 +75,6 @@ public class FenetreMenu extends JFrame {
         monPanelJoueur2.add(txtFieldJ2);
         monPanelIA.add(eIA);
         monPanelIA.add(txtFieldIA);
-
-        
-        
-       
        
         JPanel monPanelChoix= new JPanel();
         monPanelChoix.add(multi);
@@ -113,11 +108,12 @@ public class FenetreMenu extends JFrame {
     
     //Creer jeu
     public void setJeu(){
-		if(mode==1 && !txtFieldJ1.getText().isEmpty() && !txtFieldJ2.getText().isEmpty()){
+		if(mode==0 && !txtFieldJ1.getText().isEmpty() && !txtFieldJ2.getText().isEmpty()){
 			Joueur J1 = new Joueur(txtFieldJ1.getText(),0);
 			Joueur J2 = new Joueur(txtFieldJ2.getText(),1);
 			this.siam = new Jeu(J1,J2,true);
-		}else if (mode!=1 && !txtFieldJ1.getText().isEmpty() && !txtFieldIA.getText().isEmpty()){
+		}else if (mode!=0 && !txtFieldJ1.getText().isEmpty() && !txtFieldIA.getText().isEmpty()){
+			
 			Joueur J1 = new Joueur(txtFieldJ1.getText(),0);
 			IA J2 = new IA(txtFieldIA.getText(),1);
 			this.siam = new Jeu(J1,J2,false);
@@ -131,6 +127,7 @@ public class FenetreMenu extends JFrame {
     	
     	this.mode = mode;
     	monPanelJoueur1.setVisible(true);
+    	monPanelJoueur1.setFocusable(true);
     	
     	if(mode==0) {
     		

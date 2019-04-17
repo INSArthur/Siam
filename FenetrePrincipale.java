@@ -68,7 +68,7 @@ public class FenetrePrincipale extends JFrame{
         //Initialisation etiquette joueur
         eJoueur = new JLabel("joueur : ");
         eNomJoueur = new JLabel();
-        eNomJoueur.setText(siam.getNomJoueurCourant());
+        eNomJoueur.setText(this.siam.getNomJoueurCourant());
         
         //Initialisation tableau d'étiquette + tableau de boutons
         eGrille = new JLabel[5][5];
