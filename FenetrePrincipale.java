@@ -3,14 +3,14 @@ import java.awt.*;
 
 public class FenetrePrincipale extends JFrame{
     
-    //Déclaration Jeu
+    //Declaration Jeu
     private Jeu siam;
     
-    //Déclaration bouton
-    private JButton bEntrerPiece;       //Bouton pour inserer une pièce sur le plateau 
+    //Dclaration bouton
+    private JButton bEntrerPiece;       //Bouton pour inserer une piece sur le plateau 
     private JButton bFinTour;           //Bouton pour indiquer la fin d'un tour
     
-    //Déclaration de la barre de menu
+    //Declaration de la barre de menu
     private JMenuBar menuBar;
     private JMenu menu;
     private JMenuItem item1;
@@ -18,23 +18,23 @@ public class FenetrePrincipale extends JFrame{
     private JMenuItem item3;
     private JMenuItem item4;
     
-    //Déclaration réserve grille et étiquette J1
+    //Declaration reserve grille et etiquette J1
     private JLabel[] eArrayJ1;
     private JButton[] bArrayJ1;
     
-    //Déclaration réserve grille et étiquette J2
+    //Declaration reserve grille et etiquette J2
     private JLabel[] eArrayJ2;
     private JButton[] bArrayJ2;
     
-    //Déclaration Etiquette joueur
+    //Declaration Etiquette joueur
     private JLabel eJoueur;             //Etiquette avec l'inscription joueur
     private JLabel eNomJoueur;          //Etiquette indiquant le nom du joueur dont c'est le tour
     
-    //Déclaration du tableau d'etiquettes + tableau de boutons
-    private JLabel[][] eGrille; //Grille d'étiquette représentant les cases du plateau de jeu
+    //Declaration du tableau d'etiquettes + tableau de boutons
+    private JLabel[][] eGrille; //Grille d'etiquette representant les cases du plateau de jeu
     private JButton[][] bGrille;    //Grille de boutons permettant d'inter-agir avec le plateau de jeu plateau de jeu
     
-    //Déclaration variables d'etapes et de selection de pieces 
+    //Declaration variables d'etapes et de selection de piece 
     private boolean isPieceSelectionee;
     private boolean isPieceDeplacee;
     private Coordonnees pieceSelectionnee;
@@ -51,6 +51,7 @@ public class FenetrePrincipale extends JFrame{
         //Initialisation boutons
         bEntrerPiece = new JButton("Entrer piece");
         bFinTour = new JButton("Fin du tour");
+        bFinTour.addActionListener(new EcouteurFinTour(this));
         bFinTour.setVisible(true);
         
         //Initialisation barre de menu
@@ -68,12 +69,14 @@ public class FenetrePrincipale extends JFrame{
         //Initialisation etiquette joueur
         eJoueur = new JLabel("joueur : ");
         eNomJoueur = new JLabel();
-        eNomJoueur.setText(this.siam.getNomJoueurCourant());
+        eNomJoueur.setText(siam.getNomJoueurCourant());
         
-        //Initialisation tableau d'étiquette + tableau de boutons
+        //Initialisation tableau d'etiquette + tableau de boutons
         eGrille = new JLabel[5][5];
         bGrille = new JButton[5][5];
         Icon vide = new ImageIcon("vide.png");
+        Icon montagne = new ImageIcon("f_0_0.png");
+        
         
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
@@ -82,6 +85,10 @@ public class FenetrePrincipale extends JFrame{
                 eGrille[i][j].setIcon(vide);
             }
         }
+        
+        eGrille[2][1].setIcon(montagne);
+        eGrille[2][2].setIcon(montagne);
+        eGrille[2][3].setIcon(montagne);
         
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
@@ -92,7 +99,7 @@ public class FenetrePrincipale extends JFrame{
             }
         }
         
-        //Initialisation bouton et étiquette de la réserve 1
+        //Initialisation bouton et etiquette de la reserve 1
         Icon flecheVerte = new ImageIcon("f_1_1.png");
         
         eArrayJ1 = new JLabel[5];
@@ -109,13 +116,15 @@ public class FenetrePrincipale extends JFrame{
             bArrayJ1[i].setVisible(false);
         }
         
-        //Initialisation bouton et étiquette de la réserve 2
+        //Initialisation bouton et etiquette de la reserve 2
+        Icon flecheJaune = new ImageIcon("f_2_1.png");
+        
         eArrayJ2 = new JLabel[5];
         bArrayJ2 = new JButton[5];
         for(int i=0; i<5; i++){
             eArrayJ2[i] = new JLabel();
             eArrayJ2[i].setSize(new Dimension(50,50));
-            eArrayJ2[i].setIcon(vide);
+            eArrayJ2[i].setIcon(flecheJaune);
         }
         
         for(int i=0; i<5; i++){
@@ -124,7 +133,7 @@ public class FenetrePrincipale extends JFrame{
             bArrayJ2[i].setVisible(false);
         }
         
-        //Initialisation variables de selection de piece et d'étapes
+        //Initialisation variables de selection de piece et d'etapes
         isPieceSelectionee = false;
         isPieceDeplacee = false;
         pieceSelectionnee = new Coordonnees(0,0);
@@ -134,12 +143,12 @@ public class FenetrePrincipale extends JFrame{
             //Declaration et initialisation du panneau superieur (Menu et joueur) + attribution boutons
                 
                 
-                //Déclaration et initialisation du panneau superieur centré (joueur)
+                //Declaration et initialisation du panneau superieur centre (joueur)
                 JPanel pJoueur = new JPanel();
                 pJoueur.add(eJoueur);
                 pJoueur.add(eNomJoueur);
                 
-                //Ajout de la barre de menu au panneau supérieur
+                //Ajout de la barre de menu au panneau superieur
                 menu.add(item1);
                 menu.add(item2);
                 menu.add(item3);
@@ -172,7 +181,7 @@ public class FenetrePrincipale extends JFrame{
                 JLayeredPane layeredPaneJ1 = new JLayeredPane();
                 layeredPaneJ1.setLayout(new PlateauLayout());
                 layeredPaneJ1.setSize(new Dimension(20, 100));
-                layeredPaneJ1.add(pArrayEtiquetteJ1, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette à la couche principale
+                layeredPaneJ1.add(pArrayEtiquetteJ1, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette a la couche principale
                 layeredPaneJ1.add(pArrayBoutonJ1, 1);
                 pPieceJ1.add(layeredPaneJ1);
                 
@@ -183,9 +192,9 @@ public class FenetrePrincipale extends JFrame{
                 pPieceJ2.setBackground(new Color(100,200,100,100));
                 pPieceJ2.setSize(new Dimension(20,100));
                 JPanel pArrayEtiquetteJ2 = new JPanel (new GridLayout(5,1));
-                pArrayEtiquetteJ2.setSize(new Dimension(50,300));
+                pArrayEtiquetteJ2.setSize(new Dimension(20,100));
                 JPanel pArrayBoutonJ2 = new JPanel(new GridLayout(5,1));
-                pArrayBoutonJ2.setPreferredSize(new Dimension(50,300));
+                pArrayBoutonJ2.setPreferredSize(new Dimension(20,100));
                 
                 for (int i = 0; i < 5; i++)
                 {
@@ -203,6 +212,7 @@ public class FenetrePrincipale extends JFrame{
                 pPieceJ2.add(layeredPaneJ2);
                 
                 //Declaration et initialisation du panneau central avec plusieurs couches (plateau) + ajout grille d'etiquettes et de boutons
+                
                 JPanel pGrilleEtiquette = new JPanel(new GridLayout(5,5));      //Panneau contenant les etiquettes
                 pGrilleEtiquette.setSize(new Dimension(400,400));
                 JPanel pGrilleBouton = new JPanel(new GridLayout(5,5));         //Panneau contenant les boutons
@@ -222,9 +232,9 @@ public class FenetrePrincipale extends JFrame{
                 JLayeredPane layeredPane = new JLayeredPane();
                 layeredPane.setLayout(new PlateauLayout());
                 layeredPane.setSize(new Dimension(400, 400));
-                layeredPane.add(pGrilleEtiquette, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette a� la couche principale
+                layeredPane.add(pGrilleEtiquette, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette a la couche principale
                 layeredPane.add(pGrilleBouton, 1);
-                //Ajoute le panneau de boutons à la couche superieure
+                //Ajoute le panneau de boutons a la couche superieure
                 
                 //Declaration et initialisation du panneau central (Pieces + plateau) + attribution panneau inferieur
                 JPanel pCentral = new JPanel(new BorderLayout());
@@ -271,7 +281,7 @@ public class FenetrePrincipale extends JFrame{
                 System.out.println("Nouvelle Partie");
                 break;
             case 2 : 
-                System.out.println("Paramètres");
+                System.out.println("Parametres");
                 break;
             case 3:
                 System.out.println("Aide");
@@ -288,23 +298,27 @@ public class FenetrePrincipale extends JFrame{
     }
      
     public void finTour(){
-         isPieceDeplacee = false;
-         isPieceSelectionee = false;
+        isPieceDeplacee = false;
+        isPieceSelectionee = false;
+        siam.changerJoueurCourant();
     }
     
     public void miseAJour() {
-    	
-    	for(int i=0; i<5; i++ ) {
-    		for(int j=0; j<5; j++ ) {
-        		eGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i,j)));
-        	}
-    		eArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1)));
-    		eArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
-    	}
-    	
-    	eNomJoueur.setText(siam.getNomJoueurCourant());
-    	this.repaint();
+        
+        for(int i=0; i<5; i++ ) {
+            for(int j=0; j<5; j++ ) {
+                eGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i,j)));
+            }
+            eArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1)));
+            eArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
+        }
+        
+        eNomJoueur.setText(siam.getNomJoueurCourant());
+        this.repaint();
+        this.validate();
     }
+    
+    
     
     
         public class PlateauLayout implements LayoutManager {
@@ -332,7 +346,7 @@ public class FenetrePrincipale extends JFrame{
         }
      
         private void setSizes(Container parent) {                   //Modifie la taille du layout
-            int nComps = parent.getComponentCount();                //nombre d'élement dans le conteneur parent 
+            int nComps = parent.getComponentCount();                //nombre d'element dans le conteneur parent 
             Dimension d = null;
      
             //Reset preferred/minimum width and height.
@@ -344,20 +358,20 @@ public class FenetrePrincipale extends JFrame{
             for (int i = 0; i < nComps; i++) {                      //Pour chaque composant i du parent
                 Component c = parent.getComponent(i);               //c devient le composant i
                 if (c.isVisible()) {                                // S'il est visible
-                    d = c.getPreferredSize();                           //la dimension d est égale à la dimension préférée de c
+                    d = c.getPreferredSize();                           //la dimension d est egale a la dimension preferee de c
      
-                    preferredWidth = Math.max(d.width,preferredWidth);      //la largeur préférée est le max de l'ancienne largeur préférée et de la largeur du composant
-                    preferredHeight = Math.max(d.height,preferredHeight);   //la hauteur préférée est le max de l'ancienne hauteur préférée et de la largeur du composant
+                    preferredWidth = Math.max(d.width,preferredWidth);      //la largeur preferee est le max de l'ancienne largeur preferee et de la largeur du composant
+                    preferredHeight = Math.max(d.height,preferredHeight);   //la hauteur preferee est le max de l'ancienne hauteur preferee et de la largeur du composant
      
-                    minWidth = Math.max(c.getMinimumSize().width,minWidth);     //la largeur minimale est égale au max de la précédente largeur minimale et de celle du composant   
-                    minHeight = Math.max(c.getMinimumSize().height,minHeight);      //la hauteur minimale est égale au max de la précédente hauteur minimale et de celle du composant
+                    minWidth = Math.max(c.getMinimumSize().width,minWidth);     //la largeur minimale est egale au max de la precedente largeur minimale et de celle du composant   
+                    minHeight = Math.max(c.getMinimumSize().height,minHeight);      //la hauteur minimale est egale au max de la precedente hauteur minimale et de celle du composant
                 }
             }
         }
      
      
         /* Required by LayoutManager. */
-        public Dimension preferredLayoutSize(Container parent) {    //Retourne les dimensions préférée 
+        public Dimension preferredLayoutSize(Container parent) {    //Retourne les dimensions preferee 
             Dimension dim = new Dimension(0, 0);
      
             setSizes(parent);
@@ -389,14 +403,14 @@ public class FenetrePrincipale extends JFrame{
         public void layoutContainer(Container parent) {
             
             Insets insets = parent.getInsets();                                 //espace q'un conteneur doit laisser sur chacun de ses bords
-            int maxWidth = parent.getWidth()- (insets.left + insets.right);     //largeur max = largeur conteneur - espaces nécessaires sur les bords du conteneur
-            int maxHeight = parent.getHeight() - (insets.top + insets.bottom);  //hauteur max = largeur conteneur - espaces nécessaires sur les bords du conteneur
+            int maxWidth = parent.getWidth()- (insets.left + insets.right);     //largeur max = largeur conteneur - espaces necessaires sur les bords du conteneur
+            int maxHeight = parent.getHeight() - (insets.top + insets.bottom);  //hauteur max = largeur conteneur - espaces necessaires sur les bords du conteneur
             int nComps = parent.getComponentCount();                            //Gets the number of components in this pane
             
             int x = 0;
             int y = 0;
             
-            if (sizeUnknown) {                                              //Met à jour la taille si nécessaire
+            if (sizeUnknown) {                                              //Met a jour la taille si necessaire
                 setSizes(parent);
             }
      
