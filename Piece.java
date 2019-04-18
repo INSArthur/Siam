@@ -46,6 +46,7 @@ public class Piece{
     public Piece(int id){
         this.id = id;
         estDedans = false;
+        orientation = 1;
     }
     
     public int getType(){
@@ -65,10 +66,10 @@ public class Piece{
     }
     
     public String getImage(){
-		String s= "f_"+getType()+"_"+getOrientation();
-		return s;
-	}
-		   
+        String s= "f_"+getType()+"_"+getOrientation()+".png";
+        return s;
+    }
+           
     
     public void tourner(int orientation){
         this.orientation = orientation;
