@@ -512,9 +512,9 @@ public class Jeu {
     public Piece sortirPieceReserve (int i){ //sortir piece de l'arrayList du joueur i
         Piece p;
         if(i==1){ 
-            p = piecej1.remove(0);
+            p = piecej1.removeLast();
         }else{
-            p = piecej2.remove(0);
+            p = piecej2.removeLast();
         }
         return p;
     }
@@ -542,14 +542,14 @@ public class Jeu {
     public String getImageReserve(int i, int joueur){
         String s ="";
         if(joueur ==1) {
-            if ( piecej1.get(i) != null){
+            if (i<piecej1.size()){
                 s = piecej1.get(i).getImage();
                 }
                 else {
                 s = "vide.png";
             }
         }else if (joueur ==2) {
-            if ( piecej2.get(i) instanceof Piece){
+            if (i<piecej2.size()){
                 s = piecej2.get(i).getImage();
                 }
                 else {
