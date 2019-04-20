@@ -37,7 +37,9 @@ public class FenetrePrincipale extends JFrame{
     //Declaration variables d'etapes et de selection de piece 
     private boolean isPieceSelectionee;
     private boolean isPieceDeplacee;
+    private boolean isPieceSelectioneeReserve;
     private Coordonnees pieceSelectionnee;
+    private Piece pieceSelectionneeReserve;
     
     public FenetrePrincipale(Jeu siam){
         super("Jeu du Siam");
@@ -95,7 +97,7 @@ public class FenetrePrincipale extends JFrame{
                 bGrille[i][j] = new JButton();
                 bGrille[i][j].addActionListener(new EcouteurPiece(this,new Coordonnees(i,j)));
                 bGrille[i][j].setSize(new Dimension(50,50));
-                bGrille[i][j].setVisible(false);
+                bGrille[i][j].setVisible(true);
             }
         }
         
@@ -138,6 +140,8 @@ public class FenetrePrincipale extends JFrame{
         //Initialisation variables de selection de piece et d'etapes
         isPieceSelectionee = false;
         isPieceDeplacee = false;
+        isPieceSelectioneeReserve = false;
+        pieceSelectionneeReserve = null;
         pieceSelectionnee = new Coordonnees(0,0);
 
         
@@ -228,10 +232,9 @@ public class FenetrePrincipale extends JFrame{
                         }
                 }
                 for(int i=0; i<5; i++){
-                        for(int j=0; j<5; j++){
-                            pGrilleBouton.add(bGrille[i][j]);
-                            bGrille[i][j].addActionListener(new EcouteurPiece(this, new Coordonnees(i,j)));
-                        }
+                    for(int j=0; j<5; j++){
+                        pGrilleBouton.add(bGrille[i][j]);
+                    }
                 }
                 
                 JLayeredPane layeredPane = new JLayeredPane();
@@ -267,16 +270,23 @@ public class FenetrePrincipale extends JFrame{
     
     
     public void deplacementPiece(Coordonnees c){
-        if(isPieceSelectionee){
-            this.siam.deplacerToutesPieces(c, siam.getDirection(c,pieceSelectionnee));
-            bGrille[c.h()][c.v()] = bGrille[pieceSelectionnee.h()][pieceSelectionnee.v()];
-            this.isPieceSelectionee = false;
+        if (isPieceSelectioneeReserve)
+        {
+            siam.placerPiece(pieceSelectionneeReserve.getId(),c);
             this.isPieceDeplacee = true;
-        }else{
-            if(!isPieceDeplacee){
+            System.out.println("deplacement piece reserve vers horizontal : "+c.h()+" vertical : "+c.v());
+        }else if(isPieceSelectionee){
+            this.siam.deplacerToutesPieces(c, siam.getDirection(c,pieceSelectionnee));
+            //?? bGrille[c.h()][c.v()] = bGrille[pieceSelectionnee.h()][pieceSelectionnee.v()];
+            this.isPieceSelectionee = false;
+            this.isPieceSelectioneeReserve = false;
+            this.isPieceDeplacee = true;
+            System.out.println("deuxieme click --> horizontal : "+c.h()+" vertical : "+c.v());
+
+        }else if(!isPieceDeplacee){
                 this.pieceSelectionnee = c;
                 this.isPieceSelectionee = true;
-            }
+                System.out.println("premier click --> horizontal : "+c.h()+" vertical : "+c.v());
         }
     }
     
@@ -310,13 +320,12 @@ public class FenetrePrincipale extends JFrame{
     }
     
     public void sortirPieceReserve(int i){
-        if (!isPieceSelectionee)
+        if (!isPieceSelectioneeReserve)
         {
             Piece p = siam.sortirPieceReserve(i);
-            pieceSelectionnee = new Coordonnees(siam.getHorizontal(p), siam.getVertical(p)); 
-            isPieceSelectionee = true;
+            pieceSelectionneeReserve= new Piece(i);
+            isPieceSelectioneeReserve = true;
         }
-        
     }
     
     public void miseAJour() {
@@ -324,11 +333,11 @@ public class FenetrePrincipale extends JFrame{
         for(int i=0; i<5; i++ ) {
             for(int j=0; j<5; j++ ) {
                 eGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1)));
+                eArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1)));
+                eArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
             }
-            eArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1)));
-            eArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
         }
-        
+       
         eNomJoueur.setText(siam.getNomJoueurCourant());
         this.repaint();
         this.validate();
