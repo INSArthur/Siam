@@ -113,7 +113,9 @@ public class FenetrePrincipale extends JFrame{
         for(int i=0; i<5; i++){
             bArrayJ1[i] = new JButton();
             bArrayJ1[i].setSize(new Dimension(50,50));
-            bArrayJ1[i].setVisible(false);
+            bArrayJ1[i].setOpaque(false);
+            bArrayJ1[i].setContentAreaFilled(false);
+            bArrayJ1[i].setBorderPainted(false);
         }
         
         //Initialisation bouton et etiquette de la reserve 2
@@ -176,6 +178,7 @@ public class FenetrePrincipale extends JFrame{
                 }
                 for(int i=0; i<5; i++){
                     pArrayBoutonJ1.add(bArrayJ1[i]);
+                    bArrayJ1[i].addActionListener(new EcouteurSortiePieceReserve(this, 1));
                 }
                 
                 JLayeredPane layeredPaneJ1 = new JLayeredPane();
@@ -202,6 +205,7 @@ public class FenetrePrincipale extends JFrame{
                 }
                 for(int i=0; i<5; i++){
                     pArrayBoutonJ2.add(bArrayJ2[i]);
+                    bArrayJ2[i].addActionListener(new EcouteurSortiePieceReserve(this, 2));
                 }
                 
                 JLayeredPane layeredPaneJ2 = new JLayeredPane();
@@ -226,6 +230,7 @@ public class FenetrePrincipale extends JFrame{
                 for(int i=0; i<5; i++){
                         for(int j=0; j<5; j++){
                             pGrilleBouton.add(bGrille[i][j]);
+                            bGrille[i][j].addActionListener(new EcouteurPiece(this, new Coordonnees(i,j)));
                         }
                 }
                 
@@ -259,6 +264,7 @@ public class FenetrePrincipale extends JFrame{
                 this.add(conteneurPrincipal);       
         
     }
+    
     
     public void deplacementPiece(Coordonnees c){
         if(isPieceSelectionee){
@@ -303,11 +309,21 @@ public class FenetrePrincipale extends JFrame{
         siam.changerJoueurCourant();
     }
     
+    public void sortirPieceReserve(int i){
+        if (!isPieceSelectionee)
+        {
+            Piece p = siam.sortirPieceReserve(i);
+            pieceSelectionnee = new Coordonnees(siam.getHorizontal(p), siam.getVertical(p)); 
+            isPieceSelectionee = true;
+        }
+        
+    }
+    
     public void miseAJour() {
         
         for(int i=0; i<5; i++ ) {
             for(int j=0; j<5; j++ ) {
-                eGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i,j)));
+                eGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1)));
             }
             eArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1)));
             eArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
