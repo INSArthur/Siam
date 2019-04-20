@@ -36,8 +36,8 @@ public class Jeu {
     private boolean isPieceDeplacee;                //Indique si une piece a ete deplace par le joueur durant le tour (utilise pour verifier si on peut pivoter la selection)
     private boolean isPiecePoussee;                 //Indique si une ou plusieurs pieces ont ete deplacees pendant le tour (utilise pour verifier si on peut pivoter la selection)
     
-    public ArrayList <Piece> piecej1 ;
-    public ArrayList <Piece> piecej2 ;
+    public LinkedList <Piece> piecej1 ;
+    public LinkedList <Piece> piecej2 ;
     
     public Jeu(Joueur j1, Joueur j2, boolean modeMulti){
         
@@ -55,8 +55,8 @@ public class Jeu {
         estFini = false;
         isPieceDeplacee = false;
         isPiecePoussee = false;
-        piecej1= new ArrayList <Piece>(5);
-        piecej2 = new ArrayList <Piece>(5);
+        piecej1= new LinkedList <Piece>();
+        piecej2 = new LinkedList <Piece>();
         creerPieces();
          
         
@@ -401,8 +401,10 @@ public class Jeu {
         return estFini;
     }
     
-    public void placerPiece(int id, int[] coord){
-        
+    public void placerPiece(int id, Coordonnees coord){
+        int horizontal = coord.h();
+        int vertical = coord.v();
+        plateau[horizontal][vertical] = new Piece(id);
     }
     
     public int getDirection(Coordonnees cCible, Coordonnees cOrigine){
@@ -507,12 +509,14 @@ public class Jeu {
         return message;
     }
     
-    public void sortirPieceReserve (int i){ //sortir piece de l'arrayList du joueur i
-        if(i==1){
-            piecej1.remove(0);
+    public Piece sortirPieceReserve (int i){ //sortir piece de l'arrayList du joueur i
+        Piece p;
+        if(i==1){ 
+            p = piecej1.remove(0);
         }else{
-            piecej2.remove(0);
+            p = piecej2.remove(0);
         }
+        return p;
     }
     
     public void entreePieceReserve (Piece p, int i){//entrer piece dans l'arraylist du joueur i
