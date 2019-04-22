@@ -33,8 +33,8 @@ public class Jeu {
     private String[] directions = {"Nord" , "Est", "Sud", "Ouest"}; /*inutilis*/
     
     public boolean estFini;
-    private boolean isPieceDeplacee;                //Indique si une piece a ete deplace par le joueur durant le tour (utilise pour verifier si on peut pivoter la selection)
-    private boolean isPiecePoussee;                 //Indique si une ou plusieurs pieces ont ete deplacees pendant le tour (utilise pour verifier si on peut pivoter la selection)
+    public boolean isPieceDeplacee;                //Indique si une piece a ete deplace par le joueur durant le tour (utilise pour verifier si on peut pivoter la selection)
+    public boolean isPiecePoussee;                 //Indique si une ou plusieurs pieces ont ete deplacees pendant le tour (utilise pour verifier si on peut pivoter la selection)
     
     public LinkedList <Piece> piecej1 ;
     public LinkedList <Piece> piecej2 ;
@@ -65,29 +65,18 @@ public class Jeu {
     
     public void creerPieces(){
         
-        /*Bout de code a reprendre
-         * Creation des pieces :
-         * les montagnes (Type=0) sont placees au centre
-         * les pieces joueurs (Type=1 -> j1 ; Type=2 -> j2) sont placees en bord de plateau ou elles ne sont pas visibles*/
-         
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < 3; i++)
         {
-            if (i<3)
-            {
-                plateau[3][2+i]=new Piece(i);
-                plateau[3][2+i].tourner(0);
-                plateau[3][2+i].setType(0);
-            } else if (i<8)
-            {
-                plateau[0][8-i] = new Piece(i);
-                plateau[0][8-i].setType(1);
-                piecej1.add(plateau[0][8-i]);
-            } else {
-                plateau[6][12-i] = new Piece(i);
-                plateau[6][12-i].setType(2);
-                piecej2.add(plateau[6][12-i]);
-            }
+            plateau[3][2+i]=new Piece(0);
+            plateau[3][2+i].tourner(0);
         }
+        for (int i = 0; i < 5; i++)
+        {
+            piecej1.add(new Piece(1));
+            piecej2.add(new Piece(2));
+        }
+        
+        
     }
 
     
@@ -312,9 +301,13 @@ public class Jeu {
     }
     
     public void pivoter(Coordonnees c, int rotation){
-        if(plateau[c.h()][c.v()]!=null && isPiecePoussee==false && isPieceDeplacee==true){
+        System.out.println("test pivoter isPiecePousse="+isPiecePoussee+"  isPiecedepalcee="+isPieceDeplacee);
+        boolean test = plateau[c.h()][c.v()] instanceof Piece;
+        System.out.println("test pivoter isntance of ="+test);
+        if(plateau[c.h()][c.v()] instanceof Piece && !isPiecePoussee && isPieceDeplacee){
             Piece p = plateau[c.h()][c.v()];
             int orientation = p.getOrientation();
+            System.out.println("test orintation oreientation = "+orientation);
 
             switch (orientation)
             {

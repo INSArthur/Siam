@@ -7,7 +7,6 @@ public class FenetrePrincipale extends JFrame{
     private Jeu siam;
     
     //Dclaration bouton
-    private JButton bEntrerPiece;       //Bouton pour inserer une piece sur le plateau 
     private JButton bFinTour;           //Bouton pour indiquer la fin d'un tour
     
     //Declaration de la barre de menu
@@ -36,7 +35,7 @@ public class FenetrePrincipale extends JFrame{
     
     //Declaration variables d'etapes et de selection de piece 
     private boolean isPieceSelectionee;
-    private boolean isPieceDeplacee;
+    //private boolean isPieceDeplacee;
     private boolean isPieceSelectioneeReserve;
     private Coordonnees pieceSelectionnee;
     private Piece pieceSelectionneeReserve;
@@ -51,7 +50,6 @@ public class FenetrePrincipale extends JFrame{
         this.siam = siam;
         
         //Initialisation boutons
-        bEntrerPiece = new JButton("Entrer piece");
         bFinTour = new JButton("Fin du tour");
         bFinTour.addActionListener(new EcouteurFinTour(this));
         bFinTour.setVisible(true);
@@ -95,9 +93,11 @@ public class FenetrePrincipale extends JFrame{
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
                 bGrille[i][j] = new JButton();
-                bGrille[i][j].addActionListener(new EcouteurPiece(this,new Coordonnees(i,j)));
+                bGrille[i][j].addActionListener(new EcouteurPiece(this,new Coordonnees(i+1,j+1)));
                 bGrille[i][j].setSize(new Dimension(50,50));
-                bGrille[i][j].setVisible(true);
+                bGrille[i][j].setOpaque(false);
+                bGrille[i][j].setContentAreaFilled(false);
+                bGrille[i][j].setBorderPainted(false);
             }
         }
         
@@ -134,12 +134,14 @@ public class FenetrePrincipale extends JFrame{
         for(int i=0; i<5; i++){
             bArrayJ2[i] = new JButton();
             bArrayJ2[i].setSize(new Dimension(50,50));
-            bArrayJ2[i].setVisible(false);
+            bArrayJ2[i].setOpaque(false);
+            bArrayJ2[i].setContentAreaFilled(false);
+            bArrayJ2[i].setBorderPainted(false);
         }
         
         //Initialisation variables de selection de piece et d'etapes
         isPieceSelectionee = false;
-        isPieceDeplacee = false;
+       // isPieceDeplacee = false;
         isPieceSelectioneeReserve = false;
         pieceSelectionneeReserve = null;
         pieceSelectionnee = new Coordonnees(0,0);
@@ -255,7 +257,6 @@ public class FenetrePrincipale extends JFrame{
             //Declaration, initialisation du panneau inferieur + attribution boutons
                 JPanel pSud = new JPanel();
                 pSud.setBackground(new Color(25,43,57,100));
-                pSud.add(bEntrerPiece);
                 pSud.add(bFinTour);
                 
             //Declaration, initialisation du conteneur principale et attribution des panneaux
@@ -265,29 +266,26 @@ public class FenetrePrincipale extends JFrame{
                 conteneurPrincipal.add(pSud, BorderLayout.SOUTH);
                 conteneurPrincipal.addMouseWheelListener(new MyMouseWheelListener(this));
                 this.add(conteneurPrincipal);       
-        
+        System.out.println(siam.toString()+"\n");
     }
     
     
     public void deplacementPiece(Coordonnees c){
         if (isPieceSelectioneeReserve)
         {
-            siam.placerPiece(pieceSelectionneeReserve.getId(),c);
-            this.isPieceDeplacee = true;
-            System.out.println("deplacement piece reserve vers horizontal : "+c.h()+" vertical : "+c.v());
+            siam.placerPiece(pieceSelectionneeReserve.getType(),c);
+            siam.isPieceDeplacee = true;
+            this.pieceSelectionnee = c;
+            this.isPieceSelectioneeReserve = false;
         }else if(isPieceSelectionee){
             this.siam.deplacerToutesPieces(c, siam.getDirection(c,pieceSelectionnee));
-            //?? bGrille[c.h()][c.v()] = bGrille[pieceSelectionnee.h()][pieceSelectionnee.v()];
+            siam.isPieceDeplacee = true;
             this.isPieceSelectionee = false;
-            this.isPieceSelectioneeReserve = false;
-            this.isPieceDeplacee = true;
-            System.out.println("deuxieme click --> horizontal : "+c.h()+" vertical : "+c.v());
-
-        }else if(!isPieceDeplacee){
-                this.pieceSelectionnee = c;
-                this.isPieceSelectionee = true;
-                System.out.println("premier click --> horizontal : "+c.h()+" vertical : "+c.v());
+        }else if(!siam.isPieceDeplacee){
+            this.pieceSelectionnee = c;
+            this.isPieceSelectionee = true;
         }
+        System.out.println("Test piece selct hor "+pieceSelectionnee.h()+"  ver "+pieceSelectionnee.v());
     }
     
     public void actionMenu(int i){
@@ -310,14 +308,39 @@ public class FenetrePrincipale extends JFrame{
      }
      
     public void pivoterPiece(int i){
+        System.out.println("test PivoterPiece hor "+pieceSelectionnee.h()+"  ver "+pieceSelectionnee.v());
         siam.pivoter(pieceSelectionnee, i);
     }
      
     public void finTour(){
-        isPieceDeplacee = false;
+        siam.isPieceDeplacee = false;
         isPieceSelectionee = false;
+        isPieceSelectioneeReserve = false;
         siam.changerJoueurCourant();
+        this.changerLesBoutons();
     }
+    
+    public void changerLesBoutons(){
+        int joueur = siam.getJoueurCourant();
+        for (int i = 0; i < 5; i++)
+        {
+            if (joueur == 0)
+            {
+                bArrayJ1[i].setVisible(true);
+                bArrayJ1[i].setOpaque(false);
+                bArrayJ1[i].setContentAreaFilled(false);
+                bArrayJ1[i].setBorderPainted(false);
+                bArrayJ2[i].setVisible(false);
+            }else{
+                bArrayJ2[i].setVisible(true);
+                bArrayJ2[i].setOpaque(false);
+                bArrayJ2[i].setContentAreaFilled(false);
+                bArrayJ2[i].setBorderPainted(false);
+                bArrayJ1[i].setVisible(false);
+            }
+        }
+    }
+        
     
     public void sortirPieceReserve(int i){
         if (!isPieceSelectioneeReserve)
@@ -329,7 +352,6 @@ public class FenetrePrincipale extends JFrame{
     }
     
     public void miseAJour() {
-        
         for(int i=0; i<5; i++ ) {
             for(int j=0; j<5; j++ ) {
                 eGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1)));
@@ -337,10 +359,13 @@ public class FenetrePrincipale extends JFrame{
                 eArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
             }
         }
+        
        
         eNomJoueur.setText(siam.getNomJoueurCourant());
+        System.out.println(siam.toString()+"\n");
         this.repaint();
         this.validate();
+        
     }
     
     

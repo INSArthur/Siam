@@ -23,11 +23,10 @@
 
 
 public class Piece{
-    private int id;
+    static int id = 0;
     private boolean estDedans;
     private int orientation;
     private int type;
-  
     
     /* Orientation prend 5 valeurs : 
      * 0 -> Montagne
@@ -43,10 +42,11 @@ public class Piece{
      */
      
      
-    public Piece(int id){
-        this.id = id;
+    public Piece(int type){
+        this.type = type;
         estDedans = false;
         orientation = 1;
+        id++;
     }
     
     public int getType(){
