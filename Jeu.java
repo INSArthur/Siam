@@ -512,13 +512,16 @@ public class Jeu {
         return p;
     }
     
-    public void entreePieceReserve (Piece p, int i){//entrer piece dans l'arraylist du joueur i
-        
+    public void entrerPieceReserve (int i){//entrer piece dans l'arraylist du joueur i
         if(i==1){
-            piecej1.add(p);
+            piecej1.add(new Piece(1));
         }else{
-            piecej2.add(p);
+            piecej2.add(new Piece(2));
         }
+    }
+    
+    public void supprimerPiece(Coordonnees c){
+        plateau[c.h()][c.v()] = null;
     }
     
     public String getImagePlateau(int h, int v){

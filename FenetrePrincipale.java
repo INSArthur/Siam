@@ -8,6 +8,8 @@ public class FenetrePrincipale extends JFrame{
     
     //Dclaration bouton
     private JButton bFinTour;           //Bouton pour indiquer la fin d'un tour
+    private JButton bEntrerReserve;
+    private EcouteurEntreePieceReserve entrerPiece;
     
     //Declaration de la barre de menu
     private JMenuBar menuBar;
@@ -49,7 +51,10 @@ public class FenetrePrincipale extends JFrame{
         //Initialisation boutons
         bFinTour = new JButton("Fin du tour");
         bFinTour.addActionListener(new EcouteurFinTour(this));
-        bFinTour.setVisible(true);
+        bEntrerReserve = new JButton("Placer la pièce dans la réserve");
+        bEntrerReserve.setEnabled(false);
+        entrerPiece = new EcouteurEntreePieceReserve(this);
+        bEntrerReserve.addActionListener(entrerPiece);
         
         //Initialisation barre de menu
         menu = new JMenu("Menu");
@@ -86,6 +91,7 @@ public class FenetrePrincipale extends JFrame{
                 
             }
         }
+        
         
         //Initialisation bouton et etiquette de la reserve 1
         Icon flecheVerte = new ImageIcon("f_1_1.png");
@@ -195,6 +201,7 @@ public class FenetrePrincipale extends JFrame{
                 JPanel pSud = new JPanel();
                 pSud.setBackground(new Color(25,43,57,100));
                 pSud.add(bFinTour);
+                pSud.add(bEntrerReserve);
                 
             //Declaration, initialisation du conteneur principale et attribution des panneaux
                 JPanel conteneurPrincipal = new JPanel(new BorderLayout());
@@ -251,8 +258,15 @@ public class FenetrePrincipale extends JFrame{
      }
      
     public void pivoterPiece(int i){
-        System.out.println("test PivoterPiece hor "+pieceSelectionnee.h()+"  ver "+pieceSelectionnee.v());
         siam.pivoter(pieceSelectionnee, i);
+    }
+    
+    public void afficherBoutonSortiePlateau(Coordonnees c){
+        if (isPieceSelectionee)
+        {
+            entrerPiece.setEcouteur(siam.getJoueurCourant()+1,c);
+            bEntrerReserve.setEnabled(true);
+        }
     }
      
     public void finTour(){
@@ -292,6 +306,13 @@ public class FenetrePrincipale extends JFrame{
             pieceSelectionneeReserve= new Piece(i);
             isPieceSelectioneeReserve = true;
         }
+    }
+    
+    public void entrerPieceReserve(int i, Coordonnees c){
+        siam.entrerPieceReserve(i);
+        siam.supprimerPiece(c);
+        siam.isPieceDeplacee = true;
+        bEntrerReserve.setEnabled(false);
     }
     
     public void miseAJour() {
