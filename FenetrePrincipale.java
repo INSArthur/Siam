@@ -72,7 +72,6 @@ public class FenetrePrincipale extends JFrame{
         bGrille = new JButton[5][5];
         Icon vide = new ImageIcon("vide.png");
         Icon montagne = new ImageIcon("f_0_0.png");
-        Icon iconBouton = new ImageIcon("bouton.png");
         
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
@@ -80,8 +79,8 @@ public class FenetrePrincipale extends JFrame{
                 bGrille[i][j].addActionListener(new EcouteurPiece(this,new Coordonnees(i+1,j+1)));
                 bGrille[i][j].setSize(new Dimension(50,50));
                 bGrille[i][j].setOpaque(false);
-                bGrille[i][j].setContentAreaFilled(false); // On met à false pour empêcher le composant de peindre l'intérieur du JButton.
-                bGrille[i][j].setBorderPainted(false); // De même, on ne veut pas afficher les bordures.
+                bGrille[i][j].setContentAreaFilled(false); // On met a false pour empecher le composant de peindre l'interieur du JButton.
+                bGrille[i][j].setBorderPainted(false); // De meme, on ne veut pas afficher les bordures.
                 bGrille[i][j].setFocusPainted(false); // On n'affiche pas l'effet de focus.
                 bGrille[i][j].setIcon(vide);
                 
@@ -150,7 +149,7 @@ public class FenetrePrincipale extends JFrame{
 
                 
                 for(int i=0; i<5; i++){
-                	pPieceJ1.add(bArrayJ1[i]);
+                    pPieceJ1.add(bArrayJ1[i]);
                     bArrayJ1[i].addActionListener(new EcouteurSortiePieceReserve(this, 1));
                 }
                 
@@ -162,7 +161,7 @@ public class FenetrePrincipale extends JFrame{
                 pPieceJ2.setSize(new Dimension(20,100));
                 
                 for(int i=0; i<5; i++){
-                	pPieceJ2.add(bArrayJ2[i]);
+                    pPieceJ2.add(bArrayJ2[i]);
                     bArrayJ2[i].addActionListener(new EcouteurSortiePieceReserve(this, 2));
                 }
                
@@ -204,7 +203,14 @@ public class FenetrePrincipale extends JFrame{
                 conteneurPrincipal.add(pSud, BorderLayout.SOUTH);
                 conteneurPrincipal.addMouseWheelListener(new MyMouseWheelListener(this));
                 this.add(conteneurPrincipal);       
-        System.out.println(siam.toString()+"\n");
+        
+        this.miseAJour();
+        //Prepare le premier tour :
+        for (int i = 0; i < 5; i++)
+        {
+            bArrayJ2[i].setEnabled(false);
+        }
+        
     }
     
     
@@ -223,7 +229,6 @@ public class FenetrePrincipale extends JFrame{
             this.pieceSelectionnee = c;
             this.isPieceSelectionee = true;
         }
-        System.out.println("Test piece selct hor "+pieceSelectionnee.h()+"  ver "+pieceSelectionnee.v());
     }
     
     public void actionMenu(int i){
@@ -264,17 +269,17 @@ public class FenetrePrincipale extends JFrame{
         {
             if (joueur == 0)
             {
-                bArrayJ1[i].setVisible(true);
+                bArrayJ1[i].setEnabled(true);
                 bArrayJ1[i].setOpaque(false);
                 bArrayJ1[i].setContentAreaFilled(false);
                 bArrayJ1[i].setBorderPainted(false);
-                bArrayJ2[i].setVisible(false);
+                bArrayJ2[i].setEnabled(false);
             }else{
-                bArrayJ2[i].setVisible(true);
+                bArrayJ2[i].setEnabled(true);
                 bArrayJ2[i].setOpaque(false);
                 bArrayJ2[i].setContentAreaFilled(false);
                 bArrayJ2[i].setBorderPainted(false);
-                bArrayJ1[i].setVisible(false);
+                bArrayJ1[i].setEnabled(false);
             }
         }
     }
