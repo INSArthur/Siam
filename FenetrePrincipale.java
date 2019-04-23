@@ -18,11 +18,9 @@ public class FenetrePrincipale extends JFrame{
     private JMenuItem item4;
     
     //Declaration reserve grille et etiquette J1
-    private JLabel[] eArrayJ1;
     private JButton[] bArrayJ1;
     
     //Declaration reserve grille et etiquette J2
-    private JLabel[] eArrayJ2;
     private JButton[] bArrayJ2;
     
     //Declaration Etiquette joueur
@@ -30,7 +28,6 @@ public class FenetrePrincipale extends JFrame{
     private JLabel eNomJoueur;          //Etiquette indiquant le nom du joueur dont c'est le tour
     
     //Declaration du tableau d'etiquettes + tableau de boutons
-    private JLabel[][] eGrille; //Grille d'etiquette representant les cases du plateau de jeu
     private JButton[][] bGrille;    //Grille de boutons permettant d'inter-agir avec le plateau de jeu plateau de jeu
     
     //Declaration variables d'etapes et de selection de piece 
@@ -72,23 +69,10 @@ public class FenetrePrincipale extends JFrame{
         eNomJoueur.setText(siam.getNomJoueurCourant());
         
         //Initialisation tableau d'etiquette + tableau de boutons
-        eGrille = new JLabel[5][5];
         bGrille = new JButton[5][5];
         Icon vide = new ImageIcon("vide.png");
         Icon montagne = new ImageIcon("f_0_0.png");
-        
-        
-        for(int i=0; i<5; i++){
-            for(int j=0; j<5; j++){
-                eGrille[i][j] = new JLabel();
-                eGrille[i][j].setSize(new Dimension(50,50));
-                eGrille[i][j].setIcon(vide);
-            }
-        }
-        
-        eGrille[2][1].setIcon(montagne);
-        eGrille[2][2].setIcon(montagne);
-        eGrille[2][3].setIcon(montagne);
+        Icon iconBouton = new ImageIcon("bouton.png");
         
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
@@ -96,21 +80,18 @@ public class FenetrePrincipale extends JFrame{
                 bGrille[i][j].addActionListener(new EcouteurPiece(this,new Coordonnees(i+1,j+1)));
                 bGrille[i][j].setSize(new Dimension(50,50));
                 bGrille[i][j].setOpaque(false);
-                bGrille[i][j].setContentAreaFilled(false);
-                bGrille[i][j].setBorderPainted(false);
+                bGrille[i][j].setContentAreaFilled(false); // On met à false pour empêcher le composant de peindre l'intérieur du JButton.
+                bGrille[i][j].setBorderPainted(false); // De même, on ne veut pas afficher les bordures.
+                bGrille[i][j].setFocusPainted(false); // On n'affiche pas l'effet de focus.
+                bGrille[i][j].setIcon(vide);
+                
             }
         }
         
         //Initialisation bouton et etiquette de la reserve 1
         Icon flecheVerte = new ImageIcon("f_1_1.png");
         
-        eArrayJ1 = new JLabel[5];
         bArrayJ1 = new JButton[5];
-        for(int i=0; i<5; i++){
-            eArrayJ1[i] = new JLabel();
-            eArrayJ1[i].setSize(new Dimension(50,50));
-            eArrayJ1[i].setIcon(flecheVerte);
-        }
         
         for(int i=0; i<5; i++){
             bArrayJ1[i] = new JButton();
@@ -123,13 +104,7 @@ public class FenetrePrincipale extends JFrame{
         //Initialisation bouton et etiquette de la reserve 2
         Icon flecheJaune = new ImageIcon("f_2_1.png");
         
-        eArrayJ2 = new JLabel[5];
         bArrayJ2 = new JButton[5];
-        for(int i=0; i<5; i++){
-            eArrayJ2[i] = new JLabel();
-            eArrayJ2[i].setSize(new Dimension(50,50));
-            eArrayJ2[i].setIcon(flecheJaune);
-        }
         
         for(int i=0; i<5; i++){
             bArrayJ2[i] = new JButton();
@@ -141,7 +116,6 @@ public class FenetrePrincipale extends JFrame{
         
         //Initialisation variables de selection de piece et d'etapes
         isPieceSelectionee = false;
-       // isPieceDeplacee = false;
         isPieceSelectioneeReserve = false;
         pieceSelectionneeReserve = null;
         pieceSelectionnee = new Coordonnees(0,0);
@@ -170,86 +144,50 @@ public class FenetrePrincipale extends JFrame{
             
             //Declaration et initialisation du panneau central
                 //Declaration et initialisation du panneau central Gauche (pieces joueur 1)
-                JPanel pPieceJ1 = new JPanel();
+                JPanel pPieceJ1 = new JPanel(new GridLayout(5,1));
                 pPieceJ1.setBackground(new Color(100,50,100,100));
                 pPieceJ1.setSize(new Dimension(20,100));
-                JPanel pArrayEtiquetteJ1 = new JPanel (new GridLayout(5,1));
-                pArrayEtiquetteJ1.setSize(new Dimension(20,100));
-                JPanel pArrayBoutonJ1 = new JPanel(new GridLayout(5,1));
-                pArrayBoutonJ1.setSize(new Dimension(20,100));
+
                 
-                for (int i = 0; i < 5; i++)
-                {
-                    pArrayEtiquetteJ1.add(eArrayJ1[i]);
-                }
                 for(int i=0; i<5; i++){
-                    pArrayBoutonJ1.add(bArrayJ1[i]);
+                	pPieceJ1.add(bArrayJ1[i]);
                     bArrayJ1[i].addActionListener(new EcouteurSortiePieceReserve(this, 1));
                 }
-                
-                JLayeredPane layeredPaneJ1 = new JLayeredPane();
-                layeredPaneJ1.setLayout(new PlateauLayout());
-                layeredPaneJ1.setSize(new Dimension(20, 100));
-                layeredPaneJ1.add(pArrayEtiquetteJ1, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette a la couche principale
-                layeredPaneJ1.add(pArrayBoutonJ1, 1);
-                pPieceJ1.add(layeredPaneJ1);
                 
                 
                 
                 //Declaration et initialisation du panneau central droit (pieces joueur 2)
-                JPanel pPieceJ2 = new JPanel();
+                JPanel pPieceJ2 = new JPanel(new GridLayout(5,1));
                 pPieceJ2.setBackground(new Color(100,200,100,100));
                 pPieceJ2.setSize(new Dimension(20,100));
-                JPanel pArrayEtiquetteJ2 = new JPanel (new GridLayout(5,1));
-                pArrayEtiquetteJ2.setSize(new Dimension(20,100));
-                JPanel pArrayBoutonJ2 = new JPanel(new GridLayout(5,1));
-                pArrayBoutonJ2.setPreferredSize(new Dimension(20,100));
                 
-                for (int i = 0; i < 5; i++)
-                {
-                    pArrayEtiquetteJ2.add(eArrayJ2[i]);
-                }
                 for(int i=0; i<5; i++){
-                    pArrayBoutonJ2.add(bArrayJ2[i]);
+                	pPieceJ2.add(bArrayJ2[i]);
                     bArrayJ2[i].addActionListener(new EcouteurSortiePieceReserve(this, 2));
                 }
-                
-                JLayeredPane layeredPaneJ2 = new JLayeredPane();
-                layeredPaneJ2.setLayout(new PlateauLayout());
-                layeredPaneJ2.setSize(new Dimension(50, 300));
-                layeredPaneJ2.add(pArrayEtiquetteJ2, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette a la couche principale
-                layeredPaneJ2.add(pArrayBoutonJ2, 1);
-                pPieceJ2.add(layeredPaneJ2);
+               
                 
                 //Declaration et initialisation du panneau central avec plusieurs couches (plateau) + ajout grille d'etiquettes et de boutons
                 
-                JPanel pGrilleEtiquette = new JPanel(new GridLayout(5,5));      //Panneau contenant les etiquettes
-                pGrilleEtiquette.setSize(new Dimension(400,400));
                 JPanel pGrilleBouton = new JPanel(new GridLayout(5,5));         //Panneau contenant les boutons
                 pGrilleBouton.setSize(new Dimension(400,400));
                 
-                for(int i=0; i<5; i++){
-                        for(int j=0; j<5; j++){
-                            pGrilleEtiquette.add(eGrille[i][j]);
-                        }
-                }
                 for(int i=0; i<5; i++){
                     for(int j=0; j<5; j++){
                         pGrilleBouton.add(bGrille[i][j]);
                     }
                 }
                 
-                JLayeredPane layeredPane = new JLayeredPane();
-                layeredPane.setLayout(new PlateauLayout());
-                layeredPane.setSize(new Dimension(400, 400));
-                layeredPane.add(pGrilleEtiquette, JLayeredPane.DEFAULT_LAYER);  //Ajoute le panneau d'etiquette a la couche principale
-                layeredPane.add(pGrilleBouton, 1);
+                JPanel panneauCentral = new JPanel();
+                panneauCentral.setLayout(new PlateauLayout());
+                panneauCentral.setSize(new Dimension(400, 400));
+                panneauCentral.add(pGrilleBouton);
                 //Ajoute le panneau de boutons a la couche superieure
                 
                 //Declaration et initialisation du panneau central (Pieces + plateau) + attribution panneau inferieur
                 JPanel pCentral = new JPanel(new BorderLayout());
                 pCentral.setSize(new Dimension(400, 400));
-                pCentral.add(layeredPane, BorderLayout.CENTER);
+                pCentral.add(panneauCentral, BorderLayout.CENTER);
                 pCentral.add(pPieceJ1, BorderLayout.WEST);
                 pCentral.add(pPieceJ2, BorderLayout.EAST);
                 
@@ -354,9 +292,9 @@ public class FenetrePrincipale extends JFrame{
     public void miseAJour() {
         for(int i=0; i<5; i++ ) {
             for(int j=0; j<5; j++ ) {
-                eGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1)));
-                eArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1)));
-                eArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
+                bGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1)));
+                bArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1)));
+                bArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
             }
         }
         
