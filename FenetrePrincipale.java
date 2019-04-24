@@ -219,21 +219,24 @@ public class FenetrePrincipale extends JFrame{
     }
     
     
-    public void deplacementPiece(Coordonnees c){
-        if (isPieceSelectioneeReserve)
+    public boolean deplacementPiece(Coordonnees c, boolean bordure){ //Selectionne la piece a deplacer a partir des coordonnees ou la deplace vers les coordonnees si deja selectionnee. Renvoie true si piece deplacee. Utilisee par EcouteurPiece a chaque fois que l'on clique sur le plateau
+        if (isPieceSelectioneeReserve && bordure)
         {
             siam.placerPiece(pieceSelectionneeReserve.getType(),c);
             siam.isPieceDeplacee = true;
             this.pieceSelectionnee = c;
             this.isPieceSelectioneeReserve = false;
+            return true;
         }else if(isPieceSelectionee){
             this.siam.deplacerToutesPieces(c, siam.getDirection(c,pieceSelectionnee));
             siam.isPieceDeplacee = true;
             this.isPieceSelectionee = false;
+            return true;
         }else if(!siam.isPieceDeplacee){
             this.pieceSelectionnee = c;
             this.isPieceSelectionee = true;
         }
+        return false;
     }
     
     public void actionMenu(int i){

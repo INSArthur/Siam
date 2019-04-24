@@ -17,13 +17,13 @@ public class EcouteurPiece implements ActionListener{
     }
     
     public void actionPerformed(ActionEvent a){ //Réinitialise la grille lors du clic sur le bouton
-        fen.deplacementPiece(this.c);
+        if(fen.deplacementPiece(this.c, bordure)) {
+        	fen.miseAJour();
+        };
         System.out.println("hor "+c.h()+"  ver "+c.v());
-        if (bordure)
-        {
+        if (bordure){
             fen.afficherBoutonSortiePlateau(c);
         }
-        fen.miseAJour();
 
     }
 
