@@ -12,8 +12,6 @@ public class EcouteurFinTour implements ActionListener {
     //actionPerformed indique les instructions a executer au clic du bouton
     public void actionPerformed(ActionEvent e){
         fen.finTour();
-        fen.miseAJour();
-
     }
     
     

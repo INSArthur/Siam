@@ -38,9 +38,5 @@ public class EcouteurEntreePieceReserve implements ActionListener {
         fen.miseAJour();
     }
     
-    public void setEcouteur(int id, Coordonnees coord){
-        this.idJoueur = id;
-        this.coord = coord;
-    }
 }
 
