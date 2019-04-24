@@ -34,7 +34,7 @@ public class FenetrePrincipale extends JFrame{
     
     //Declaration variables d'etapes et de selection de piece 
     private boolean isPieceSelectionee;
-    //private boolean isPieceDeplacee;
+    private boolean isPieceDeplacee;
     private boolean isPieceSelectioneeReserve;
     private Coordonnees pieceSelectionnee;
     private Piece pieceSelectionneeReserve;
@@ -220,26 +220,27 @@ public class FenetrePrincipale extends JFrame{
     
     
     public boolean deplacementPiece(Coordonnees c, boolean bordure){ //Selectionne la piece a deplacer a partir des coordonnees ou la deplace vers les coordonnees si deja selectionnee. Renvoie true si piece deplacee. Utilisee par EcouteurPiece a chaque fois que l'on clique sur le plateau
-        if (isPieceSelectioneeReserve && bordure)
-        {
+        
+    	if (isPieceSelectioneeReserve && bordure){ 		//Si la piece selectionee provient de la reserve
             siam.placerPiece(pieceSelectionneeReserve.getType(),c);
-            siam.isPieceDeplacee = true;
+            this.isPieceDeplacee = true;
             this.pieceSelectionnee = c;
             this.isPieceSelectioneeReserve = false;
             return true;
-        }else if(isPieceSelectionee){
-            this.siam.deplacerToutesPieces(c, siam.getDirection(c,pieceSelectionnee));
-            siam.isPieceDeplacee = true;
-            this.isPieceSelectionee = false;
-            return true;
-        }else if(!siam.isPieceDeplacee){
+        }else if(isPieceSelectionee){					//Si la piece selectionee ne provient pas de la reserve
+            if(this.siam.deplacerToutesPieces(c, siam.getDirection(c,pieceSelectionnee))) {
+	            this.isPieceSelectionee = false;
+	            this.isPieceDeplacee = true;
+	            return true;
+            }
+        }else if(!isPieceDeplacee){				//Si aucune piece n'a ete 
             this.pieceSelectionnee = c;
             this.isPieceSelectionee = true;
         }
         return false;
     }
     
-    public void actionMenu(int i){
+    public void actionMenu(int i){							//Realise les action associées a chaque bouton du menu
         switch (i)
         {
             case 1 : 
@@ -258,11 +259,11 @@ public class FenetrePrincipale extends JFrame{
         }
      }
      
-    public void pivoterPiece(int i){
+    public void pivoterPiece(int i){							//Pivote une piece
         siam.pivoter(pieceSelectionnee, i);
     }
     
-    public void afficherBoutonSortiePlateau(Coordonnees c){
+    public void afficherBoutonSortiePlateau(Coordonnees c){		//Si une piece est selectionee, initialise les paramètres de l'ecouteur entrerPiece de type EcouteurEntreePieceReserve et affiche le bouton
         if (isPieceSelectionee)
         {
             entrerPiece.setEcouteur(siam.getJoueurCourant()+1,c);
@@ -270,15 +271,15 @@ public class FenetrePrincipale extends JFrame{
         }
     }
      
-    public void finTour(){
-        siam.isPieceDeplacee = false;
+    public void finTour(){								//Réinitialise les variable d'etapes, change le joueur courant et donne l'accessibilité exclusivement a sa reserve
+    	isPieceDeplacee = false;
         isPieceSelectionee = false;
         isPieceSelectioneeReserve = false;
         siam.changerJoueurCourant();
         this.changerLesBoutons();
     }
     
-    public void changerLesBoutons(){
+    public void changerLesBoutons(){					//Rend uniquement accessible la reserve du joueur courant
         int joueur = siam.getJoueurCourant();
         for (int i = 0; i < 5; i++)
         {
@@ -300,23 +301,23 @@ public class FenetrePrincipale extends JFrame{
     }
         
     
-    public void sortirPieceReserve(int i){
-        if (!isPieceSelectioneeReserve)
+    public void sortirPieceReserve(int i){					//Supprime une piece de la reserve du joueur i et la selectionne
+        if (!isPieceSelectioneeReserve)	//Evite de sortir plusieurs pieces d'un seul coup
         {
-            Piece p = siam.sortirPieceReserve(i);
+            siam.sortirPieceReserve(i);
             pieceSelectionneeReserve= new Piece(i);
             isPieceSelectioneeReserve = true;
         }
     }
     
-    public void entrerPieceReserve(int i, Coordonnees c){
+    public void entrerPieceReserve(int i, Coordonnees c){	//Supprime la piece de la case de coordonnee c, rajoute une piece dans la reserve du joueur i, fait disparaitre le bouton de rentree de piece
         siam.entrerPieceReserve(i);
         siam.supprimerPiece(c);
-        siam.isPieceDeplacee = true;
+        isPieceDeplacee = true;
         bEntrerReserve.setEnabled(false);
     }
     
-    public void miseAJour() {
+    public void miseAJour() {								//Met à jour l'affichage du plateau,des reserves et du joueur courant
         for(int i=0; i<5; i++ ) {
             for(int j=0; j<5; j++ ) {
                 bGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1)));

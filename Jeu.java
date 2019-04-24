@@ -32,9 +32,9 @@ public class Jeu {
     private Piece pieceSelectionnee;
     //private String[] directions = {"Nord" , "Est", "Sud", "Ouest"}; /*inutilis*/
     
-    public boolean estFini;
-    public boolean isPieceDeplacee;                //Indique si une piece a ete deplace par le joueur durant le tour (utilise pour verifier si on peut pivoter la selection)
-    public boolean isPiecePoussee;                 //Indique si une ou plusieurs pieces ont ete deplacees pendant le tour (utilise pour verifier si on peut pivoter la selection)
+    private boolean estFini;
+    private boolean isPieceDeplacee;                //Indique si une piece a ete deplace par le joueur durant le tour (utilise pour verifier si on peut pivoter la selection)
+    private boolean isPiecePoussee;                 //Indique si une ou plusieurs pieces ont ete deplacees pendant le tour (utilise pour verifier si on peut pivoter la selection)
     
     public LinkedList <Piece> piecej1 ;
     public LinkedList <Piece> piecej2 ;
@@ -121,7 +121,7 @@ public class Jeu {
     }
     
     
-       public void deplacerToutesPieces(Coordonnees c, int d){
+       public boolean deplacerToutesPieces(Coordonnees c, int d){ //Deplace si possible la piece de coordonne c dans la direction d. Renvoie true si deplacee
         int h = c.h();
         int v =c.v();
         int aDeplacer =0; //Permet de compter combien de pieces devront être deplacees
@@ -212,7 +212,9 @@ public class Jeu {
                     }
                 }
             }
+             return true;
         }
+        return false;
     }
     
     public int directionOpposee(int d){
