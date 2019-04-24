@@ -51,7 +51,7 @@ public class FenetrePrincipale extends JFrame{
         //Initialisation boutons
         bFinTour = new JButton("Fin du tour");
         bFinTour.addActionListener(new EcouteurFinTour(this));
-        bEntrerReserve = new JButton("Placer la pièce dans la réserve");
+        bEntrerReserve = new JButton("Placer la piece dans la reserve");
         bEntrerReserve.setEnabled(false);
         entrerPiece = new EcouteurEntreePieceReserve(this);
         bEntrerReserve.addActionListener(entrerPiece);
@@ -76,7 +76,6 @@ public class FenetrePrincipale extends JFrame{
         //Initialisation tableau d'etiquette + tableau de boutons
         bGrille = new JButton[5][5];
         Icon vide = new ImageIcon("vide.png");
-        Icon montagne = new ImageIcon("f_0_0.png");
         
         for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
@@ -150,7 +149,7 @@ public class FenetrePrincipale extends JFrame{
             //Declaration et initialisation du panneau central
                 //Declaration et initialisation du panneau central Gauche (pieces joueur 1)
                 JPanel pPieceJ1 = new JPanel(new GridLayout(5,1));
-                pPieceJ1.setBackground(new Color(100,50,100,100));
+                pPieceJ1.setBackground(new Color(100,50,100,255));
                 pPieceJ1.setSize(new Dimension(20,100));
 
                 
@@ -163,7 +162,7 @@ public class FenetrePrincipale extends JFrame{
                 
                 //Declaration et initialisation du panneau central droit (pieces joueur 2)
                 JPanel pPieceJ2 = new JPanel(new GridLayout(5,1));
-                pPieceJ2.setBackground(new Color(100,200,100,100));
+                pPieceJ2.setBackground(new Color(100,200,100,255));
                 pPieceJ2.setSize(new Dimension(20,100));
                 
                 for(int i=0; i<5; i++){
@@ -187,7 +186,6 @@ public class FenetrePrincipale extends JFrame{
                 panneauCentral.setLayout(new PlateauLayout());
                 panneauCentral.setSize(new Dimension(400, 400));
                 panneauCentral.add(pGrilleBouton);
-                //Ajoute le panneau de boutons a la couche superieure
                 
                 //Declaration et initialisation du panneau central (Pieces + plateau) + attribution panneau inferieur
                 JPanel pCentral = new JPanel(new BorderLayout());

@@ -27,10 +27,10 @@ public class Jeu {
     private Joueur[] lesJoueurs;
     private Piece[][] plateau;
     
-    private boolean modeMulti;                              //true = mode multijoueurs ; false = mode solo contre IA
+    private boolean modeMulti;                  //true = mode multijoueurs ; false = mode solo contre IA
     private int joueurCourant;
     private Piece pieceSelectionnee;
-    private String[] directions = {"Nord" , "Est", "Sud", "Ouest"}; /*inutilis*/
+    //private String[] directions = {"Nord" , "Est", "Sud", "Ouest"}; /*inutilis*/
     
     public boolean estFini;
     public boolean isPieceDeplacee;                //Indique si une piece a ete deplace par le joueur durant le tour (utilise pour verifier si on peut pivoter la selection)
