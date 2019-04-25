@@ -287,6 +287,7 @@ public class FenetrePrincipale extends JFrame{
                 break;
             case 4:
                 System.out.println("Quitter");
+                this.dispose();
                 break;
             default:   
         }
