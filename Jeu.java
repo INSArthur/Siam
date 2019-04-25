@@ -85,6 +85,7 @@ public class Jeu {
         //On recupere les coord de la premiere case vide dans la direction donnee
         if(mouvementPossible(cOrigine,d)){
             while (plateau[h][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'a la derniere case a deplacer
+                System.out.println("test while 1");
                 switch (d)
                 {
                     case 1: //nord
@@ -198,11 +199,11 @@ public class Jeu {
         if (caseVide(c,direction))
         {
             estPossible = true;
-        }else if(direction == orientation){
+        }else if(orientation != 0 && direction == orientation){
         
             //regarder la direction indiquee
             while (plateau[horizontal][vertical] instanceof Piece && estDansLePlateau(plateau[horizontal][vertical])){ 
-                
+                //~ System.out.println("test while 2");
                 if (plateau[horizontal][vertical].getType() == 0) // si la piece est une montagne
                 {
                     pieceADeplacer += -1;

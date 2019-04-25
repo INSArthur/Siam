@@ -28,6 +28,7 @@ public class FenetrePrincipale extends JFrame{
     //Declaration Etiquette joueur
     private JLabel eJoueur;             //Etiquette avec l'inscription joueur
     private JLabel eNomJoueur;          //Etiquette indiquant le nom du joueur dont c'est le tour
+    private JLabel eMessage;
     
     //Declaration du tableau d'etiquettes + tableau de boutons
     private JButton[][] bGrille;    //Grille de boutons permettant d'inter-agir avec le plateau de jeu plateau de jeu
@@ -72,6 +73,7 @@ public class FenetrePrincipale extends JFrame{
         eJoueur = new JLabel("joueur : ");
         eNomJoueur = new JLabel();
         eNomJoueur.setText(siam.getNomJoueurCourant());
+        eMessage = new JLabel();
         
         //Initialisation tableau d'etiquette + tableau de boutons
         bGrille = new JButton[5][5];
@@ -200,6 +202,7 @@ public class FenetrePrincipale extends JFrame{
                 pSud.setBackground(new Color(25,43,57,100));
                 pSud.add(bFinTour);
                 pSud.add(bEntrerReserve);
+                pSud.add(eMessage);
                 
             //Declaration, initialisation du conteneur principale et attribution des panneaux
                 JPanel conteneurPrincipal = new JPanel(new BorderLayout());
@@ -219,6 +222,7 @@ public class FenetrePrincipale extends JFrame{
     }
     
     public void actionCasePlateau(Coordonnees c, boolean bordure){ //Action a realisees si la case de coordonnee c est dans le plateau
+        eMessage.setText(""); validate(); repaint();
         if(!isPieceDeplacee) {
             //~ System.out.println("!isPieceDeplacee");
             if(isCaseSelectionneeReserve) {                     //Si une case de la reserve est deja selectionnee
@@ -231,7 +235,11 @@ public class FenetrePrincipale extends JFrame{
                     isCaseSelectionneePlateau = true;
                     isCaseSelectionneeReserve = false;
                     miseAJour();
+                }else{
+                   eMessage.setText("Une piece de la reserve se place en bordure de plateau.");
+                   isCaseSelectionneeReserve = false; 
                 }
+                
             }else{ 
                 if(isCaseSelectionneePlateau) {             //Si une case de la reserve est deja selectionnee
                     //~ System.out.println("isCaseSelectionneePlateau");
@@ -241,20 +249,26 @@ public class FenetrePrincipale extends JFrame{
                     if(siam.deplacerPlateauVersPlateau(caseSelectionneePlateau, c)) {       //Deplacement plateau vers reserve et MAJ si deplacee
                         //~ System.out.println("deplacerPlateauVersPlateau effectue");
                         isPieceDeplacee = true;                     //Permet d'empecher toute autre action que le pivotement
-                    }else{                                          //Sinon l'ancienne case selectionnee est remplacee par la nouvelle
+                    }else{
+                        eMessage.setText("Mouvement impossible.");
+                        caseSelectionneePlateau = null;
+                        isCaseSelectionneePlateau = false;                                        //Sinon l'ancienne case selectionnee est remplacee par la nouvelle
                         //~ System.out.println("case selectionnee");
-                        bEntrerReserve.setEnabled(true);
+                        //~ bEntrerReserve.setEnabled(true);
                     }
-            }else{
-                bEntrerReserve.setEnabled(true);
-            }
+                }else{
+                    bEntrerReserve.setEnabled(true);
+                }
                 caseSelectionneePlateau = c;                //L'ancienne case selectionnee est remplacee par la nouvelle pour pouvoir la pivoter 
                 caseSelectionneeReserve = 0;
                 isCaseSelectionneePlateau = true;
                 isCaseSelectionneeReserve = false;
                 miseAJour();
             }
+        }else{
+            eMessage.setText("Vous ne pouvez deplacer qu'une piece par tour.");
         }
+        
         miseAJour();
     }
     
@@ -294,17 +308,17 @@ public class FenetrePrincipale extends JFrame{
      }
 
     public void pivoterPiece(int i){                            //Pivote la piece selectionnee dans le plateau si possible
-        System.out.println("pivoter"+i);
-        System.out.println(isCaseSelectionneePlateau);
+        //~ System.out.println("pivoter"+i);
+        //~ System.out.println(isCaseSelectionneePlateau);
         if(isCaseSelectionneePlateau) {
             siam.pivoter(caseSelectionneePlateau, i);
-            System.out.println(" a pivote"+i);
+            //~ System.out.println(" a pivote"+i);
             miseAJour();
         }
     }
 
     public void finTour(){      //Reinitialise les variable d'etapes, change le joueur courant et donne l'accessibilite a sa reserve exclusivement
-        System.out.println("finTour()");
+        //~ System.out.println("finTour()");
         isCaseSelectionneePlateau = false;
         isCaseSelectionneeReserve = false;
         isPieceDeplacee = false;
@@ -313,6 +327,7 @@ public class FenetrePrincipale extends JFrame{
         siam.changerJoueurCourant();
         bEntrerReserve.setEnabled(false);
         this.changerLesBoutons();
+        eMessage.setText("");
         miseAJour();
     }
     
