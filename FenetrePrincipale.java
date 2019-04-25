@@ -155,7 +155,7 @@ public class FenetrePrincipale extends JFrame{
                 
                 for(int i=0; i<5; i++){
                     pPieceJ1.add(bArrayJ1[i]);
-                    bArrayJ1[i].addActionListener(new EcouteurCase(this, 1));
+                    bArrayJ1[i].addActionListener(new EcouteurCase(this, i));
                 }
                 
                 
@@ -167,7 +167,7 @@ public class FenetrePrincipale extends JFrame{
                 
                 for(int i=0; i<5; i++){
                     pPieceJ2.add(bArrayJ2[i]);
-                    bArrayJ2[i].addActionListener(new EcouteurCase(this, 2));
+                    bArrayJ2[i].addActionListener(new EcouteurCase(this, i));
                 }
                
                 
@@ -354,12 +354,16 @@ public class FenetrePrincipale extends JFrame{
         }
         
         if(isCaseSelectionneePlateau) {
-        	bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].setBackground(new Color(100,100,200,100));
+        	String iconName = "selec_"+bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].getIcon();
+        	bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].setIcon(new ImageIcon(iconName));
+        	System.out.println(iconName);
         }else if(isCaseSelectionneeReserve) {
         	if(siam.getJoueurCourant()==0) {
-        		bArrayJ1[caseSelectionneeReserve].setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        		String iconName = "selec_"+bArrayJ1[caseSelectionneeReserve].getIcon();
+        		bArrayJ1[caseSelectionneeReserve].setIcon(new ImageIcon(iconName));
         	}else {
-        		bArrayJ2[caseSelectionneeReserve].setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        		String iconName = "selec_"+bArrayJ2[caseSelectionneeReserve].getIcon();
+        		bArrayJ2[caseSelectionneeReserve].setIcon(new ImageIcon(iconName));
         	}
         }
        
