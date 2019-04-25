@@ -128,16 +128,16 @@ public class Jeu {
                 switch (d)
                 {
                     case 1: //nord
-                        v--;
+                        h--;
                         break;
                     case 2: //est
-                        h++;
-                        break;
-                    case 3: //sud
                         v++;
                         break;
+                    case 3: //sud
+                        h++;
+                        break;
                     case 4: //ouest
-                        h --;
+                        v --;
                         break;
                 }
                 aDeplacer++;
@@ -147,16 +147,16 @@ public class Jeu {
             switch (directionOpposee(d))
             {
                 case 1: //nord
-                    v--;
+                    h--;
                     break;
                 case 2: //est
-                    h++;
-                    break;
-                case 3: //sud
                     v++;
                     break;
+                case 3: //sud
+                    h++;
+                    break;
                 case 4: //ouest
-                    h --;
+                    v --;
                     break;
             }
             
@@ -168,16 +168,16 @@ public class Jeu {
                 switch (directionOpposee(d))
                 {
                     case 1: //nord
-                        v--;
+                        h--;
                         break;
                     case 2: //est
-                        h++;
-                        break;
-                    case 3: //sud
                         v++;
                         break;
+                    case 3: //sud
+                        h++;
+                        break;
                     case 4: //ouest
-                        h --;
+                        v--;
                         break;
                 }
 
@@ -193,16 +193,16 @@ public class Jeu {
                     switch (directionOpposee(d))
                     {
                         case 1: //nord
-                            v--;
+                            h--;
                             break;
                         case 2: //est
-                            h++;
-                            break;
-                        case 3: //sud
                             v++;
                             break;
+                        case 3: //sud
+                            h++;
+                            break;
                         case 4: //ouest
-                            h --;
+                            v--;
                             break;
                     }
                 }
@@ -267,16 +267,16 @@ public class Jeu {
             switch (direction)
             {
                 case 1: //nord
-                    vertical--;
+                    horizontal--;
                     break;
                 case 2: //est
-                    horizontal++;
-                    break;
-                case 3: //sud
                     vertical++;
                     break;
+                case 3: //sud
+                    horizontal++;
+                    break;
                 case 4: //ouest
-                    horizontal --;
+                    vertical --;
                     break;
             }
             
@@ -364,23 +364,28 @@ public class Jeu {
         pieceSelectionnee = p;
     }
     
-    public void deplacerPiece(Piece p, int direction){
+    public void deplacerPiece(Piece p, int direction){	
+    	/**ATTENTION**/
+    	/**horizontal = lign, vertical = colonne**/
+    	/**Attention au signe (voir indice du tableau**/
+    	
         int horizontal = getPosition(p)[0];
         int vertical = getPosition(p)[1];
+        
         plateau[horizontal][vertical] = null;
         switch (direction)
         {
             case 1: //nord
-                vertical--;
+                horizontal--;
                 break;
             case 2: //est
-                horizontal++;
-                break;
-            case 3: //sud
                 vertical++;
                 break;
+            case 3: //sud
+                horizontal++;
+                break;
             case 4: //ouest
-                horizontal --;
+                vertical --;
                 break;
         }
         plateau[horizontal][vertical] = p;
