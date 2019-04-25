@@ -356,6 +356,10 @@ public class FenetrePrincipale extends JFrame{
         
         if(isCaseSelectionneePlateau) {
             String iconName = "selec_"+bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].getIcon();
+            if (iconName.equals("selec_f_0_0.png"))
+            {
+                iconName = "selec_f_0_0.png";
+            }
             bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].setIcon(new ImageIcon(iconName));
             System.out.println(iconName);
         }else if(isCaseSelectionneeReserve) {

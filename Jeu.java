@@ -189,48 +189,53 @@ public class Jeu {
     
     public boolean mouvementPossible(Coordonnees c, int direction){
         boolean estPossible = false;
+        
         // recuperer les coordonnees de la piece
         int horizontal = c.h();
         int vertical = c.v();
         int orientation = plateau[horizontal][vertical].getOrientation();
         double pieceADeplacer = 0;
-        //int a=0; Inutilis
-        //regarder la direction indiquee
-        while (plateau[horizontal][vertical] instanceof Piece && estDansLePlateau(plateau[horizontal][vertical])){ 
-            
-            
-            if (plateau[horizontal][vertical].getType() == 0) // si la piece est une montagne
-            {
-                pieceADeplacer += -1;
-            } else if (plateau[horizontal][vertical].getOrientation() == orientation) //si la piece est dans le meme sens
-            {
-                pieceADeplacer += 1.3;
-            } else if (plateau[horizontal][vertical].getOrientation() == directionOpposee(orientation)) //si la piece est dans le sens oppose
-            {
-                pieceADeplacer += -1.3;
-            }else{
-                pieceADeplacer += -1;
-            }
-            
-            switch (direction)
-            {
-                case 1: //nord
-                    horizontal--;
-                    break;
-                case 2: //est
-                   vertical++;
-                    break;
-                case 3: //sud
-                    horizontal++;
-                    break;
-                case 4: //ouest
-                    vertical --;
-                    break;
-            }
-            
-        }
-        if(pieceADeplacer > 0){
+        if (caseVide(c,direction))
+        {
             estPossible = true;
+        }else if(direction == orientation){
+        
+            //regarder la direction indiquee
+            while (plateau[horizontal][vertical] instanceof Piece && estDansLePlateau(plateau[horizontal][vertical])){ 
+                
+                if (plateau[horizontal][vertical].getType() == 0) // si la piece est une montagne
+                {
+                    pieceADeplacer += -1;
+                } else if (plateau[horizontal][vertical].getOrientation() == orientation) //si la piece est dans le meme sens
+                {
+                    pieceADeplacer += 1.3;
+                } else if (plateau[horizontal][vertical].getOrientation() == directionOpposee(orientation)) //si la piece est dans le sens oppose
+                {
+                    pieceADeplacer += -1.3;
+                }else{
+                    pieceADeplacer += -1;
+                }
+                
+                switch (direction)
+                {
+                    case 1: //nord
+                        horizontal--;
+                        break;
+                    case 2: //est
+                       vertical++;
+                        break;
+                    case 3: //sud
+                        horizontal++;
+                        break;
+                    case 4: //ouest
+                        vertical --;
+                        break;
+                }
+                
+            }
+            if(pieceADeplacer > 0){
+                estPossible = true;
+            }
         }
         return estPossible;
     }
@@ -379,27 +384,27 @@ public class Jeu {
         return direction;
     }
     
-    public boolean caseVide(Piece p, int d){
+    public boolean caseVide(Coordonnees c, int d){
         /*Verifie si la premiere case dans la direction d en
          * partant de la piece p est vide ou non.
          * Si non, des calculs en plus sont necessaires pour determiner si le mouvement est possible*/
          
         boolean b = false;
-        int h = getHorizontal(p);
-        int v = getVertical(p);
+        int h = c.h();
+        int v = c.v();
          switch (d)
             {
                 case 1: //nord
-                    v--;
+                    h--;
                     break;
                 case 2: //est
-                    h++;
-                    break;
-                case 3: //sud
                     v++;
                     break;
+                case 3: //sud
+                    h++;
+                    break;
                 case 4: //ouest
-                    h --;
+                    v--;
                     break;
             }
         if(!(plateau[h][v] instanceof Piece)){
