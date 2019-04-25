@@ -30,6 +30,7 @@ public class Coordonnees {
     public  Coordonnees(int h,int v){
         this.h=h;
         this.v=v;
+
     }
     
     public int h(){

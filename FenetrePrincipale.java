@@ -235,6 +235,9 @@ public class FenetrePrincipale extends JFrame{
 	    	}else{ 
 	    		if(isCaseSelectionneePlateau) {				//Si une case de la reserve est deja selectionnee
 		    		System.out.println("isCaseSelectionneePlateau");
+		    		System.out.println(caseSelectionneePlateau.h()+" "+caseSelectionneePlateau.v());
+		    		System.out.println(c.h()+" "+c.v());
+		    		System.out.println("isCaseSelectionneePlateau");
 		    		if(siam.deplacerPlateauVersPlateau(caseSelectionneePlateau, c)) {		//Deplacement plateau vers reserve et MAJ si deplacee
 		    			System.out.println("deplacerPlateauVersPlateau effectué");
 		    			isPieceDeplacee = true;						//Permet d'empecher toute autre action que le pivotement
@@ -252,6 +255,7 @@ public class FenetrePrincipale extends JFrame{
     			miseAJour();
 	    	}
     	}
+    	miseAJour();
     }
     
     public void actionCaseReserve(int i) {
@@ -266,6 +270,7 @@ public class FenetrePrincipale extends JFrame{
 	    			miseAJour();
 	    	}
     	}
+    	miseAJour();
     }
 
     public void actionMenu(int i){							//Realise les action associées a chaque bouton du menu
@@ -349,7 +354,7 @@ public class FenetrePrincipale extends JFrame{
         }
         
         if(isCaseSelectionneePlateau) {
-        	bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        	bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].setBackground(new Color(100,100,200,100));
         }else if(isCaseSelectionneeReserve) {
         	if(siam.getJoueurCourant()==0) {
         		bArrayJ1[caseSelectionneeReserve].setBorder(BorderFactory.createRaisedSoftBevelBorder());

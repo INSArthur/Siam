@@ -119,8 +119,9 @@ public class Jeu {
         int h = cOrigine.h();
         int v =cOrigine.v();
         int d = getDirection(cOrigine,cCible);
+        System.out.println(d);
         int aDeplacer =0; //Permet de compter combien de pieces devront être deplacees
-        
+        System.out.println(mouvementPossible(plateau[h][v],d));
         //On recupere les coord de la premiere case vide dans la direction donnee
         if(mouvementPossible(plateau[h][v],d)){
             while (plateau[h][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'a la derniere case a deplacer
@@ -391,11 +392,12 @@ public class Jeu {
     }
     
     public boolean deplacerReserveVersPlateau(Coordonnees coord, boolean enBordure){
-    	sortirPieceReserve(joueurCourant+1); 
+    	
     	int horizontal = coord.h();
 	    int vertical = coord.v();
 	     
     	if(enBordure && plateau[horizontal][vertical]==null) {
+    		sortirPieceReserve(joueurCourant+1); 
 	        plateau[horizontal][vertical] = new Piece(joueurCourant+1);
 	        return true;
         }
@@ -406,19 +408,22 @@ public class Jeu {
         /*Transforme deux jeux de coordonees (la position de p et {h2,v2}, position d'arrivee
         /*Transforme deux jeux de coordonees (la position de p et {h2,v2}
          * en une direction*/
-         
+        /**ATTENTION**/
+    	/**h = ligne et v=colonne car pour chercher une piece on ecrit plateau[h][v] **/
+    	/**De plus dh est fonde sur l indice du tableau donc attention au signe**/
+    	
         int direction=0;
         int dh=cOrigine.h()- cCible.h();
         int dv=cOrigine.v()-cCible.v();
         
-        if(dh==0 && dv==1){//nord
-            direction=1;}
-        if(dh==0 && dv==-1){//sud
-            direction=3;}
-        if(dh==-1 && dv==0){//est
+        if(dh==0 && dv==1){//ouest
+            direction=4;}
+        if(dh==0 && dv==-1){//est
             direction=2;}
-        if(dh==1 && dv==0){//ouest
-        direction=4;}
+        if(dh==-1 && dv==0){//nord
+            direction=1;}
+        if(dh==1 && dv==0){//sud
+        direction=3;}
         return direction;
     }
     
