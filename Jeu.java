@@ -121,8 +121,12 @@ public class Jeu {
             }
             
             if(aDeplacer!=0){
-
-                isPiecePoussee = true;
+                
+                if (aDeplacer > 1)
+                {
+                    isPiecePoussee = true;
+                }
+                
                 Coordonnees tmpCoord;
                 /*On se place sur la case x,y
                  * On place la piece dans la case vide adjacente
@@ -176,6 +180,7 @@ public class Jeu {
     
     public void changerJoueurCourant(){
         joueurCourant = (1+joueurCourant)%2;
+        isPiecePoussee = false;
     }
     
     public Piece getPieceSelectionnee(){
@@ -242,8 +247,6 @@ public class Jeu {
     
     public void pivoter(Coordonnees c, int rotation){
         System.out.println("test pivoter isPiecePousse="+isPiecePoussee);
-        boolean test = plateau[c.h()][c.v()] instanceof Piece;
-        System.out.println("test pivoter isntance of ="+test);
         if(plateau[c.h()][c.v()] instanceof Piece && !isPiecePoussee ){
             Piece p = plateau[c.h()][c.v()];
             int orientation = p.getOrientation();
