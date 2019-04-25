@@ -261,14 +261,12 @@ public class FenetrePrincipale extends JFrame{
     public void actionCaseReserve(int i) {
     	if(!isPieceDeplacee) {
     		System.out.println("!isPieceDeplacee");
-	    	if(!isCaseSelectionneeReserve) {
-	    			System.out.println("!isCaseSelectionneeReserve");
-	    			caseSelectionneePlateau = null;
-	    			caseSelectionneeReserve = i;
-	    			isCaseSelectionneeReserve = true;
-	    			isCaseSelectionneePlateau = false ;
-	    			miseAJour();
-	    	}
+			System.out.println("!isCaseSelectionneeReserve");
+			caseSelectionneePlateau = null;
+			caseSelectionneeReserve = i;
+			isCaseSelectionneeReserve = true;
+			isCaseSelectionneePlateau = false ;
+			miseAJour();
     	}
     	miseAJour();
     }
