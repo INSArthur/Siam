@@ -242,11 +242,12 @@ public class Jeu {
     
     public boolean mouvementPossible(Piece p, int direction){
         boolean estPossible = false;
+        
         // recuperer les coordonnees de la piece
         int horizontal = getPosition(p)[0];
         int vertical = getPosition(p)[1];
         double pieceADeplacer = 0;
-        //int a=0; Inutilis
+
         //regarder la direction indiquee
         while (plateau[horizontal][vertical] instanceof Piece && estDansLePlateau(plateau[horizontal][vertical])){ 
             

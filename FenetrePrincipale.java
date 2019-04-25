@@ -276,6 +276,8 @@ public class FenetrePrincipale extends JFrame{
         {
             case 1 : 
                 System.out.println("Nouvelle Partie");
+                new FenetreMenu ();
+                this.dispose();
                 break;
             case 2 : 
                 System.out.println("Parametres");
