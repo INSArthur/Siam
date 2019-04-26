@@ -356,12 +356,14 @@ public class Jeu {
         int horizontal = coord.h();
         int vertical = coord.v();
          
-        if(enBordure && plateau[horizontal][vertical]==null) {
+        if(enBordure) {
+			if (plateau[horizontal][vertical]==null){
             sortirPieceReserve(joueurCourant+1); 
             plateau[horizontal][vertical] = new Piece(joueurCourant+1);
             return true;
         }
-        return false;
+        }
+           return false;
     }
     
     public int getDirection(Coordonnees cCible, Coordonnees cOrigine){
@@ -482,7 +484,7 @@ public class Jeu {
     public void entrerPieceReserve (int i){ //entrer piece dans l'arraylist du joueur i
         if(i==1){
             piecej1.add(new Piece(1));
-        }else{
+        }else if (i==2){
             piecej2.add(new Piece(2));
         }
     }
@@ -522,10 +524,11 @@ public class Jeu {
         return s;
     }
     
-    public void deplacerPiecePlateauVersReserve(Coordonnees c) {
+    public void deplacerPiecePlateauVersReserve(Coordonnees c) { 
+		if (plateau[c.h()][c.v()].getType()== joueurCourant+1){
         entrerPieceReserve(joueurCourant+1);
         supprimerPiece(c);
     }
-   
+   }
 }
 
