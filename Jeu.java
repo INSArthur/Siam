@@ -196,6 +196,7 @@ public class Jeu {
         int vertical = c.v();
         int orientation = plateau[horizontal][vertical].getOrientation();
         double pieceADeplacer = 0;
+        if(appartientAuJoueur(plateau[horizontal][vertical])==true){
         if (caseVide(c,direction))
         {
             estPossible = true;
@@ -238,6 +239,7 @@ public class Jeu {
                 estPossible = true;
             }
         }
+	}
         return estPossible;
     }
         
