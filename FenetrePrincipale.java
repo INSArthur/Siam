@@ -259,15 +259,20 @@ public class FenetrePrincipale extends JFrame{
                 }else{
                     bEntrerReserve.setEnabled(true);
                 }
-                caseSelectionneePlateau = c;                //L'ancienne case selectionnee est remplacee par la nouvelle pour pouvoir la pivoter 
-                caseSelectionneeReserve = 0;
-                isCaseSelectionneePlateau = true;
-                isCaseSelectionneeReserve = false;
-                miseAJour();
+                if(siam.appartientAuJoueur(c)==1){
+                    caseSelectionneePlateau = c;                //L'ancienne case selectionnee est remplacee par la nouvelle pour pouvoir la pivoter 
+                    caseSelectionneeReserve = 0;
+                    isCaseSelectionneePlateau = true;
+                    isCaseSelectionneeReserve = false;
+                    miseAJour();
+                }else if(siam.appartientAuJoueur(c)==2){
+                    eMessage.setText("Ce n'est pas l'une de vos pieces");
+                }
             }
         }else{
             eMessage.setText("Vous ne pouvez deplacer qu'une piece par tour.");
         }
+        
         
         miseAJour();
     }
@@ -319,14 +324,23 @@ public class FenetrePrincipale extends JFrame{
 
     public void finTour(){      //Reinitialise les variable d'etapes, change le joueur courant et donne l'accessibilite a sa reserve exclusivement
         //~ System.out.println("finTour()");
-        isCaseSelectionneePlateau = false;
-        isCaseSelectionneeReserve = false;
-        isPieceDeplacee = false;
-        caseSelectionneePlateau = null;
-        caseSelectionneeReserve = 0;
-        siam.changerJoueurCourant();
-        bEntrerReserve.setEnabled(false);
-        this.changerLesBoutons();
+        if(siam.finJeu()){
+            String gagnant = siam.getNomJoueurCourant();
+            siam.changerJoueurCourant();
+            String perdant = siam.getNomJoueurCourant();
+            siam.changerJoueurCourant(); // utile ?
+            new FenetreVictoire(gagnant, perdant, this);
+        }else{
+            isCaseSelectionneePlateau = false;
+            isCaseSelectionneeReserve = false;
+            isPieceDeplacee = false;
+            caseSelectionneePlateau = null;
+            caseSelectionneeReserve = 0;
+            siam.changerJoueurCourant();
+            siam.finTour();
+            bEntrerReserve.setEnabled(false);
+            this.changerLesBoutons();
+        }
         eMessage.setText("");
         miseAJour();
     }

@@ -32,7 +32,7 @@ public class Jeu {
     private Piece pieceSelectionnee;
     //private String[] directions = {"Nord" , "Est", "Sud", "Ouest"}; /*inutilis*/
     
-    private boolean estFini;
+    private boolean estFini = false;
     private boolean isPiecePoussee;                 //Indique si une ou plusieurs pieces ont ete deplacees pendant le tour (utilise pour verifier si on peut pivoter la selection)
     
     public LinkedList <Piece> piecej1 ;
@@ -168,8 +168,24 @@ public class Jeu {
         return i;
     }
     
-    public boolean appartientAuJoueur(Piece p){
-        return ((p.getType()-1)==joueurCourant);
+    public int appartientAuJoueur(Coordonnees c){
+        /*
+         * b==0 -> case vide
+         * b==1 -> joueur courant
+         * b==2 -> joueur adverse
+         * */
+        
+        int b = 0;
+        if (plateau[c.h()][c.v()] instanceof Piece)
+        {
+            if((plateau[c.h()][c.v()].getType()-1)==joueurCourant){
+                b = 1;
+            } else{
+                b = 2;
+            }
+        }
+        
+        return b;
     }
 
     public int getJoueurCourant(){
@@ -196,7 +212,6 @@ public class Jeu {
         int vertical = c.v();
         int orientation = plateau[horizontal][vertical].getOrientation();
         double pieceADeplacer = 0;
-        if(appartientAuJoueur(plateau[horizontal][vertical])==true){
         if (caseVide(c,direction))
         {
             estPossible = true;
@@ -239,7 +254,7 @@ public class Jeu {
                 estPossible = true;
             }
         }
-	}
+    
         return estPossible;
     }
         
@@ -348,8 +363,56 @@ public class Jeu {
     }
     
     public boolean finJeu(){
+        /*tester si une montagne se trouve à l'exterieur du plateau
+         * 00 01 02 03 04 05 06
+           10                16
+           20                26
+           30                36
+           40                46
+           50                56
+           60 61 62 63 64 65 66 */
+           
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < 7; j++)
+            {
+                if(plateau[i][j] instanceof Piece && plateau[i][j].getType()==0){
+                    estFini = true;
+                    return estFini;
+                }
+                if (i>0 && i<6 && j>0)
+                {
+                    j = 6;
+                }
+            }
+        }
         return estFini;
     }
+    
+    public void finTour(){
+      /*vider les bordures invisibles du plateau
+         * 00 01 02 03 04 05 06
+           10                16
+           20                26
+           30                36
+           40                46
+           50                56
+           60 61 62 63 64 65 66 */
+           
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < 7; j++)
+            {
+                if(plateau[i][j] instanceof Piece){
+                    plateau[i][j] = null;
+                }
+                if (i>0 && i<6 && j>0)
+                {
+                    j = 6;
+                }
+            }
+        }
+    }  
     
     public boolean deplacerReserveVersPlateau(Coordonnees coord, boolean enBordure){
         
@@ -357,7 +420,7 @@ public class Jeu {
         int vertical = coord.v();
          
         if(enBordure) {
-			if (plateau[horizontal][vertical]==null){
+            if (plateau[horizontal][vertical]==null){
             sortirPieceReserve(joueurCourant+1); 
             plateau[horizontal][vertical] = new Piece(joueurCourant+1);
             return true;
@@ -525,7 +588,7 @@ public class Jeu {
     }
     
     public void deplacerPiecePlateauVersReserve(Coordonnees c) { 
-		if (plateau[c.h()][c.v()].getType()== joueurCourant+1){
+        if (plateau[c.h()][c.v()].getType()== joueurCourant+1){
         entrerPieceReserve(joueurCourant+1);
         supprimerPiece(c);
     }
