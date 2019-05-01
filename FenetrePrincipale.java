@@ -222,7 +222,9 @@ public class FenetrePrincipale extends JFrame{
     }
     
     public void actionCasePlateau(Coordonnees c, boolean bordure){ //Action a realisees si la case de coordonnee c est dans le plateau
+        boolean aPivote = false;
         eMessage.setText(""); validate(); repaint();
+        if(!siam.pieceAPivote(caseSelectionneePlateau)){
         if(!isPieceDeplacee) {
             //~ System.out.println("!isPieceDeplacee");
             if(isCaseSelectionneeReserve) {                     //Si une case de la reserve est deja selectionnee
@@ -272,6 +274,7 @@ public class FenetrePrincipale extends JFrame{
         }else{
             eMessage.setText("Vous ne pouvez deplacer qu'une piece par tour.");
         }
+        }else{ eMessage.setText("Vous ne pouvez pas deplacer une piece qui a pivote"); }
         
         
         miseAJour();
@@ -336,8 +339,8 @@ public class FenetrePrincipale extends JFrame{
             isPieceDeplacee = false;
             caseSelectionneePlateau = null;
             caseSelectionneeReserve = 0;
-            siam.changerJoueurCourant();
             siam.finTour();
+            siam.changerJoueurCourant();
             bEntrerReserve.setEnabled(false);
             this.changerLesBoutons();
         }

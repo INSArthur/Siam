@@ -27,6 +27,7 @@ public class Piece{
     private boolean estDedans;
     private int orientation;
     private int type;
+    private boolean aPivote;
     
     /* Orientation prend 5 valeurs : 
      * 0 -> Montagne
@@ -46,6 +47,7 @@ public class Piece{
         this.type = type;
         estDedans = false;
         orientation = 1;
+        aPivote = false;
         id++;
     }
     
@@ -73,10 +75,21 @@ public class Piece{
     
     public void tourner(int orientation){
         this.orientation = orientation;
+        aPivote = true;
+        System.out.println("rotation efectuée");
     }
     
     public int getOrientation(){
         return orientation;
     }
+    
+    public boolean aPivote(){
+        return aPivote;
+    }
+    
+    public void resetAPivote(){
+        aPivote = false;
+    }
+        
 }
 

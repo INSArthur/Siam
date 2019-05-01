@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 public class EcouteurCase implements ActionListener{
     
     private FenetrePrincipale fen;
-    private boolean casePlateau; 	//true = case du plateau; false = case de la reserve
-    private Coordonnees c; 			//Coordonnees si case du plateau
-    private int i;					//indice si case de la reserve
+    private boolean casePlateau;    //true = case du plateau; false = case de la reserve
+    private Coordonnees c;          //Coordonnees si case du plateau
+    private int i;                  //indice si case de la reserve
     private boolean bordure;
     
     public EcouteurCase(FenetrePrincipale fen, Coordonnees c){
@@ -34,15 +34,16 @@ public class EcouteurCase implements ActionListener{
     
     public void actionPerformed(ActionEvent a){ //Reinitialise la grille lors du clic sur le bouton
         
-    	
-    	if(casePlateau) {
-    			fen.actionCasePlateau(c, bordure);
-    			System.out.println("EcouteurCase case plateau");
-    	}else {
-    			fen.actionCaseReserve(i);
-    			System.out.println("EcouteurCase case reserve");
-    	}
-    	
+        
+        if(casePlateau) {
+                fen.actionCasePlateau(c, bordure);
+                System.out.println("EcouteurCase case plateau");
+        }else {
+                fen.actionCaseReserve(i);
+                System.out.println("EcouteurCase case reserve");
+        }
+        System.out.println("Coordonnees case h:"+c.h()+" v:"+c.v());
+        
     }
 
 }

@@ -80,10 +80,9 @@ public class Jeu {
         boolean reussite = false;
         
         System.out.println(d);
-        System.out.println("mouvement possible"+mouvementPossible(cOrigine,d));
         int aDeplacer =0; //Permet de compter combien de pieces devront être deplacees
         //On recupere les coord de la premiere case vide dans la direction donnee
-        if(mouvementPossible(cOrigine,d)){
+        if(mouvementPossible(cOrigine,d, false)){
             while (plateau[h][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'a la derniere case a deplacer
                 System.out.println("test while 1");
                 switch (d)
@@ -159,6 +158,108 @@ public class Jeu {
         return reussite;
     }
     
+    public boolean pousserDepuisReserve(Coordonnees c){
+        boolean reussite = false;
+        int horizontal = c.h();
+        int vertical = c.v();
+        int direction = 0;
+        int aDeplacer = 0;
+        
+        if (horizontal >1 && horizontal < 5 && vertical == 1)
+        {
+            direction = 2;
+        }
+        if (horizontal >1 && horizontal < 5 && vertical == 5)
+        {
+            direction = 4;
+        }
+        if (vertical > 1 && vertical < 5 && horizontal == 1)
+        {
+            direction = 3;
+        }
+        if (vertical > 1 && vertical < 5 && horizontal == 5)
+        {
+            direction = 1;
+        }
+        
+        if (mouvementPossible(c,direction,true))
+        {
+            while (plateau[horizontal][vertical] instanceof Piece && estDansLePlateau(plateau[horizontal][vertical])){ // permet de monter jusqu'a la derniere case a deplacer
+                System.out.println("test while 1");
+                switch (direction)
+                {
+                    case 1: //nord
+                        horizontal--;
+                        break;
+                    case 2: //est
+                        vertical++;
+                        break;
+                    case 3: //sud
+                        horizontal++;
+                        break;
+                    case 4: //ouest
+                        vertical --;
+                        break;
+                }
+                aDeplacer++;
+            }
+            
+            //redescendre d'une case
+            switch (directionOpposee(direction))
+            {
+                case 1: //nord
+                    horizontal--;
+                    break;
+                case 2: //est
+                    vertical++;
+                    break;
+                case 3: //sud
+                    horizontal++;
+                    break;
+                case 4: //ouest
+                    vertical --;
+                    break;
+            }
+            
+            if(aDeplacer!=0){
+                
+                if (aDeplacer > 1)
+                {
+                    isPiecePoussee = true;
+                }
+                
+                Coordonnees tmpCoord;
+                /*On se place sur la case x,y
+                 * On place la piece dans la case vide adjacente
+                 * On supprime la piece de la case x,y 
+                 * On se decale d'une case dans la bonne direction
+                 * On recommence*/
+                for(int i=0 ; i<aDeplacer ; i++){
+                    tmpCoord = new Coordonnees(horizontal,vertical); //case d'rrive ???
+                    deplacerPiece(tmpCoord,direction);
+                    switch (directionOpposee(direction))
+                    {
+                        case 1: //nord
+                            horizontal--;
+                            break;
+                        case 2: //est
+                            vertical++;
+                            break;
+                        case 3: //sud
+                            horizontal++;
+                            break;
+                        case 4: //ouest
+                            vertical--;
+                            break;
+                    }
+                }
+            }
+            reussite = true;
+        }
+              
+        return reussite;
+    }
+    
     public int directionOpposee(int d){
         int i = (d+2)%4; 
         if (i == 0) //permet d'eviter q'une piece se transforme en montagne
@@ -204,7 +305,7 @@ public class Jeu {
         return pieceSelectionnee;
     }
     
-    public boolean mouvementPossible(Coordonnees c, int direction){
+    public boolean mouvementPossible(Coordonnees c, int direction, boolean pieceReserve){
         boolean estPossible = false;
         
         // recuperer les coordonnees de la piece
@@ -250,6 +351,9 @@ public class Jeu {
                 }
                 
             }
+            if(pieceReserve){
+                pieceADeplacer += 1.3;
+            }
             if(pieceADeplacer > 0){
                 estPossible = true;
             }
@@ -270,7 +374,7 @@ public class Jeu {
     
     public void pivoter(Coordonnees c, int rotation){
         System.out.println("test pivoter isPiecePousse="+isPiecePoussee);
-        if(plateau[c.h()][c.v()] instanceof Piece && !isPiecePoussee ){
+        if(plateau[c.h()][c.v()] instanceof Piece && !isPiecePoussee){
             Piece p = plateau[c.h()][c.v()];
             int orientation = p.getOrientation();
             System.out.println("test orintation oreientation = "+orientation);
@@ -362,6 +466,18 @@ public class Jeu {
         
     }
     
+    public boolean pieceAPivote(Coordonnees c){
+        if (c instanceof Coordonnees)
+        {
+            int h = c.h();
+            int v = c.v();
+        
+            if(plateau[h][v] instanceof Piece){
+                return plateau[h][v].aPivote();
+            } else { return false; }
+        }else{return false; }
+    }
+    
     public boolean finJeu(){
         /*tester si une montagne se trouve à l'exterieur du plateau
          * 00 01 02 03 04 05 06
@@ -380,9 +496,9 @@ public class Jeu {
                     estFini = true;
                     return estFini;
                 }
-                if (i>0 && i<6 && j>0)
+                if (i>0 && i<6 && j==0)
                 {
-                    j = 6;
+                    j = 5;
                 }
             }
         }
@@ -404,11 +520,29 @@ public class Jeu {
             for (int j = 0; j < 7; j++)
             {
                 if(plateau[i][j] instanceof Piece){
+                    int tmp = plateau[i][j].getType();
+                    this.entrerPieceReserve(plateau[i][j].getType());
                     plateau[i][j] = null;
+                    
+                    System.out.print("test nettoyer plateau"+i+""+j);
                 }
-                if (i>0 && i<6 && j>0)
+                System.out.println(i+""+j);
+                if (i>0 && i<6 && j==0)
                 {
-                    j = 6;
+                    j = 5;
+                }
+                
+            }
+        }
+        
+        // rendre toutes les pièces à nouveau pivotables
+        for (int i = 1; i < 6; i++)
+        {
+            for (int j = 1; j < 6; j++)
+            {
+                if (plateau[i][j] instanceof Piece)
+                {
+                    plateau[i][j].resetAPivote();
                 }
             }
         }
@@ -418,15 +552,43 @@ public class Jeu {
         
         int horizontal = coord.h();
         int vertical = coord.v();
+        boolean reussite = false;
+        Piece p=null;
          
         if(enBordure) {
+            p = new Piece(joueurCourant + 1);
+            if (horizontal >1 && horizontal < 5 && vertical == 1)
+            {
+                p.tourner(2);
+            }
+            if (horizontal >1 && horizontal < 5 && vertical == 5)
+            {
+                p.tourner(4);
+            }
+            if (vertical > 1 && vertical < 5 && horizontal == 1)
+            {
+                p.tourner(3);
+            }
+            if (vertical > 1 && vertical < 5 && horizontal == 5)
+            {
+                p.tourner(1);
+            }
+            
             if (plateau[horizontal][vertical]==null){
-            sortirPieceReserve(joueurCourant+1); 
-            plateau[horizontal][vertical] = new Piece(joueurCourant+1);
-            return true;
+                sortirPieceReserve(joueurCourant+1); 
+                reussite = true;
+                plateau[horizontal][vertical] = p;
+            }else{
+                reussite = pousserDepuisReserve(coord);
+                if (reussite)
+                {
+                    isPiecePoussee = true;
+                    plateau[horizontal][vertical] = p;
+                }
+            }
         }
-        }
-           return false;
+
+        return reussite;
     }
     
     public int getDirection(Coordonnees cCible, Coordonnees cOrigine){
