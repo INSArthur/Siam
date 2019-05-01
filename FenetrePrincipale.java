@@ -199,7 +199,7 @@ public class FenetrePrincipale extends JFrame{
             
             //Declaration, initialisation du panneau inferieur + attribution boutons
                 JPanel pSud = new JPanel();
-                pSud.setBackground(new Color(25,43,57,100));
+                pSud.setBackground(new Color(25,43,57));
                 pSud.add(bFinTour);
                 pSud.add(bEntrerReserve);
                 pSud.add(eMessage);
