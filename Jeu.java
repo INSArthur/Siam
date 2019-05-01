@@ -158,28 +158,29 @@ public class Jeu {
         return reussite;
     }
     
-    public boolean pousserDepuisReserve(Coordonnees c){
+    public boolean pousserDepuisReserve(Coordonnees c,int direction){
         boolean reussite = false;
         int horizontal = c.h();
         int vertical = c.v();
-        int direction = 0;
         int aDeplacer = 0;
         
-        if (horizontal >1 && horizontal < 5 && vertical == 1)
-        {
-            direction = 2;
-        }
-        if (horizontal >1 && horizontal < 5 && vertical == 5)
-        {
-            direction = 4;
-        }
-        if (vertical > 1 && vertical < 5 && horizontal == 1)
-        {
-            direction = 3;
-        }
-        if (vertical > 1 && vertical < 5 && horizontal == 5)
-        {
-            direction = 1;
+        if(direction==0) {
+	        if (horizontal >1 && horizontal < 5 && vertical == 1)
+	        {
+	            direction = 2;
+	        }
+	        if (horizontal >1 && horizontal < 5 && vertical == 5)
+	        {
+	            direction = 4;
+	        }
+	        if (vertical > 1 && vertical < 5 && horizontal == 1)
+	        {
+	            direction = 3;
+	        }
+	        if (vertical > 1 && vertical < 5 && horizontal == 5)
+	        {
+	            direction = 1;
+	        }
         }
         
         if (mouvementPossible(c,direction,true))
@@ -313,6 +314,7 @@ public class Jeu {
         int vertical = c.v();
         int orientation = plateau[horizontal][vertical].getOrientation();
         double pieceADeplacer = 0;
+        
         if (caseVide(c,direction))
         {
             estPossible = true;
@@ -548,30 +550,36 @@ public class Jeu {
         }
     }  
     
-    public boolean deplacerReserveVersPlateau(Coordonnees coord, boolean enBordure){
+    public boolean deplacerReserveVersPlateau(Coordonnees coord, boolean enBordure, int direction ){
         
         int horizontal = coord.h();
         int vertical = coord.v();
         boolean reussite = false;
         Piece p=null;
-         
+        
+        
         if(enBordure) {
             p = new Piece(joueurCourant + 1);
-            if (horizontal >1 && horizontal < 5 && vertical == 1)
-            {
-                p.tourner(2);
-            }
-            if (horizontal >1 && horizontal < 5 && vertical == 5)
-            {
-                p.tourner(4);
-            }
-            if (vertical > 1 && vertical < 5 && horizontal == 1)
-            {
-                p.tourner(3);
-            }
-            if (vertical > 1 && vertical < 5 && horizontal == 5)
-            {
-                p.tourner(1);
+            if(direction==0) {
+	            if (horizontal >1 && horizontal < 5 && vertical == 1)
+	            {
+	                p.tourner(2);
+	            }
+	            if (horizontal >1 && horizontal < 5 && vertical == 5)
+	            {
+	                p.tourner(4);
+	            }
+	            if (vertical > 1 && vertical < 5 && horizontal == 1)
+	            {
+	                p.tourner(3);
+	            }
+	            if (vertical > 1 && vertical < 5 && horizontal == 5)
+	            {
+	                p.tourner(1);
+	            }
+            }else {
+            	p.tourner(direction);
+            	System.out.println("p.tourner(direction);");
             }
             
             if (plateau[horizontal][vertical]==null){
@@ -579,11 +587,10 @@ public class Jeu {
                 reussite = true;
                 plateau[horizontal][vertical] = p;
             }else{
-                reussite = pousserDepuisReserve(coord);
-                if (reussite)
-                {
+                if (pousserDepuisReserve(coord, direction)){
                     isPiecePoussee = true;
                     plateau[horizontal][vertical] = p;
+                    reussite = true;
                 }
             }
         }
@@ -641,6 +648,13 @@ public class Jeu {
             b= true;
         }
         return b;
+    }
+    public boolean estVide(Coordonnees c) {
+    	if (plateau[c.h()][c.v()]==null){
+            return true;
+        }else {
+        	return false;
+        }
     }
     
     public int[] switchDirection(int direction, int horizontal, int vertical){
