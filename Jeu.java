@@ -734,7 +734,7 @@ public class Jeu {
         plateau[c.h()][c.v()] = null;
     }
     
-    public String getImagePlateau(int h, int v){
+    public String getImagePlateau(int h, int v, char theme){
         String s ="";
         if (plateau[h][v] instanceof Piece ){
             s = plateau[h][v].getImage(theme);
@@ -745,7 +745,7 @@ public class Jeu {
         return s;
     }
     
-    public String getImageReserve(int i, int joueur){
+    public String getImageReserve(int i, int joueur, char theme){
         String s ="";
         if(joueur ==1) {
             if (i<piecej1.size()){
