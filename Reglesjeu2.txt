@@ -1,0 +1,25 @@
+
+Se déplacer sur une case libre
+Vous ne pouvez-vous déplacer que d'une seule case et de façon orthogonale (déplacement en diagonale interdit). 
+L'orientation de votre animal n'importe pas sur la direction de votre déplacement.
+Tout en vous déplaçant, vous pouvez à votre guise changer l'orientation de votre animal.
+
+Changer l'orientation de son animal sans changer de case
+Vous pouvez changer l'orientation de votre animal sur sa case, ce coup compte comme un tour de jeu.
+
+Sortir un de ses animaux disposé sur une case extérieure
+Vous pouvez sortir du plateau et à tout moment un de vos animaux disposé sur une case extérieure, ce coup compte comme un tour de jeu. 
+L'animal sorti pourra être réutilisé et revenir sur le plateau à tout moment.
+
+Se déplacer en poussant d'autres pièces disposées sur le plateau
+Lorsque la case ou vous voulez vous rendre est occupée par une pièce (éléphant, rhinocéros ou rochers), vous pouvez sous certaines conditions effectuer une poussée :
+- Vous ne pouvez pousser que dans une seule direction : vers l'avant de votre animal.
+- Un animal peut pousser un rocher, deux animaux orientés dans la bonne direction peuvent pousser deux rochers, et ainsi de suite.
+- Un animal ne peut pousser un autre animal qui lui fait face (peu importe à qui appartient l'animal). 
+Précision : un de vos animaux peut empêcher votre poussée, un animal adverse peut aider votre poussée.
+- Un animal peut pousser autant d'animaux que possible si ceux-ci ne sont pas orientés dans la direction opposée 
+- Vous pouvez pousser en entrant une pièce sur le plateau
+- Lorsqu'un rocher est expulsé la partie est terminée mais attention le gagnant est le joueur qui est le plus proche du rocher et dans le même sens de poussée.
+- Un animal expulsé hors du plateau n'est pas éliminé ; il est récupéré et peut être joué à tout moment.
+- Pendant une poussée, aucun animal ne peut changer d'orientation.
+
