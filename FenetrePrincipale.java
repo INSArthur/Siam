@@ -528,19 +528,24 @@ public class FenetrePrincipale extends JFrame{
         }
         
         if(isCaseSelectionneePlateau) {
-            String iconName = "images/"+theme+"/selec_"+bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].getIcon();
-            if (iconName.equals("images/"+theme+"/selec_f_0_0.png"))
-            {
-                iconName = "images/"+theme+"/selec_f_0_0.png";
-            }
+            String iconName = ""+bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].getIcon();
+	    iconName =iconName.substring(0, 9) 
+                        + "selec_" 
+                        + iconName.substring(9);
             bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].setIcon(new ImageIcon(iconName));
             System.out.println(iconName);
         }else if(isCaseSelectionneeReserve) {
             if(siam.getJoueurCourant()==0) {
-                String iconName = "images/"+theme+"/selec_"+bArrayJ1[caseSelectionneeReserve].getIcon();
+                String iconName = ""+bArrayJ1[caseSelectionneeReserve].getIcon();
+		iconName = iconName.substring(0, 9) 
+                        + "selec_" 
+                        + iconName.substring(9);
                 bArrayJ1[caseSelectionneeReserve].setIcon(new ImageIcon(iconName));
             }else {
-                String iconName = "images/"+theme+"/selec_"+bArrayJ2[caseSelectionneeReserve].getIcon();
+                String iconName = ""+bArrayJ2[caseSelectionneeReserve].getIcon();
+		iconName = iconName.substring(0, 9) 
+                        + "selec_" 
+                        + iconName.substring(9);
                 bArrayJ2[caseSelectionneeReserve].setIcon(new ImageIcon(iconName));
             }
         }
