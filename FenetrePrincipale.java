@@ -560,6 +560,21 @@ public class FenetrePrincipale extends JFrame{
         this.validate();
         System.out.println("mise a jour");
     }
+	
+    public void recupererSauvegarde(){
+        siam.chargerUneSauvegarde();
+        isCaseSelectionneePlateau = false;
+        isCaseSelectionneeReserve = false;
+        isPieceDeplacee = false;
+        caseSelectionneePlateau = null;
+        caseSelectionneeReserve = 0;
+        miseAJour();
+    }
+    
+    public void changerTheme(char c){
+        theme = c;
+        miseAJour();
+    }
 
         public class PlateauLayout implements LayoutManager {
 
