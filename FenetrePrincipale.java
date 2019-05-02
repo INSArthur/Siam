@@ -39,7 +39,6 @@ public class FenetrePrincipale extends JFrame{
     private boolean isCaseSelectionneePlateau;
     private boolean isPieceDeplacee;
     private boolean isCaseSelectionneeReserve;
-    private boolean isBoutonAngle;
     private JButton boutonAnglePrecedent;
     private Coordonnees caseSelectionneePlateau;
     private int caseSelectionneeReserve;
@@ -132,7 +131,6 @@ public class FenetrePrincipale extends JFrame{
         isCaseSelectionneePlateau = false;
         isCaseSelectionneeReserve = false;
         isPieceDeplacee = false;
-        isBoutonAngle = false;
         boutonAnglePrecedent = null;
         caseSelectionneeReserve = 0;
         caseSelectionneePlateau = null;
@@ -380,12 +378,6 @@ public class FenetrePrincipale extends JFrame{
     }
     
 	public void affichageEntreePieceAngle(Coordonnees c,int angle) { //Fait apparaitre ou disparaitre les boutons necessaire pour savoir dans quel direction rentre la piece dans un angle du plateau, angles numerote de 1 a 4 dans le sens des aiguilles d une montre en partant du nord ouest
-		if(isBoutonAngle) {
-			System.out.println(isBoutonAngle);
-			changementGrilleBouton(c,boutonAnglePrecedent);	
-			isBoutonAngle = false;
-			
-		}else{
 			System.out.println("!isBoutonAngle");
 			JPanel panneauAngle = new JPanel(new BorderLayout());
 			JButton boutonAngleColonne = new JButton();				//Bouton qui est dans la direction de la colonne
@@ -399,8 +391,7 @@ public class FenetrePrincipale extends JFrame{
 			boutonAnglePrecedent = bGrille[c.h()-1][c.v()-1];
 			
 			switch (angle) {
-			case 1 :
-				
+			case 1 :	
 				eLigne.setDirection(2);
 				eColonne.setDirection(3);
 				panneauAngle.add(boutonAngleColonne, BorderLayout.NORTH);
@@ -435,20 +426,20 @@ public class FenetrePrincipale extends JFrame{
 			default :
 				break;
 			}
-			isBoutonAngle = true;
-		}
 	}
 	
 	public void changementGrilleBouton(Coordonnees c, JComponent composant) { //Change le JComponent de coordonnees i,j da,s le plateau par composant
 		System.out.println(composant);
 		System.out.println(c.h());
 		System.out.println(c.v());
+		
 		pGrilleBouton.removeAll();
 		for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
             	if(i==(c.h()) && j==(c.v())) {
-                	pGrilleBouton.add(composant);
-                	
+            		System.out.println("yes!!!");
+            		System.out.println(composant);
+                	pGrilleBouton.add(composant);                	
             	}else {
             		pGrilleBouton.add(bGrille[i][j]);
             	}
@@ -467,8 +458,8 @@ public class FenetrePrincipale extends JFrame{
 		if (c.h() == 1 || c.h() == 5 || c.v() == 1 || c.v() == 5){
 	            bordure = true;
 	    }
-		changementGrilleBouton(c,boutonAnglePrecedent);
 		System.out.println(siam.deplacerReserveVersPlateau(c,bordure,direction));
+		changementGrilleBouton(c,boutonAnglePrecedent);
 		miseAJour();
 		System.out.println(bordure);
 		
