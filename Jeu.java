@@ -27,6 +27,7 @@ public class Jeu {
     private Joueur[] lesJoueurs;
     private Piece[][] plateau;
     private Sauvegarde sauv;
+    private char theme = 'f';
     
     private boolean modeMulti;                  //true = mode multijoueurs ; false = mode solo contre IA
     private int joueurCourant;
