@@ -18,6 +18,7 @@ public class FenetrePrincipale extends JFrame{
     private JMenuItem item2;
     private JMenuItem item3;
     private JMenuItem item4;
+    private JMenuItem item5;
     
     //Declaration reserve grille et etiquette J1
     private JButton[] bArrayJ1;
@@ -42,6 +43,7 @@ public class FenetrePrincipale extends JFrame{
     private JButton boutonAnglePrecedent;
     private Coordonnees caseSelectionneePlateau;
     private int caseSelectionneeReserve;
+    private char theme = 'f';
     
     public FenetrePrincipale(Jeu siam){
         super("Jeu du Siam");
@@ -64,13 +66,15 @@ public class FenetrePrincipale extends JFrame{
         menu = new JMenu("Menu");
         menuBar = new JMenuBar();
         item1 = new JMenuItem("Nouvelle partie");
-        item2 = new JMenuItem("Paramatre");
+        item2 = new JMenuItem("Theme");
         item3 = new JMenuItem("Aide");
         item4 = new JMenuItem("Quitter");
+	item5 = new JMenuItem("Retour au début du tour");
         item1.addActionListener(new EcouteurMenu(this,1));
         item2.addActionListener(new EcouteurMenu(this,2));
         item3.addActionListener(new EcouteurMenu(this,3));
         item4.addActionListener(new EcouteurMenu(this,4));
+	item5.addActionListener(new EcouteurMenu(this,5));
         
         //Initialisation etiquette joueur
         eJoueur = new JLabel("joueur : ");
@@ -86,7 +90,7 @@ public class FenetrePrincipale extends JFrame{
             for(int j=0; j<5; j++){
                 bGrille[i][j] = new JButton();
                 bGrille[i][j].addActionListener(new EcouteurCase(this,new Coordonnees(i+1,j+1)));
-                //bGrille[i][j].addKeyListener(new EcouteurClavier(this));
+                bGrille[i][j].addKeyListener(new EcouteurClavier(this));
                 bGrille[i][j].setSize(new Dimension(50,50));
                 bGrille[i][j].setOpaque(false);
                 bGrille[i][j].setContentAreaFilled(false); // On met a false pour empecher le composant de peindre l'interieur du JButton.
@@ -148,6 +152,7 @@ public class FenetrePrincipale extends JFrame{
                 menu.add(item2);
                 menu.add(item3);
                 menu.add(item4);
+	        menu.add(item5);
                 menuBar.add(menu);
                 
                 JPanel pNord = new JPanel(new BorderLayout());
@@ -248,6 +253,7 @@ public class FenetrePrincipale extends JFrame{
 		  	                    isPieceDeplacee = true;                             //Permet d'empecher toute autre action que le pivotement
 		  	                    isCaseSelectionneePlateau = true;
 		  	                    isCaseSelectionneeReserve = true;
+					    bEntrerReserve.setEnabled(false);
 		  	                    miseAJour();
 		  	               }
 	            	   }else{ //ok
@@ -259,7 +265,8 @@ public class FenetrePrincipale extends JFrame{
 	                       		System.out.println("angle");
 	                       		caseSelectionneePlateau = c;                        //L'ancienne case selectionnee (s'il y en a une) est remplacee par la nouvelle pour pouvoir la pivoter
 	                       		caseSelectionneeReserve = 0;
-	       	                    isPieceDeplacee = true;     
+	       	                    isPieceDeplacee = true;
+				    bEntrerReserve.setEnabled(false);
 	       	                    isCaseSelectionneePlateau = true;
 	       	                    isCaseSelectionneeReserve = false;
 	                       	}else {
@@ -298,7 +305,9 @@ public class FenetrePrincipale extends JFrame{
 	                        //~ bEntrerReserve.setEnabled(true);
 	                    }
 	                }else{
-	                    bEntrerReserve.setEnabled(true);
+			    if(bordure && siam.appartientAuJoueur(c)==1){
+	                        bEntrerReserve.setEnabled(true);
+			    }
 	                }
 	                if(siam.appartientAuJoueur(c)==1){
 	                    caseSelectionneePlateau = c;                //L'ancienne case selectionnee est remplacee par la nouvelle pour pouvoir la pivoter 
@@ -353,6 +362,9 @@ public class FenetrePrincipale extends JFrame{
                 System.out.println("Quitter");
                 this.dispose();
                 break;
+	    case 5:
+                this.recupererSauvegarde();
+		break;
             default:   
         }
      }
@@ -480,6 +492,7 @@ public class FenetrePrincipale extends JFrame{
             siam.changerJoueurCourant();
             bEntrerReserve.setEnabled(false);
             this.changerLesBoutons();
+	    siam.faireUneSauvegarde();
         }
         eMessage.setText("");
         miseAJour();
@@ -514,9 +527,9 @@ public class FenetrePrincipale extends JFrame{
     public void miseAJour() {                               //Met a jour l'affichage du plateau,des reserves et du joueur courant
         for(int i=0; i<5; i++ ) {
             for(int j=0; j<5; j++ ) {
-                bGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1)));
-                bArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1)));
-                bArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2)));
+                bGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1),theme));
+                bArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1),theme));
+                bArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2),theme));
                 bGrille[i][j].setBorder(bFinTour.getBorder());
                 bArrayJ1[i].setBorder(bFinTour.getBorder());
                 bArrayJ2[i].setBorder(bFinTour.getBorder());
@@ -524,19 +537,19 @@ public class FenetrePrincipale extends JFrame{
         }
         
         if(isCaseSelectionneePlateau) {
-            String iconName = "selec_"+bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].getIcon();
-            if (iconName.equals("selec_f_0_0.png"))
+            String iconName = "images/"+theme+"/selec_"+bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].getIcon();
+            if (iconName.equals("images/"+theme+"/selec_f_0_0.png"))
             {
-                iconName = "selec_f_0_0.png";
+                iconName = "images/"+theme+"/selec_f_0_0.png";
             }
             bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].setIcon(new ImageIcon(iconName));
             System.out.println(iconName);
         }else if(isCaseSelectionneeReserve) {
             if(siam.getJoueurCourant()==0) {
-                String iconName = "selec_"+bArrayJ1[caseSelectionneeReserve].getIcon();
+                String iconName = "images/"+theme+"/selec_"+bArrayJ1[caseSelectionneeReserve].getIcon();
                 bArrayJ1[caseSelectionneeReserve].setIcon(new ImageIcon(iconName));
             }else {
-                String iconName = "selec_"+bArrayJ2[caseSelectionneeReserve].getIcon();
+                String iconName = "images/"+theme+"/selec_"+bArrayJ2[caseSelectionneeReserve].getIcon();
                 bArrayJ2[caseSelectionneeReserve].setIcon(new ImageIcon(iconName));
             }
         }
@@ -627,7 +640,7 @@ public class FenetrePrincipale extends JFrame{
             return dim;
         }
      
-        public void layoutContainer(Container parent) {							//Redimensionne tous les composants de la fen�tre
+        public void layoutContainer(Container parent) {							//Redimensionne tous les composants de la fenètre
             
             Insets insets = parent.getInsets();                                 //espace q'un conteneur doit laisser sur chacun de ses bords
             int maxWidth = parent.getWidth()- (insets.left + insets.right);     //largeur max = largeur conteneur - espaces necessaires sur les bords du conteneur
