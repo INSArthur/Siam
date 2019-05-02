@@ -586,12 +586,13 @@ public class Jeu {
             
             if (plateau[horizontal][vertical]==null){
                 sortirPieceReserve(joueurCourant+1); 
-                reussite = true;
                 plateau[horizontal][vertical] = p;
+                reussite = true;
             }else{
                 if (pousserDepuisReserve(coord, direction)){
-                    isPiecePoussee = true;
+                	sortirPieceReserve(joueurCourant+1); 
                     plateau[horizontal][vertical] = p;
+                    isPiecePoussee = true;
                     reussite = true;
                 }
             }

@@ -527,9 +527,9 @@ public class FenetrePrincipale extends JFrame{
     public void miseAJour() {                               //Met a jour l'affichage du plateau,des reserves et du joueur courant
         for(int i=0; i<5; i++ ) {
             for(int j=0; j<5; j++ ) {
-                bGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1),theme));
-                bArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1),theme));
-                bArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2),theme));
+                bGrille[i][j].setIcon(new ImageIcon(siam.getImagePlateau(i+1,j+1,theme)));
+                bArrayJ1[i].setIcon(new ImageIcon(siam.getImageReserve(i, 1,theme)));
+                bArrayJ2[i].setIcon(new ImageIcon(siam.getImageReserve(i, 2,theme)));
                 bGrille[i][j].setBorder(bFinTour.getBorder());
                 bArrayJ1[i].setBorder(bFinTour.getBorder());
                 bArrayJ2[i].setBorder(bFinTour.getBorder());
