@@ -26,6 +26,7 @@ public class Jeu {
     
     private Joueur[] lesJoueurs;
     private Piece[][] plateau;
+    private Sauvegarde sauv;
     
     private boolean modeMulti;                  //true = mode multijoueurs ; false = mode solo contre IA
     private int joueurCourant;
@@ -57,7 +58,7 @@ public class Jeu {
         piecej2 = new LinkedList <Piece>();
         creerPieces();
          
-        
+        faireUneSauvegarde(); 
         this.modeMulti = modeMulti;
     }
     
@@ -735,7 +736,7 @@ public class Jeu {
     public String getImagePlateau(int h, int v){
         String s ="";
         if (plateau[h][v] instanceof Piece ){
-            s = plateau[h][v].getImage();
+            s = plateau[h][v].getImage(theme);
             }
             else {
             s = "vide.png";
@@ -747,14 +748,14 @@ public class Jeu {
         String s ="";
         if(joueur ==1) {
             if (i<piecej1.size()){
-                s = piecej1.get(i).getImage();
+                s = piecej1.get(i).getImage(theme);
                 }
                 else {
                 s = "vide.png";
             }
         }else if (joueur ==2) {
             if (i<piecej2.size()){
-                s = piecej2.get(i).getImage();
+                s = piecej2.get(i).getImage(theme);
                 }
                 else {
                 s = "vide.png";
@@ -762,12 +763,61 @@ public class Jeu {
         }
         return s;
     }
+	
+    public void faireUneSauvegarde(){
+        sauv = new Sauvegarde(this);
+    }
+	
+   public void chargerUneSauvegarde(){
+        if (sauv.getJoueurCourant() == joueurCourant)
+        {
+            //récuperer le plateau
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    plateau[i][j] = sauv.getPlateau()[i][j];
+                }
+                
+            }
+            //récuperer les deux reserves
+            piecej1.clear();
+            for (int i = 0; i < sauv.getReserve(1).size(); i++)
+            {
+                piecej1.add(sauv.getReserve(1).get(i));
+            }
+            
+            piecej2.clear();
+            for (int i = 0; i < sauv.getReserve(2).size(); i++)
+            {
+                piecej2.add(sauv.getReserve(2).get(i));
+            }
+            
+            // rendre toutes les pièces à nouveau pivotables
+            for (int i = 1; i < 6; i++)
+            {
+                for (int j = 1; j < 6; j++)
+                {
+                    if (plateau[i][j] instanceof Piece)
+                    {
+                        plateau[i][j].resetAPivote();
+                    }
+                }
+            } 
+        }
+    }
+	
+    public Piece[][] getPlateau(){
+        return plateau;
+    }
     
     public void deplacerPiecePlateauVersReserve(Coordonnees c) { 
         if (plateau[c.h()][c.v()].getType()== joueurCourant+1){
         entrerPieceReserve(joueurCourant+1);
         supprimerPiece(c);
     }
+	    
+
    }
 }
 
