@@ -67,8 +67,8 @@ public class Piece{
         return p instanceof Piece && p.getId ()== this.id;
     }
     
-    public String getImage(){
-        String s= "f_"+getType()+"_"+getOrientation()+".png";
+    public String getImage(char c){
+        String s= "images/"+c+"/"+c+"_"+getType()+"_"+getOrientation()+".png";
         return s;
     }
            

@@ -120,8 +120,7 @@ public class FenetreMenu extends JFrame {
         valider.addActionListener(new EcouteurEntree(this));
         valider.setEnabled(false);
         
-        classique.addKeyListener(new EcouteurToucheEnter(this));
-        valider.addKeyListener(new EcouteurToucheEnter(this));
+        classique.addKeyListener(new EcouteurToucheEnter(this,1));
          
         //===== Rendre la fenetre visible ===== 
         this.setVisible(true);
@@ -143,8 +142,10 @@ public class FenetreMenu extends JFrame {
             this.siam = new Jeu(J1,J2,false);
         }
         
-        this.fen = new FenetrePrincipale(siam);
-        this.dispose();
+        if(this.siam instanceof Jeu){
+            this.fen = new FenetrePrincipale(siam);
+            this.dispose();
+        }
     }
     
     //Acquisition du mode et affichage des parametres (noms des joueurs)
@@ -158,6 +159,7 @@ public class FenetreMenu extends JFrame {
         precBoutonSelec = boutonSelec;
 
         valider.setEnabled(true);
+        valider.addKeyListener(new EcouteurToucheEnter(this,0));
         
         if(mode==0) {
             
@@ -188,8 +190,7 @@ public class FenetreMenu extends JFrame {
             boutonSelec.setBorder(BorderFactory.createRaisedSoftBevelBorder());
             precBoutonSelec.setBorder(valider.getBorder());
         }
-    }
-              
+    } 
 }
 
 
