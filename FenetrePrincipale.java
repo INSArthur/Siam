@@ -80,6 +80,7 @@ public class FenetrePrincipale extends JFrame{
         eNomJoueur = new JLabel();
         eNomJoueur.setText(siam.getNomJoueurCourant());
         eMessage = new JLabel();
+        eMessage.setForeground(new Color(255,255,255));
         
         //Initialisation tableau d'etiquette + tableau de boutons
         bGrille = new JButton[5][5];
