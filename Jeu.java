@@ -509,8 +509,8 @@ public class Jeu {
                     estFini = true;
                     if(i==6) bord =1;
                     if(i==0) bord =3;
-                    if(j==6) bord =2;
-                    if(j==0) bord =4;
+                    if(j==6) bord =4;
+                    if(j==0) bord =2;
                     chercherVainqueur(i,j,bord);
                     return estFini;
                 }
@@ -563,21 +563,7 @@ public class Jeu {
             }
             System.out.println("test while 3 i="+i+"  j="+j+"  direction="+direction);
         }
-        switch (direction)
-            {
-                case 1: //nord
-                    i--;
-                    break;
-                case 2: //est
-                    j++;
-                    break;
-                case 3: //sud
-                    i++;
-                    break;
-                case 4: //ouest
-                    j--;
-                    break;
-            }
+        
         gagnant = plateau[i][j].getType();
     }   
     

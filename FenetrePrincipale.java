@@ -224,7 +224,8 @@ public class FenetrePrincipale extends JFrame{
                 conteneurPrincipal.add(pCentral, BorderLayout.CENTER);
                 conteneurPrincipal.add(pSud, BorderLayout.SOUTH);
                 conteneurPrincipal.addMouseWheelListener(new MyMouseWheelListener(this));
-                this.add(conteneurPrincipal);       
+                this.add(conteneurPrincipal);
+                this.setResizable(false);      
         
         this.miseAJour();
         //Prepare le premier tour :
