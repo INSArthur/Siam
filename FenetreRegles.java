@@ -22,7 +22,6 @@ public class FenetreRegles extends JFrame{
     private String text2 ="";
     private JButton suite ;
     private int compteur=0;
-    private JButton precedant ;
 	
 	//constructeur de la fenêtre
 	public FenetreRegles() {
@@ -74,6 +73,7 @@ public class FenetreRegles extends JFrame{
     
     public void changer(){
         if(compteur==0){
+            text2="";
             texte.remove(textRegles);
             try {
                 List<String> lines = Files.readAllLines(path2, charset);
@@ -90,12 +90,31 @@ public class FenetreRegles extends JFrame{
             textRegles.setForeground(Color.black);
             textRegles.setEditable(false);
             texte.add(textRegles);
-            principal.remove(bouton);
+            suite.setText("Precedant");
             compteur ++;
+        }else{
+            text="";
+            texte.remove(textRegles);
+            try {
+                List<String> lines = Files.readAllLines(path, charset);
+
+                for (String line : lines) {
+                    text = text + line + "\n";
+                }
+            } catch (IOException f) {
+                System.out.println(f);
+            }
+            textRegles = new JTextArea(text);
+            textRegles.setFont(new Font("Calibri",Font.BOLD + Font.ITALIC,18 ));
+            textRegles.setForeground(Color.black);
+            textRegles.setEditable(false);
+            texte.add(textRegles);
+            suite.setText("Suite");
+            compteur=0;
         }
-        
         this.validate();
         this.repaint();
+        
     }
 }
 
