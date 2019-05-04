@@ -28,6 +28,7 @@ public class Jeu {
     private Piece[][] plateau;
     private Sauvegarde sauv;
     private char theme = 'f';
+    private int gagnant;
     
     private boolean modeMulti;                  //true = mode multijoueurs ; false = mode solo contre IA
     private int joueurCourant;
@@ -84,7 +85,7 @@ public class Jeu {
         System.out.println(d);
         int aDeplacer =0; //Permet de compter combien de pieces devront être deplacees
         //On recupere les coord de la premiere case vide dans la direction donnee
-        if(mouvementPossible(cOrigine,d, false)){
+        if(mouvementPossible(cOrigine,d, false,0)){
             while (plateau[h][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'a la derniere case a deplacer
                 System.out.println("test while 1");
                 switch (d)
@@ -185,7 +186,7 @@ public class Jeu {
             }
         }
         
-        if (mouvementPossible(c,direction,true))
+        if (mouvementPossible(c,direction,true,direction))
         {
             while (plateau[horizontal][vertical] instanceof Piece && estDansLePlateau(plateau[horizontal][vertical])){ // permet de monter jusqu'a la derniere case a deplacer
                 System.out.println("test while 1");
@@ -308,16 +309,18 @@ public class Jeu {
         return pieceSelectionnee;
     }
     
-    public boolean mouvementPossible(Coordonnees c, int direction, boolean pieceReserve){
+    public boolean mouvementPossible(Coordonnees c, int direction, boolean pieceReserve, int orientation){
         boolean estPossible = false;
-        
+        System.out.println("test mouvement possible");
         // recuperer les coordonnees de la piece
         int horizontal = c.h();
         int vertical = c.v();
-        int orientation = plateau[horizontal][vertical].getOrientation();
+        if(orientation == 0){ 
+            orientation = plateau[horizontal][vertical].getOrientation();
+        }
         double pieceADeplacer = 0;
-        
-        if (caseVide(c,direction))
+        System.out.println("test case vide : "+estVide(c));
+        if (estVide(c))
         {
             estPossible = true;
         }else if(orientation != 0 && direction == orientation){
@@ -358,11 +361,12 @@ public class Jeu {
             if(pieceReserve){
                 pieceADeplacer += 1.3;
             }
+            boolean test = pieceADeplacer > 0;
+            System.out.println("à depalcer mouvement possible : "+pieceADeplacer+">0 : "+test);
             if(pieceADeplacer > 0){
                 estPossible = true;
             }
         }
-    
         return estPossible;
     }
         
@@ -376,9 +380,9 @@ public class Jeu {
             return a;
     }
     
-    public void pivoter(Coordonnees c, int rotation){
+    public void pivoter(Coordonnees c, int rotation, boolean angle){
         System.out.println("test pivoter isPiecePousse="+isPiecePoussee);
-        if(plateau[c.h()][c.v()] instanceof Piece && !isPiecePoussee){
+        if(angle && plateau[c.h()][c.v()] instanceof Piece && !isPiecePoussee){
             Piece p = plateau[c.h()][c.v()];
             int orientation = p.getOrientation();
             System.out.println("test orintation oreientation = "+orientation);
@@ -484,16 +488,18 @@ public class Jeu {
     
     public boolean finJeu(){
         /*tester si une montagne se trouve à l'exterieur du plateau
+         * 
+         *           3
          * 00 01 02 03 04 05 06
            10                16
            20                26
-           30                36
+        4  30                36 2 
            40                46
            50                56
-           60 61 62 63 64 65 66 */
-        
+           60 61 62 63 64 65 66 
+                     1          */
         //
-        
+        int bord = 0;
         
         for (int i = 0; i < 7; i++)
         {
@@ -501,6 +507,11 @@ public class Jeu {
             {
                 if(plateau[i][j] instanceof Piece && plateau[i][j].getType()==0){
                     estFini = true;
+                    if(i==6) bord =1;
+                    if(i==0) bord =3;
+                    if(j==6) bord =2;
+                    if(j==0) bord =4;
+                    chercherVainqueur(i,j,bord);
                     return estFini;
                 }
                 if (i>0 && i<6 && j==0)
@@ -511,6 +522,64 @@ public class Jeu {
         }
         return estFini;
     }
+    
+    public void chercherVainqueur(int i, int j, int direction){
+        /*il s'agit de chercher quelle est la première pièce
+         * en partant de la montagne, orientée dans le bon sens, à avoir sorti
+         * la montagne*/
+        System.out.println(i+"  "+j+"  direction : "+direction);
+        switch (direction)
+            {
+                case 1: //nord
+                    i--;
+                    break;
+                case 2: //est
+                    j++;
+                    break;
+                case 3: //sud
+                    i++;
+                    break;
+                case 4: //ouest
+                    j--;
+                    break;
+            }
+        System.out.println(i+"  "+j);
+        while (plateau[i][j].getOrientation() != directionOpposee(direction))
+        {
+            switch (direction)
+            {
+                case 1: //nord
+                    i--;
+                    break;
+                case 2: //est
+                    j++;
+                    break;
+                case 3: //sud
+                    i++;
+                    break;
+                case 4: //ouest
+                    j--;
+                    break;
+            }
+            System.out.println("test while 3 i="+i+"  j="+j+"  direction="+direction);
+        }
+        switch (direction)
+            {
+                case 1: //nord
+                    i--;
+                    break;
+                case 2: //est
+                    j++;
+                    break;
+                case 3: //sud
+                    i++;
+                    break;
+                case 4: //ouest
+                    j--;
+                    break;
+            }
+        gagnant = plateau[i][j].getType();
+    }   
     
     public void finTour(){
       /*vider les bordures invisibles du plateau
@@ -584,7 +653,6 @@ public class Jeu {
                 }
             }else {
                 p.tourner(direction);
-                System.out.println("p.tourner(direction);");
             }
             
             if (plateau[horizontal][vertical]==null){
@@ -814,6 +882,13 @@ public class Jeu {
     
     public Piece[][] getPlateau(){
         return plateau;
+    }
+    
+    public String[] getResultat(){
+        String[] resultat = new String[2];
+        resultat[0] = lesJoueurs[gagnant-1].getNom();
+        resultat[1] = lesJoueurs[gagnant%2].getNom();
+        return resultat; 
     }
     
     public void deplacerPiecePlateauVersReserve(Coordonnees c) { 
