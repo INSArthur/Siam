@@ -26,6 +26,7 @@ public class FenetreTheme extends JFrame {
         menu.addActionListener(new EcouteurComboBox(this));
         menu.addItem("Flèches");
         menu.addItem("Traditionnel");
+        menu.addItem("Game of Thrones");
         central.add(texte);
         central.add(menu);
         

@@ -167,22 +167,22 @@ public class Jeu {
         int aDeplacer = 0;
         
         if(direction==0) {
-	        if (horizontal >1 && horizontal < 5 && vertical == 1)
-	        {
-	            direction = 2;
-	        }
-	        if (horizontal >1 && horizontal < 5 && vertical == 5)
-	        {
-	            direction = 4;
-	        }
-	        if (vertical > 1 && vertical < 5 && horizontal == 1)
-	        {
-	            direction = 3;
-	        }
-	        if (vertical > 1 && vertical < 5 && horizontal == 5)
-	        {
-	            direction = 1;
-	        }
+            if (horizontal >1 && horizontal < 5 && vertical == 1)
+            {
+                direction = 2;
+            }
+            if (horizontal >1 && horizontal < 5 && vertical == 5)
+            {
+                direction = 4;
+            }
+            if (vertical > 1 && vertical < 5 && horizontal == 1)
+            {
+                direction = 3;
+            }
+            if (vertical > 1 && vertical < 5 && horizontal == 5)
+            {
+                direction = 1;
+            }
         }
         
         if (mouvementPossible(c,direction,true))
@@ -491,7 +491,10 @@ public class Jeu {
            40                46
            50                56
            60 61 62 63 64 65 66 */
-           
+        
+        //
+        
+        
         for (int i = 0; i < 7; i++)
         {
             for (int j = 0; j < 7; j++)
@@ -563,25 +566,25 @@ public class Jeu {
         if(enBordure) {
             p = new Piece(joueurCourant + 1);
             if(direction==0) {
-	            if (horizontal >1 && horizontal < 5 && vertical == 1)
-	            {
-	                p.tourner(2);
-	            }
-	            if (horizontal >1 && horizontal < 5 && vertical == 5)
-	            {
-	                p.tourner(4);
-	            }
-	            if (vertical > 1 && vertical < 5 && horizontal == 1)
-	            {
-	                p.tourner(3);
-	            }
-	            if (vertical > 1 && vertical < 5 && horizontal == 5)
-	            {
-	                p.tourner(1);
-	            }
+                if (horizontal >1 && horizontal < 5 && vertical == 1)
+                {
+                    p.tourner(2);
+                }
+                if (horizontal >1 && horizontal < 5 && vertical == 5)
+                {
+                    p.tourner(4);
+                }
+                if (vertical > 1 && vertical < 5 && horizontal == 1)
+                {
+                    p.tourner(3);
+                }
+                if (vertical > 1 && vertical < 5 && horizontal == 5)
+                {
+                    p.tourner(1);
+                }
             }else {
-            	p.tourner(direction);
-            	System.out.println("p.tourner(direction);");
+                p.tourner(direction);
+                System.out.println("p.tourner(direction);");
             }
             
             if (plateau[horizontal][vertical]==null){
@@ -590,7 +593,7 @@ public class Jeu {
                 reussite = true;
             }else{
                 if (pousserDepuisReserve(coord, direction)){
-                	sortirPieceReserve(joueurCourant+1); 
+                    sortirPieceReserve(joueurCourant+1); 
                     plateau[horizontal][vertical] = p;
                     isPiecePoussee = true;
                     reussite = true;
@@ -653,10 +656,10 @@ public class Jeu {
         return b;
     }
     public boolean estVide(Coordonnees c) {
-    	if (plateau[c.h()][c.v()]==null){
+        if (plateau[c.h()][c.v()]==null){
             return true;
         }else {
-        	return false;
+            return false;
         }
     }
     
@@ -753,23 +756,23 @@ public class Jeu {
                 s = piecej1.get(i).getImage(theme);
                 }
                 else {
-                s = "vide.png";
+                s = "videR1.png";
             }
         }else if (joueur ==2) {
             if (i<piecej2.size()){
                 s = piecej2.get(i).getImage(theme);
                 }
                 else {
-                s = "vide.png";
+                s = "videR2.png";
             }
         }
         return s;
     }
-	
+    
     public void faireUneSauvegarde(){
         sauv = new Sauvegarde(this);
     }
-	
+    
    public void chargerUneSauvegarde(){
         if (sauv.getJoueurCourant() == joueurCourant)
         {
@@ -808,7 +811,7 @@ public class Jeu {
             } 
         }
     }
-	
+    
     public Piece[][] getPlateau(){
         return plateau;
     }
@@ -818,7 +821,7 @@ public class Jeu {
         entrerPieceReserve(joueurCourant+1);
         supprimerPiece(c);
     }
-	    
+        
 
    }
 }

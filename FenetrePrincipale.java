@@ -33,7 +33,7 @@ public class FenetrePrincipale extends JFrame{
     
     //Declaration du tableau de boutons et du paneau les contenant
     private JButton[][] bGrille;    //Grille de boutons permettant d'inter-agir avec le plateau de jeu plateau de jeu
-    private JPanel pGrilleBouton; 	//Panneau contenant la grille de boutons
+    private JPanel pGrilleBouton;   //Panneau contenant la grille de boutons
     
     //Declaration variables d'etapes et de selection de piece et de bouton d'angle
     private boolean isCaseSelectionneePlateau;
@@ -68,12 +68,12 @@ public class FenetrePrincipale extends JFrame{
         item2 = new JMenuItem("Theme");
         item3 = new JMenuItem("Aide");
         item4 = new JMenuItem("Quitter");
-	item5 = new JMenuItem("Retour au début du tour");
+        item5 = new JMenuItem("Retour au début du tour");
         item1.addActionListener(new EcouteurMenu(this,1));
         item2.addActionListener(new EcouteurMenu(this,2));
         item3.addActionListener(new EcouteurMenu(this,3));
         item4.addActionListener(new EcouteurMenu(this,4));
-	item5.addActionListener(new EcouteurMenu(this,5));
+        item5.addActionListener(new EcouteurMenu(this,5));
         
         //Initialisation etiquette joueur
         eJoueur = new JLabel("joueur : ");
@@ -150,7 +150,7 @@ public class FenetrePrincipale extends JFrame{
                 menu.add(item2);
                 menu.add(item3);
                 menu.add(item4);
-	        menu.add(item5);
+                menu.add(item5);
                 menuBar.add(menu);
                 
                 JPanel pNord = new JPanel(new BorderLayout());
@@ -187,6 +187,7 @@ public class FenetrePrincipale extends JFrame{
                 
                 pGrilleBouton = new JPanel(new GridLayout(5,5));         //Panneau contenant les boutons
                 pGrilleBouton.setSize(new Dimension(400,400));
+                pGrilleBouton.setBackground(Color.BLACK);
                 
                 for(int i=0; i<5; i++){
                     for(int j=0; j<5; j++){
@@ -237,92 +238,92 @@ public class FenetrePrincipale extends JFrame{
         eMessage.setText(""); validate(); repaint();
         
         if(!siam.pieceAPivote(caseSelectionneePlateau)){
-	        if(!isPieceDeplacee) {
-	            //~ System.out.println("!isPieceDeplacee");
-	            if(isCaseSelectionneeReserve) { //ok                     //Si une case de la reserve est deja selectionnee
-	                System.out.println("isCaseSelectionneeReserve");
-	               if(bordure) { //ok
-	            	   System.out.println(siam.estVide(c));
-	            	   if(siam.estVide(c)) {
-	            		   
-		            	   if(siam.deplacerReserveVersPlateau(c, bordure,0)) {       //Deplacement reserve vers plateau et MAJ si deplacee
-		  	                    //~ System.out.println("deplacerReserveVersPlateau effectue");
-		  	                    caseSelectionneePlateau = c;                        //L'ancienne case selectionnee (s'il y en a une) est remplacee par la nouvelle pour pouvoir la pivoter
-		  	                    isPieceDeplacee = true;                             //Permet d'empecher toute autre action que le pivotement
-		  	                    isCaseSelectionneePlateau = true;
-		  	                    isCaseSelectionneeReserve = true;
-					    bEntrerReserve.setEnabled(false);
-		  	                    miseAJour();
-		  	               }
-	            	   }else{ //ok
-						
-	                       	System.out.println(angle);
-	                       	
-	                       	if(angle!=0) {			//Si la case est dans un coin du plateau
-	                       		affichageEntreePieceAngle(c,angle);
-	                       		System.out.println("angle");
-	                       		caseSelectionneePlateau = c;                        //L'ancienne case selectionnee (s'il y en a une) est remplacee par la nouvelle pour pouvoir la pivoter
-	                       		caseSelectionneeReserve = 0;
-	       	                    isPieceDeplacee = true;
-				    bEntrerReserve.setEnabled(false);
-	       	                    isCaseSelectionneePlateau = true;
-	       	                    isCaseSelectionneeReserve = false;
-	                       	}else {
-	                       		if(siam.deplacerReserveVersPlateau(c, bordure,0)) {       //Deplacement reserve vers plateau et MAJ si deplacee
-	                       	
-	       	                    //~ System.out.println("deplacerReserveVersPlateau effectue");
-	       	                    caseSelectionneePlateau = c;                        //L'ancienne case selectionnee (s'il y en a une) est remplacee par la nouvelle pour pouvoir la pivoter
-	       	                    caseSelectionneeReserve = 0;
-	       	                    isPieceDeplacee = true;                             //Permet d'empecher toute autre action que le pivotement
-	       	                    isCaseSelectionneePlateau = true;
-	       	                    isCaseSelectionneeReserve = false;
-	       	                    miseAJour();
-	                       		}
-	       	                } 
-	            		 
-						}
-	                }else{
-	                   eMessage.setText("Une piece de la reserve se place en bordure de plateau.");
-	                   isCaseSelectionneeReserve = false; 
-	                }
-	                
-	            }else{ 
-	                if(isCaseSelectionneePlateau) {             //Si une case de la reserve est deja selectionnee
-	                    //~ System.out.println("isCaseSelectionneePlateau");
-	                    //~ System.out.println(caseSelectionneePlateau.h()+" "+caseSelectionneePlateau.v());
-	                    //~ System.out.println(c.h()+" "+c.v());
-	                    //~ System.out.println("isCaseSelectionneePlateau");
-	                    if(siam.deplacerPlateauVersPlateau(caseSelectionneePlateau, c)) {       //Deplacement plateau vers reserve et MAJ si deplacee
-	                        //~ System.out.println("deplacerPlateauVersPlateau effectue");
-	                        isPieceDeplacee = true;                     //Permet d'empecher toute autre action que le pivotement
-	                    }else{
-	                        eMessage.setText("Mouvement impossible.");
-	                        caseSelectionneePlateau = null;
-	                        isCaseSelectionneePlateau = false;                                        //Sinon l'ancienne case selectionnee est remplacee par la nouvelle
-	                        //~ System.out.println("case selectionnee");
-	                        //~ bEntrerReserve.setEnabled(true);
-	                    }
-	                }else{
-			    if(bordure && siam.appartientAuJoueur(c)==1){
-	                        bEntrerReserve.setEnabled(true);
-			    }
-	                }
-	                if(siam.appartientAuJoueur(c)==1){
-	                    caseSelectionneePlateau = c;                //L'ancienne case selectionnee est remplacee par la nouvelle pour pouvoir la pivoter 
-	                    caseSelectionneeReserve = 0;
-	                    isCaseSelectionneePlateau = true;
-	                    isCaseSelectionneeReserve = false;
-	                    miseAJour();
-	                }else if(siam.appartientAuJoueur(c)==2){
-	                    eMessage.setText("Ce n'est pas l'une de vos pieces");
-	                }
-	            }
-	        }else{
-	            eMessage.setText("Vous ne pouvez deplacer qu'une piece par tour.");
-	        }
-	        }else{ 
-	        	eMessage.setText("Vous ne pouvez pas deplacer une piece qui a pivote"); 
-	        }
+            if(!isPieceDeplacee) {
+                //~ System.out.println("!isPieceDeplacee");
+                if(isCaseSelectionneeReserve) { //ok                     //Si une case de la reserve est deja selectionnee
+                    System.out.println("isCaseSelectionneeReserve");
+                   if(bordure) { //ok
+                       System.out.println(siam.estVide(c));
+                       if(siam.estVide(c)) {
+                           
+                           if(siam.deplacerReserveVersPlateau(c, bordure,0)) {       //Deplacement reserve vers plateau et MAJ si deplacee
+                                //~ System.out.println("deplacerReserveVersPlateau effectue");
+                                caseSelectionneePlateau = c;                        //L'ancienne case selectionnee (s'il y en a une) est remplacee par la nouvelle pour pouvoir la pivoter
+                                isPieceDeplacee = true;                             //Permet d'empecher toute autre action que le pivotement
+                                isCaseSelectionneePlateau = true;
+                                isCaseSelectionneeReserve = true;
+                        bEntrerReserve.setEnabled(false);
+                                miseAJour();
+                           }
+                       }else{ //ok
+                        
+                            System.out.println(angle);
+                            
+                            if(angle!=0) {          //Si la case est dans un coin du plateau
+                                affichageEntreePieceAngle(c,angle);
+                                System.out.println("angle");
+                                caseSelectionneePlateau = c;                        //L'ancienne case selectionnee (s'il y en a une) est remplacee par la nouvelle pour pouvoir la pivoter
+                                caseSelectionneeReserve = 0;
+                                isPieceDeplacee = true;
+                                bEntrerReserve.setEnabled(false);
+                                isCaseSelectionneePlateau = true;
+                                isCaseSelectionneeReserve = false;
+                            }else {
+                                if(siam.deplacerReserveVersPlateau(c, bordure,0)) {       //Deplacement reserve vers plateau et MAJ si deplacee
+                            
+                                //~ System.out.println("deplacerReserveVersPlateau effectue");
+                                caseSelectionneePlateau = c;                        //L'ancienne case selectionnee (s'il y en a une) est remplacee par la nouvelle pour pouvoir la pivoter
+                                caseSelectionneeReserve = 0;
+                                isPieceDeplacee = true;                             //Permet d'empecher toute autre action que le pivotement
+                                isCaseSelectionneePlateau = true;
+                                isCaseSelectionneeReserve = false;
+                                miseAJour();
+                                }
+                            } 
+                         
+                        }
+                    }else{
+                       eMessage.setText("Une piece de la reserve se place en bordure de plateau.");
+                       isCaseSelectionneeReserve = false; 
+                    }
+                    
+                }else{ 
+                    if(isCaseSelectionneePlateau) {             //Si une case de la reserve est deja selectionnee
+                        //~ System.out.println("isCaseSelectionneePlateau");
+                        //~ System.out.println(caseSelectionneePlateau.h()+" "+caseSelectionneePlateau.v());
+                        //~ System.out.println(c.h()+" "+c.v());
+                        //~ System.out.println("isCaseSelectionneePlateau");
+                        if(siam.deplacerPlateauVersPlateau(caseSelectionneePlateau, c)) {       //Deplacement plateau vers reserve et MAJ si deplacee
+                            //~ System.out.println("deplacerPlateauVersPlateau effectue");
+                            isPieceDeplacee = true;                     //Permet d'empecher toute autre action que le pivotement
+                        }else{
+                            eMessage.setText("Mouvement impossible.");
+                            caseSelectionneePlateau = null;
+                            isCaseSelectionneePlateau = false;                                        //Sinon l'ancienne case selectionnee est remplacee par la nouvelle
+                            //~ System.out.println("case selectionnee");
+                            //~ bEntrerReserve.setEnabled(true);
+                        }
+                    }else{
+                if(bordure && siam.appartientAuJoueur(c)==1){
+                            bEntrerReserve.setEnabled(true);
+                }
+                    }
+                    if(siam.appartientAuJoueur(c)==1){
+                        caseSelectionneePlateau = c;                //L'ancienne case selectionnee est remplacee par la nouvelle pour pouvoir la pivoter 
+                        caseSelectionneeReserve = 0;
+                        isCaseSelectionneePlateau = true;
+                        isCaseSelectionneeReserve = false;
+                        miseAJour();
+                    }else if(siam.appartientAuJoueur(c)==2){
+                        eMessage.setText("Ce n'est pas l'une de vos pieces");
+                    }
+                }
+            }else{
+                eMessage.setText("Vous ne pouvez deplacer qu'une piece par tour.");
+            }
+            }else{ 
+                eMessage.setText("Vous ne pouvez pas deplacer une piece qui a pivote"); 
+            }
         
         
         miseAJour();
@@ -346,23 +347,21 @@ public class FenetrePrincipale extends JFrame{
         switch (i)
         {
             case 1 : 
-                System.out.println("Nouvelle Partie");
                 new FenetreMenu ();
                 this.dispose();
                 break;
             case 2 : 
-                System.out.println("Parametres");
+                new FenetreTheme(this);
                 break;
             case 3:
-                System.out.println("Aide");
+                new FenetreRegles();
                 break;
             case 4:
-                System.out.println("Quitter");
                 this.dispose();
                 break;
-	    case 5:
+            case 5:
                 this.recupererSauvegarde();
-		break;
+                break;
             default:   
         }
      }
@@ -377,93 +376,100 @@ public class FenetrePrincipale extends JFrame{
         }
     }
     
-	public void affichageEntreePieceAngle(Coordonnees c,int angle) { //Fait apparaitre ou disparaitre les boutons necessaire pour savoir dans quel direction rentre la piece dans un angle du plateau, angles numerote de 1 a 4 dans le sens des aiguilles d une montre en partant du nord ouest
-			System.out.println("!isBoutonAngle");
-			JPanel panneauAngle = new JPanel(new BorderLayout());
-			JButton boutonAngleColonne = new JButton();				//Bouton qui est dans la direction de la colonne
-			JButton boutonAngleLigne = new JButton();				//Bouton qui est dans la direction de la ligne
-			
-			EcouteurAngle eColonne = new EcouteurAngle(this);
-			EcouteurAngle eLigne = new EcouteurAngle(this);
-			boutonAngleColonne.addActionListener(eColonne);
-			boutonAngleLigne.addActionListener(eLigne);
-			
-			boutonAnglePrecedent = bGrille[c.h()-1][c.v()-1];
-			
-			switch (angle) {
-			case 1 :	
-				eLigne.setDirection(2);
-				eColonne.setDirection(3);
-				panneauAngle.add(boutonAngleColonne, BorderLayout.NORTH);
-				panneauAngle.add(boutonAngleLigne, BorderLayout.WEST);
-				panneauAngle.add(boutonAnglePrecedent, BorderLayout.CENTER);
-				changementGrilleBouton(new Coordonnees(0,0),panneauAngle);
-				break;
-			case 2:
-				eLigne.setDirection(4);
-				eColonne.setDirection(3);
-				panneauAngle.add(boutonAngleColonne, BorderLayout.NORTH);
-				panneauAngle.add(boutonAngleLigne, BorderLayout.EAST);
-				panneauAngle.add(boutonAnglePrecedent, BorderLayout.CENTER);
-				changementGrilleBouton(new Coordonnees(0,4),panneauAngle);
-				break;
-			case 3:
-				eLigne.setDirection(4);
-				eColonne.setDirection(1);
-				panneauAngle.add(boutonAngleColonne, BorderLayout.SOUTH);
-				panneauAngle.add(boutonAngleLigne, BorderLayout.EAST);
-				panneauAngle.add(boutonAnglePrecedent, BorderLayout.CENTER);
-				changementGrilleBouton(new Coordonnees(4,4),panneauAngle);
-				break;
-			case 4:
-				eLigne.setDirection(2);
-				eColonne.setDirection(1);
-				panneauAngle.add(boutonAngleColonne, BorderLayout.SOUTH);
-				panneauAngle.add(boutonAngleLigne, BorderLayout.WEST);
-				panneauAngle.add(boutonAnglePrecedent, BorderLayout.CENTER);
-				changementGrilleBouton(new Coordonnees(4,0),panneauAngle);
-				break;
-			default :
-				break;
-			}
-	}
-	
-	public void changementGrilleBouton(Coordonnees c, JComponent composant) { //Change le JComponent de coordonnees i,j da,s le plateau par composant
-		System.out.println(composant);
-		System.out.println(c.h());
-		System.out.println(c.v());
-		
-		pGrilleBouton.removeAll();
-		for(int i=0; i<5; i++){
+    public void affichageEntreePieceAngle(Coordonnees c,int angle) { //Fait apparaitre ou disparaitre les boutons necessaire pour savoir dans quel direction rentre la piece dans un angle du plateau, angles numerote de 1 a 4 dans le sens des aiguilles d une montre en partant du nord ouest
+            System.out.println("!isBoutonAngle");
+            JPanel panneauAngle = new JPanel(new BorderLayout());
+            JButton boutonAngleColonne = new JButton();             //Bouton qui est dans la direction de la colonne
+            JButton boutonAngleLigne = new JButton();               //Bouton qui est dans la direction de la ligne
+            
+            EcouteurAngle eColonne = new EcouteurAngle(this);
+            EcouteurAngle eLigne = new EcouteurAngle(this);
+            boutonAngleColonne.addActionListener(eColonne);
+            boutonAngleLigne.addActionListener(eLigne);
+            
+            System.out.println("test affichage entree piece angle h="+c.h()+"  v="+c.v());
+            boutonAnglePrecedent = bGrille[c.h()-1][c.v()-1];
+            
+            switch (angle) {
+            case 1 :    
+                eLigne.setDirection(2);
+                eColonne.setDirection(3);
+                panneauAngle.add(boutonAngleColonne, BorderLayout.NORTH);
+                panneauAngle.add(boutonAngleLigne, BorderLayout.WEST);
+                panneauAngle.add(boutonAnglePrecedent, BorderLayout.CENTER);
+                changementGrilleBouton(new Coordonnees(0,0),panneauAngle);
+                break;
+            case 2:
+                eLigne.setDirection(4);
+                eColonne.setDirection(3);
+                panneauAngle.add(boutonAngleColonne, BorderLayout.NORTH);
+                panneauAngle.add(boutonAngleLigne, BorderLayout.EAST);
+                panneauAngle.add(boutonAnglePrecedent, BorderLayout.CENTER);
+                changementGrilleBouton(new Coordonnees(0,4),panneauAngle);
+                break;
+            case 3:
+                eLigne.setDirection(4);
+                eColonne.setDirection(1);
+                panneauAngle.add(boutonAngleColonne, BorderLayout.SOUTH);
+                panneauAngle.add(boutonAngleLigne, BorderLayout.EAST);
+                panneauAngle.add(boutonAnglePrecedent, BorderLayout.CENTER);
+                changementGrilleBouton(new Coordonnees(4,4),panneauAngle);
+                break;
+            case 4:
+                eLigne.setDirection(2);
+                eColonne.setDirection(1);
+                panneauAngle.add(boutonAngleColonne, BorderLayout.SOUTH);
+                panneauAngle.add(boutonAngleLigne, BorderLayout.WEST);
+                panneauAngle.add(boutonAnglePrecedent, BorderLayout.CENTER);
+                changementGrilleBouton(new Coordonnees(4,0),panneauAngle);
+                break;
+            default :
+                break;
+            }
+    }
+    
+    public void changementGrilleBouton(Coordonnees c, JComponent composant) { //Change le JComponent de coordonnees i,j da,s le plateau par composant
+        //~ System.out.println(composant);
+        System.out.println(c.h());
+        System.out.println(c.v());
+        
+        pGrilleBouton.removeAll();
+        for(int i=0; i<5; i++){
             for(int j=0; j<5; j++){
-            	if(i==(c.h()) && j==(c.v())) {
-            		System.out.println("yes!!!");
-            		System.out.println(composant);
-                	pGrilleBouton.add(composant);                	
-            	}else {
-            		pGrilleBouton.add(bGrille[i][j]);
-            	}
+                if(i==(c.h()) && j==(c.v())) {
+                    System.out.println("yes!!!");
+                    //~ System.out.println(composant);
+                    pGrilleBouton.add(composant);
+                    //~ System.out.println("test changement copossant i="+i+"  j="+j+ "test existence bouton"+(bGrille[i][j] instanceof JButton));
+                   
+                }else {
+                    pGrilleBouton.add(bGrille[i][j]);
+                    //~ System.out.println("test changement copossant i="+i+"  j="+j+ "test existence bouton"+(bGrille[i][j] instanceof JButton));
+                }
             }
         }
-		System.out.println(pGrilleBouton);
-		this.repaint();
+        //~ System.out.println(pGrilleBouton);
+        this.repaint();
         this.validate();
         miseAJour();
-	}
-	
-	public void selectionAngle(int direction) {		//Utilise par ECouteurAngle, fait rentrer une piece dan un angle suivant la direction selectionnee
-		System.out.println("selectionAngle");
-		boolean bordure = false; 
-		Coordonnees c = caseSelectionneePlateau;
-		if (c.h() == 1 || c.h() == 5 || c.v() == 1 || c.v() == 5){
-	            bordure = true;
-	    }
-		System.out.println(siam.deplacerReserveVersPlateau(c,bordure,direction));
-		changementGrilleBouton(c,boutonAnglePrecedent);
-		miseAJour();
-		System.out.println(bordure);
-		
-	}
+    }
+    
+    public void selectionAngle(int direction) {     //Utilise par ECouteurAngle, fait rentrer une piece dan un angle suivant la direction selectionnee
+        System.out.println("selectionAngle");
+        boolean bordure = false; 
+        Coordonnees c = caseSelectionneePlateau;
+        if (c.h() == 1 || c.h() == 5 || c.v() == 1 || c.v() == 5){
+            bordure = true;
+        }
+        System.out.println(siam.deplacerReserveVersPlateau(c,bordure,direction));
+        if(c.h() == 1 && c.v() ==1){ c = new Coordonnees(0,0); }
+        changementGrilleBouton(c,boutonAnglePrecedent);// Surement là que ça peche
+        /*boutonprecedent correspond au premier bouton selectionne, et je suppose qu'il possede l'couteur qui va avec, ou une douille dans le genre
+         * */
+        miseAJour();
+        System.out.println(bordure);
+        
+    }
 
     public void finTour(){      //Reinitialise les variable d'etapes, change le joueur courant et donne l'accessibilite a sa reserve exclusivement
         //~ System.out.println("finTour()");
@@ -483,7 +489,7 @@ public class FenetrePrincipale extends JFrame{
             siam.changerJoueurCourant();
             bEntrerReserve.setEnabled(false);
             this.changerLesBoutons();
-	    siam.faireUneSauvegarde();
+        siam.faireUneSauvegarde();
         }
         eMessage.setText("");
         miseAJour();
@@ -512,7 +518,7 @@ public class FenetrePrincipale extends JFrame{
     
     public void entrerPieceReserve(int idJoueur, Coordonnees c){    //Supprime la piece de la case de coordonnee c, rajoute une piece dans la reserve du joueur i, fait disparaitre le bouton de rentree de piece
         siam.deplacerPiecePlateauVersReserve(caseSelectionneePlateau);
-        finTour();
+        bEntrerReserve.setEnabled(false);
     }
     
     public void miseAJour() {                               //Met a jour l'affichage du plateau,des reserves et du joueur courant
@@ -527,9 +533,9 @@ public class FenetrePrincipale extends JFrame{
             }
         }
         
-        if(isCaseSelectionneePlateau) {
+        if(isCaseSelectionneePlateau && (""+bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].getIcon()).charAt(0) != 'v') {
             String iconName = ""+bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].getIcon();
-	    iconName =iconName.substring(0, 9) 
+        iconName =iconName.substring(0, 9) 
                         + "selec_" 
                         + iconName.substring(9);
             bGrille[caseSelectionneePlateau.h()-1][caseSelectionneePlateau.v()-1].setIcon(new ImageIcon(iconName));
@@ -537,13 +543,13 @@ public class FenetrePrincipale extends JFrame{
         }else if(isCaseSelectionneeReserve) {
             if(siam.getJoueurCourant()==0) {
                 String iconName = ""+bArrayJ1[caseSelectionneeReserve].getIcon();
-		iconName = iconName.substring(0, 9) 
+        iconName = iconName.substring(0, 9) 
                         + "selec_" 
                         + iconName.substring(9);
                 bArrayJ1[caseSelectionneeReserve].setIcon(new ImageIcon(iconName));
             }else {
                 String iconName = ""+bArrayJ2[caseSelectionneeReserve].getIcon();
-		iconName = iconName.substring(0, 9) 
+        iconName = iconName.substring(0, 9) 
                         + "selec_" 
                         + iconName.substring(9);
                 bArrayJ2[caseSelectionneeReserve].setIcon(new ImageIcon(iconName));
@@ -556,7 +562,7 @@ public class FenetrePrincipale extends JFrame{
         this.validate();
         System.out.println("mise a jour");
     }
-	
+    
     public void recupererSauvegarde(){
         siam.chargerUneSauvegarde();
         isCaseSelectionneePlateau = false;
@@ -651,7 +657,7 @@ public class FenetrePrincipale extends JFrame{
             return dim;
         }
      
-        public void layoutContainer(Container parent) {							//Redimensionne tous les composants de la fenètre
+        public void layoutContainer(Container parent) {                         //Redimensionne tous les composants de la fenètre
             
             Insets insets = parent.getInsets();                                 //espace q'un conteneur doit laisser sur chacun de ses bords
             int maxWidth = parent.getWidth()- (insets.left + insets.right);     //largeur max = largeur conteneur - espaces necessaires sur les bords du conteneur
