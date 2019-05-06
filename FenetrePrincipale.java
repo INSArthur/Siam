@@ -19,6 +19,7 @@ public class FenetrePrincipale extends JFrame{
     private JMenuItem item3;
     private JMenuItem item4;
     private JMenuItem item5;
+    private JMenuItem item6;
     
     //Declaration reserve grille et etiquette J1
     private JButton[] bArrayJ1;
@@ -45,6 +46,10 @@ public class FenetrePrincipale extends JFrame{
     private int caseSelectionneeReserve;
     private char theme = 'f';
     
+    //Declaration des variables pour la gestion des musiques
+    private Mp3Player lecteur;
+    private boolean sonActif = true;
+    
     public FenetrePrincipale(Jeu siam){
         super("Jeu du Siam");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,11 +75,13 @@ public class FenetrePrincipale extends JFrame{
         item3 = new JMenuItem("Aide");
         item4 = new JMenuItem("Quitter");
         item5 = new JMenuItem("Retour au début du tour");
+        item6 = new JMenuItem("Activer/Desactiver le son");
         item1.addActionListener(new EcouteurMenu(this,1));
         item2.addActionListener(new EcouteurMenu(this,2));
         item3.addActionListener(new EcouteurMenu(this,3));
         item4.addActionListener(new EcouteurMenu(this,4));
         item5.addActionListener(new EcouteurMenu(this,5));
+        item6.addActionListener(new EcouteurMenu(this,6));
         
         //Initialisation etiquette joueur
         eJoueur = new JLabel("joueur : ");
@@ -151,8 +158,9 @@ public class FenetrePrincipale extends JFrame{
                 menu.add(item1);
                 menu.add(item2);
                 menu.add(item3);
-                menu.add(item4);
                 menu.add(item5);
+                menu.add(item6);
+                menu.add(item4);
                 menuBar.add(menu);
                 
                 JPanel pNord = new JPanel(new BorderLayout());
@@ -233,6 +241,9 @@ public class FenetrePrincipale extends JFrame{
         {
             bArrayJ2[i].setEnabled(false);
         }
+        
+        lanceur = new Mp3Player("musiques/f/musique.mp3");
+        lanceur.start();
         
     }
     
@@ -345,9 +356,20 @@ public class FenetrePrincipale extends JFrame{
             case 5:
                 this.recupererSauvegarde();
                 break;
+            case 6:
+                sonActif = activerDesactiverSon(sonActif);
             default:   
         }
      }
+    
+    public boolean activerDesactiverSon(boolean b){
+        if (b){
+            lecteur.stop();
+        }else{
+            changerTheme(theme);
+        }
+        return !b;
+    }
 
     public void pivoterPiece(int i){                            //Pivote la piece selectionnee dans le plateau si possible
         if(isCaseSelectionneePlateau) {
@@ -449,7 +471,6 @@ public class FenetrePrincipale extends JFrame{
         siam.deplacerReserveVersPlateau(c,bordure,direction);
         if(c.h() == 1 && c.v() ==1){ c = new Coordonnees(0,0); }
         changementGrilleBouton(c,boutonAnglePrecedent);
-        /*boutonprecedent correspond au premier bouton selectionne, et je suppose qu'il possede l'couteur qui va avec* */
         miseAJour();
         
     }
@@ -469,7 +490,6 @@ public class FenetrePrincipale extends JFrame{
             caseSelectionneePlateau = null;
             caseSelectionneeReserve = 0;
             siam.finTour();
-            siam.changerJoueurCourant();
             bEntrerReserve.setEnabled(false);
             this.changerLesBoutons();
         siam.faireUneSauvegarde();
@@ -554,6 +574,9 @@ public class FenetrePrincipale extends JFrame{
     }
     
     public void changerTheme(char c){
+        lecteur.stop();
+        lecteur = new Mp3Player("musiques/"+theme+"/musique.mp3");
+        lecteur.start();
         theme = c;
         miseAJour();
     }
