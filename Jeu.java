@@ -64,7 +64,7 @@ public class Jeu {
         this.modeMulti = modeMulti;
     }
     
-    public void creerPieces(){//instanciation des pi�ces du plateau et des reserves des joueurs; utilise par le constructeur 
+    public void creerPieces(){//instanciation des pièces du plateau et des reserves des joueurs; utilise par le constructeur 
         
         for (int i = 0; i < 3; i++){
             plateau[3][2+i]=new Piece(0);
@@ -82,7 +82,7 @@ public class Jeu {
         int d = getDirection(cOrigine,cCible);
         boolean reussite = false;
         
-        int aDeplacer =0; //Permet de compter combien de pieces devront être deplacees
+        int aDeplacer =0; //Permet de compter combien de pieces devront Ãªtre deplacees
         //On recupere les coord de la premiere case vide dans la direction donnee
         if(mouvementPossible(cOrigine,d, false,0)){
             while (plateau[h][v] instanceof Piece && estDansLePlateau(plateau[h][v])){ // permet de monter jusqu'a la derniere case a deplacer
@@ -304,7 +304,7 @@ public class Jeu {
     }
     
     /**
-    public Piece getPieceSelectionnee(){//retourne pi�ce selectionn�e
+    public Piece getPieceSelectionnee(){//retourne pièce selectionnée
         return pieceSelectionnee;
     }**/
     
@@ -366,7 +366,7 @@ public class Jeu {
         return estPossible;
     }
         
-    public boolean estDansLePlateau(Piece p){//renvoie vrai si la pi�ce est sur le plateau
+    public boolean estDansLePlateau(Piece p){//renvoie vrai si la pièce est sur le plateau
         boolean a = true;
         for(int i=0;i<plateau.length; i++){
             if(p.equals(plateau[i][0])  || p.equals(plateau[i][6]) || p.equals(plateau[0][i]) || p.equals(plateau[6][i])){
@@ -376,7 +376,7 @@ public class Jeu {
             return a;
     }
     
-    public void pivoter(Coordonnees c, int rotation, boolean angle){//permet de faire pivoter la pi�ce s�lectionn�e
+    public void pivoter(Coordonnees c, int rotation, boolean angle){//permet de faire pivoter la pièce sélectionnée
         if(angle && plateau[c.h()][c.v()] instanceof Piece && !isPiecePoussee){
             Piece p = plateau[c.h()][c.v()];
             int orientation = p.getOrientation();
@@ -398,14 +398,14 @@ public class Jeu {
                     }
                     break;
                 default:
-                    orientation=(orientation+rotation)%5; //Pivote de 45°
+                    orientation=(orientation+rotation)%5; //Pivote de 45Â°
             }
 
             p.tourner(orientation);
         }
     }
     
-    public int getHorizontal(Piece p){//renvoie ligne o� se situe la pi�ce
+    public int getHorizontal(Piece p){//renvoie ligne où se situe la pièce
         int horizontal=0;
         for(int i=0; i<plateau.length; i++){
             for(int j=0; j<plateau.length;j++){
@@ -417,7 +417,7 @@ public class Jeu {
         return horizontal;
     }   
     
-    public int getVertical(Piece p){//renvoie colonne o� se situe la pi�ce
+    public int getVertical(Piece p){//renvoie colonne où se situe la pièce
         int vertical=0;
         for(int i=0; i<plateau.length; i++){
             for(int j=0; j<plateau.length;j++){
@@ -429,17 +429,17 @@ public class Jeu {
         return vertical;
     }   
     
-    public int[] getPosition(Piece p){//renvoie position(lignes et colonnes) de la pi�ce
+    public int[] getPosition(Piece p){//renvoie position(lignes et colonnes) de la pièce
         int[] a = {getHorizontal(p), getVertical(p)};
         
         return a;
     }
     
-    public void setPieceSelectionnee(Piece p){//renvoie la pi�ce s�lectionn�e
+    public void setPieceSelectionnee(Piece p){//renvoie la pièce sélectionnée
         pieceSelectionnee = p;
     }
     
-    public void deplacerPiece(Coordonnees c, int direction){//permet de d�placer pi�ce dans la direction voulue  
+    public void deplacerPiece(Coordonnees c, int direction){//permet de déplacer pièce dans la direction voulue  
         /**ATTENTION**/
         /**horizontal = lign, vertical = colonne**/
         /**Attention au signe (voir indice du tableau**/
@@ -481,7 +481,7 @@ public class Jeu {
     }
     
     public boolean finJeu(){
-        /*tester si une montagne se trouve à l'exterieur du plateau
+        /*tester si une montagne se trouve Ã  l'exterieur du plateau
          * 
          *           3
          * 00 01 02 03 04 05 06
@@ -519,7 +519,7 @@ public class Jeu {
     
     public void chercherVainqueur(int i, int j, int direction){
         /*il s'agit de chercher quelle est la premiere piece
-         * en partant de la montagne, oriente dans le bon sens, a� avoir sorti
+         * en partant de la montagne, oriente dans le bon sens, a  avoir sorti
          * la montagne*/
     	
         switch (direction)
@@ -589,7 +589,7 @@ public class Jeu {
             }
         }
         
-        // rendre toutes les pièces à nouveau pivotables
+        // rendre toutes les piÃ¨ces Ã  nouveau pivotables
         for (int i = 1; i < 6; i++)
         {
             for (int j = 1; j < 6; j++)
@@ -600,6 +600,9 @@ public class Jeu {
                 }
             }
         }
+        
+        //changer le joueur courant
+        changerJoueurCourant();
     }  
     
     public boolean deplacerReserveVersPlateau(Coordonnees coord, boolean enBordure, int direction ){
@@ -822,7 +825,7 @@ public class Jeu {
    public void chargerUneSauvegarde(){
         if (sauv.getJoueurCourant() == joueurCourant)
         {
-            //récuperer le plateau
+            //rÃ©cuperer le plateau
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 7; j++)
@@ -831,7 +834,7 @@ public class Jeu {
                 }
                 
             }
-            //récuperer les deux reserves
+            //rÃ©cuperer les deux reserves
             piecej1.clear();
             for (int i = 0; i < sauv.getReserve(1).size(); i++)
             {
@@ -844,7 +847,7 @@ public class Jeu {
                 piecej2.add(sauv.getReserve(2).get(i));
             }
             
-            // rendre toutes les pièces à nouveau pivotables
+            // rendre toutes les piÃ¨ces Ã  nouveau pivotables
             for (int i = 1; i < 6; i++)
             {
                 for (int j = 1; j < 6; j++)
