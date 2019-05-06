@@ -64,7 +64,7 @@ public class Jeu {
         this.modeMulti = modeMulti;
     }
     
-    public void creerPieces(){//instanciation du plateau avec les pièces
+    public void creerPieces(){//instanciation des pièces du plateau et des reserves des joueurs; utilise par le constructeur 
         
         for (int i = 0; i < 3; i++){
             plateau[3][2+i]=new Piece(0);
@@ -76,7 +76,7 @@ public class Jeu {
         }    
     }
     
-       public boolean deplacerPlateauVersPlateau(Coordonnees cOrigine, Coordonnees cCible){ //Deplace si possible la piece de coordonne c dans la direction d. Renvoie true si deplacee
+       public boolean deplacerPlateauVersPlateau(Coordonnees cOrigine, Coordonnees cCible){ //Deplace si possible la piece de coordonne c dans la direction d. Renvoie true si deplacee. Appele par fenetrePrincipale
         int h = cOrigine.h();
         int v =cOrigine.v();
         int d = getDirection(cOrigine,cCible);
@@ -160,7 +160,7 @@ public class Jeu {
         return reussite;
     }
     
-    public boolean pousserDepuisReserve(Coordonnees c,int direction){//décale pièces du plateau lorsqu'on rentre une pièce venant de la réserve sur une case déjà occupée 
+    public boolean pousserDepuisReserve(Coordonnees c,int direction){//decale pieces du plateau lorsqu'on rentre une piece venant de la reserve sur une case deja occupee. Renvoie true si effectue. Utilisee par deplaceReserveVersPLateau()
         boolean reussite = false;
         int horizontal = c.h();
         int vertical = c.v();
@@ -262,7 +262,7 @@ public class Jeu {
         return reussite;
     }
     
-    public int directionOpposee(int d){//renvoie direction opposée à celle entrée en paramètre
+    public int directionOpposee(int d){//renvoie direction opposee a celle entree en parametre
         int i = (d+2)%4; 
         if (i == 0) //permet d'eviter q'une piece se transforme en montagne
         {
@@ -271,7 +271,7 @@ public class Jeu {
         return i;
     }
     
-    public int appartientAuJoueur(Coordonnees c){//renvoie le joueur à qui appartient la pièce sélectionnée
+    public int appartientAuJoueur(Coordonnees c){//renvoie le joueur a qui appartient la piece selectionnee. Utilisee par FenetrePrincipale
         /*
          * b==0 -> case vide
          * b==1 -> joueur courant
@@ -294,18 +294,19 @@ public class Jeu {
     public int getJoueurCourant(){//renvoie identifiant joueur courant
         return joueurCourant;
     }
-    public String getNomJoueurCourant() {//renvoie nom joueur courant
+    public String getNomJoueurCourant() {//renvoie nom joueur courant. Utilisee par FenetrePrincipale
         return this.lesJoueurs[joueurCourant].getNom();
     }
     
-    public void changerJoueurCourant(){//change de joueur courant
+    public void changerJoueurCourant(){//change de joueur courant. Utilisee par FenetrePrincipale
         joueurCourant = (1+joueurCourant)%2;
         isPiecePoussee = false;
     }
     
+    /**
     public Piece getPieceSelectionnee(){//retourne pièce selectionnée
         return pieceSelectionnee;
-    }
+    }**/
     
     public boolean mouvementPossible(Coordonnees c, int direction, boolean pieceReserve, int orientation){//renvoie vrai si le mouvement estPossible
         boolean estPossible = false;

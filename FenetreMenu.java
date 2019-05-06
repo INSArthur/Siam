@@ -130,7 +130,6 @@ public class FenetreMenu extends JFrame {
     
     //Creer jeu
     public void setJeu(){
-        System.out.println("test set jeu");
         if(mode==0 && !txtFieldJ1.getText().isEmpty() && !txtFieldJ2.getText().isEmpty()){
             Joueur J1 = new Joueur(txtFieldJ1.getText(),0);
             Joueur J2 = new Joueur(txtFieldJ2.getText(),1);

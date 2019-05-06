@@ -66,7 +66,7 @@ public class FenetreRegles extends JFrame{
         suite.addActionListener(new EcouteurAide(this));
         
         //===== Rendre la fenetre visible ===== 
-		this.setLocationRelativeTo(null); // Centre la fenetre à l'écran
+		this.setLocationRelativeTo(null); // Centre la fenetre a l'ecran
         this.setResizable(true); // Permet le redimensionnement
 		this.setVisible(true);
 	}

@@ -52,8 +52,6 @@ public class Sauvegarde {
             reserve2.add(jeu.piecej2.get(i));
         }
         this.joueurCourant = jeu.getJoueurCourant();
-        System.out.println("PLateau sauvegarder :");
-        System.out.println(jeu.toString()+"\n\n\n");
     }
     
     public int getJoueurCourant(){

@@ -76,7 +76,6 @@ public class Piece{
     public void tourner(int orientation){
         this.orientation = orientation;
         aPivote = true;
-        System.out.println("rotation efectuée");
     }
     
     public int getOrientation(){
