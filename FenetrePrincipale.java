@@ -242,8 +242,8 @@ public class FenetrePrincipale extends JFrame{
             bArrayJ2[i].setEnabled(false);
         }
         
-        lanceur = new Mp3Player("musiques/f/musique.mp3");
-        lanceur.start();
+        lecteur = new Mp3Player("musiques/f/musique.mp3");
+        lecteur.start();
         
     }
     
