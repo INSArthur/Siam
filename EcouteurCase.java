@@ -37,12 +37,9 @@ public class EcouteurCase implements ActionListener{
         
         if(casePlateau) {
                 fen.actionCasePlateau(c, bordure, angle);
-                System.out.println("EcouteurCase case plateau");
         }else {
                 fen.actionCaseReserve(i);
-                System.out.println("EcouteurCase case reserve");
         }
-        System.out.println("Coordonnees case h:"+c.h()+" v:"+c.v());
         
     }
     private int setAngle() {

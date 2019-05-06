@@ -14,14 +14,14 @@ public class FenetreTheme extends JFrame {
         super("Choix du thème");
         this.fen = fen;
         theme = 'f';
-        texte = new JLabel("Veuillez choisir un thème :");
+        texte = new JLabel("Veuillez choisir un theme :");
         
 
         JPanel central = new JPanel(new FlowLayout());
         JPanel inf = new JPanel(new FlowLayout());
         JPanel principal = new JPanel(new BorderLayout());
         
-        //Création d'un menu déroulant        
+        //Creation d'un menu deroulant        
         JComboBox<String> menu = new JComboBox<String>();
         menu.addActionListener(new EcouteurComboBox(this));
         menu.addItem("Flèches");
