@@ -319,8 +319,7 @@ public class Jeu {
             orientation = plateau[horizontal][vertical].getOrientation();
         }
         double pieceADeplacer = 0;
-        System.out.println("test case vide : "+estVide(c));
-        if (estVide(c))
+        if ((!pieceReserve && caseVide(c,direction)) || (pieceReserve && estVide(c)))
         {
             estPossible = true;
         }else if(orientation != 0 && direction == orientation){
@@ -367,6 +366,7 @@ public class Jeu {
                 estPossible = true;
             }
         }
+        System.out.println("estPossible :"+estPossible);
         return estPossible;
     }
         
