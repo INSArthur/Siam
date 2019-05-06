@@ -4,7 +4,7 @@ import java.util.*;
 public class EcouteurAngle implements ActionListener {
     
     private FenetrePrincipale fen;
-    private int direction; 	//de 1 à 4 en partant du nord et dans le sens des aiguilles d'une montre
+    private int direction;  //de 1 a 4 en partant du nord et dans le sens des aiguilles d'une montre
     
     
     public EcouteurAngle(FenetrePrincipale fen){
@@ -13,11 +13,11 @@ public class EcouteurAngle implements ActionListener {
     }
     
     public void actionPerformed(ActionEvent e){
-    		fen.selectionAngle(direction);
+            fen.selectionAngle(direction);
     }
     
     public void setDirection(int direction) {
-    	this.direction = direction;
+        this.direction = direction;
     }
     
 }

@@ -342,6 +342,7 @@ public class FenetrePrincipale extends JFrame{
         {
             case 1 : 
                 new FenetreMenu ();
+                lecteur.stop();
                 this.dispose();
                 break;
             case 2 : 
@@ -351,6 +352,7 @@ public class FenetrePrincipale extends JFrame{
                 new FenetreRegles();
                 break;
             case 4:
+                lecteur.stop();
                 this.dispose();
                 break;
             case 5:
@@ -574,10 +576,10 @@ public class FenetrePrincipale extends JFrame{
     }
     
     public void changerTheme(char c){
+        theme = c;
         lecteur.stop();
         lecteur = new Mp3Player("musiques/"+theme+"/musique.mp3");
         lecteur.start();
-        theme = c;
         miseAJour();
     }
 
